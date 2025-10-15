@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu3f0kmvccajd"]
+
+[ext_resource type="Script" uid="uid://dbtelhg7gc48j" path="res://Scripts/Backend/FirebaseManager.gd" id="1_nqn0j"]
+
+[node name="FirebaseManager" type="Node" node_paths=PackedStringArray("http_request")]
+script = ExtResource("1_nqn0j")
+http_request = NodePath("HTTPRequest")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

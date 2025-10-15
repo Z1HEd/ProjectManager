@@ -1,0 +1,78 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfmlfeequrhr8"]
+
+[ext_resource type="Script" uid="uid://bj4iai4c05alk" path="res://Scripts/Scene Controllers/RegisterScreen.gd" id="1_5ig77"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_xp1fj"]
+[ext_resource type="PackedScene" uid="uid://bu3f0kmvccajd" path="res://Scenes/Elements/FirebaseManager.tscn" id="2_5ig77"]
+
+[node name="RegisterScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5ig77")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+theme_override_constants/separation = 75
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_xp1fj")
+text = "Register"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Email" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
+layout_mode = 2
+text = "Email"
+fit_content = true
+
+[node name="EmailInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
+layout_mode = 2
+
+[node name="Password" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
+layout_mode = 2
+text = "Password"
+fit_content = true
+
+[node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Return"
+
+[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Register"
+
+[node name="FirebaseManager" parent="." instance=ExtResource("2_5ig77")]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/RegisterButton" to="." method="_on_register_button_pressed"]

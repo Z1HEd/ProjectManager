@@ -11,8 +11,17 @@ config_version=5
 [application]
 
 config/name="ProjectOrganizer"
+run/main_scene="uid://bl3p86d6o04a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "green",
+"res://Scenes/": "red",
+"res://Scripts/": "purple"
+}
 
 [rendering]
 

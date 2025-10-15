@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3 uid="uid://bl3p86d6o04a"]
+
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
+[ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Scene Controllers/WelcomeScreen.gd" id="1_nroq1"]
+[ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UI/QuitButton.gd" id="3_klodg"]
+[ext_resource type="PackedScene" uid="uid://bu3f0kmvccajd" path="res://Scenes/Elements/FirebaseManager.tscn" id="4_h5c3e"]
+
+[node name="WelcomeScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nroq1")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 2
+theme_override_constants/separation = 75
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_amt0j")
+text = "Project Manager"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_amt0j")
+text = "Sign in"
+
+[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_amt0j")
+text = "Sign up
+"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_amt0j")
+text = "Quit"
+script = ExtResource("3_klodg")
+
+[node name="TestConnectionButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_amt0j")
+text = "Test Connection"
+
+[node name="FirebaseManager" parent="." instance=ExtResource("4_h5c3e")]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/RegisterButton" to="." method="_on_register_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/TestConnectionButton" to="." method="_on_test_connection_button_pressed"]
