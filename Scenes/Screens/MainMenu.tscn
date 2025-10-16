@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://ci1klfcefhdim"]
+
+[ext_resource type="Script" uid="uid://d1grwhmkedwlf" path="res://Scripts/Scene Controllers/MainMenu.gd" id="1_a1jv6"]
+[ext_resource type="PackedScene" uid="uid://br1sagcs4olx7" path="res://Scenes/Tabs/NoProjectSelected.tscn" id="2_f35bi"]
+[ext_resource type="PackedScene" uid="uid://btknm6kha8sv5" path="res://Scenes/Tabs/Dasboard.tscn" id="3_441x2"]
+[ext_resource type="PackedScene" uid="uid://y3i7vgo6fv3f" path="res://Scenes/Tabs/ProjectsList.tscn" id="4_f35bi"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a1jv6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Dasboard" parent="HBoxContainer" instance=ExtResource("3_441x2")]
+layout_mode = 2
+
+[node name="TabArea" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActiveTab" type="Control" parent="HBoxContainer/TabArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="ChooseProject" parent="HBoxContainer/TabArea/ActiveTab" instance=ExtResource("2_f35bi")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1087.0
+offset_bottom = 648.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="UnactiveTabs" type="Control" parent="HBoxContainer/TabArea"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProjectsList" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("4_f35bi")]
+layout_mode = 1
+offset_left = 1.0
+offset_right = 1.0
+
+[connection signal="pressed" from="HBoxContainer/Dasboard/VBoxContainer/General/MarginContainer/Profile" to="." method="_on_profile_pressed"]
+[connection signal="pressed" from="HBoxContainer/Dasboard/VBoxContainer/General/MarginContainer2/ProjectsList" to="." method="_on_projects_list_pressed"]
+[connection signal="pressed" from="HBoxContainer/TabArea/ActiveTab/ChooseProject/CenterContainer/VBoxContainer/OpenProject" to="." method="_on_projects_list_pressed"]
+
+[editable path="HBoxContainer/Dasboard"]
+[editable path="HBoxContainer/TabArea/ActiveTab/ChooseProject"]

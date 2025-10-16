@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
 [ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Scene Controllers/WelcomeScreen.gd" id="1_nroq1"]
-[ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UI/QuitButton.gd" id="3_klodg"]
+[ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UI Elements/QuitButton.gd" id="3_klodg"]
 [ext_resource type="PackedScene" uid="uid://bu3f0kmvccajd" path="res://Scenes/Elements/FirebaseManager.tscn" id="4_h5c3e"]
 
 [node name="WelcomeScreen" type="Control"]

@@ -1,5 +1,77 @@
-[gd_resource type="Theme" format=3 uid="uid://b5c65h2sk3h6q"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://b5c65h2sk3h6q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fg72"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rlvek"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kn0t"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.15686275, 0.15686275, 0.15686275, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2kn0t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2yai"]
+bg_color = Color(0, 0, 0, 0.105882354)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rlvek"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ecwjl"]
+bg_color = Color(0, 0, 0, 0.34901962)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ieqs5"]
+bg_color = Color(0, 0, 0, 0.16078432)
 
 [resource]
-Button/font_sizes/font_size = 24
+Button/font_sizes/font_size = 16
+Button/styles/pressed = SubResource("StyleBoxFlat_8fg72")
+DarkPanel/base_type = &"Panel"
+DarkPanel/styles/panel = SubResource("StyleBoxFlat_rlvek")
 Label/font_sizes/font_size = 36
+Panel/styles/panel = SubResource("StyleBoxFlat_2kn0t")
+SmallLabel/base_type = &"Label"
+SmallLabel/font_sizes/font_size = 16
+TransparentButton/base_type = &"Button"
+TransparentButton/styles/focus = SubResource("StyleBoxEmpty_2kn0t")
+TransparentButton/styles/hover = SubResource("StyleBoxFlat_a2yai")
+TransparentButton/styles/normal = SubResource("StyleBoxEmpty_rlvek")
+TransparentButton/styles/pressed = SubResource("StyleBoxFlat_ecwjl")
+TransparentPanel/base_type = &"Panel"
+TransparentPanel/styles/panel = SubResource("StyleBoxFlat_ieqs5")
