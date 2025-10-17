@@ -14,6 +14,11 @@ config/name="ProjectOrganizer"
 run/main_scene="uid://bl3p86d6o04a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
+[autoload]
+
+Firebase="*res://Scripts/Backend/FirebaseManager.gd"
+Session="*res://Scripts/Backend/UserSession.gd"
+
 [file_customization]
 
 folder_colors={

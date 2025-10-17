@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bl3p86d6o04a"]
+[gd_scene load_steps=4 format=3 uid="uid://bl3p86d6o04a"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
 [ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Scene Controllers/WelcomeScreen.gd" id="1_nroq1"]
 [ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UI Elements/QuitButton.gd" id="3_klodg"]
-[ext_resource type="PackedScene" uid="uid://bu3f0kmvccajd" path="res://Scenes/Elements/FirebaseManager.tscn" id="4_h5c3e"]
 
 [node name="WelcomeScreen" type="Control"]
 layout_mode = 3
@@ -54,14 +53,5 @@ theme = ExtResource("1_amt0j")
 text = "Quit"
 script = ExtResource("3_klodg")
 
-[node name="TestConnectionButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("1_amt0j")
-text = "Test Connection"
-
-[node name="FirebaseManager" parent="." instance=ExtResource("4_h5c3e")]
-unique_name_in_owner = true
-
 [connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/RegisterButton" to="." method="_on_register_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/TestConnectionButton" to="." method="_on_test_connection_button_pressed"]
