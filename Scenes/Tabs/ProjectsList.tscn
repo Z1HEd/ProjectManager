@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://00cmkwas70u" path="res://Scenes/Elements/ProjectSelectionButton.tscn" id="3_8gvaf"]
 
 [node name="ProjectsList" type="Control"]
-custom_minimum_size = Vector2(400, 500)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("2_y3uu2")
 theme_type_variation = &"TransparentPanel"
 script = ExtResource("1_dcxag")
 
@@ -24,7 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_y3uu2")
+mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -33,41 +33,56 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_y3uu2")
-text = "Choose a project"
+text = "Projects list"
 horizontal_alignment = 1
 
-[node name="ProjectList" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+[node name="ProjectList" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/ProjectList"]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ProjectList"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ProjectList"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/ProjectList/MarginContainer"]
 layout_mode = 2
 
-[node name="ProjectListContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ProjectList/ScrollContainer"]
+[node name="ProjectListContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ProjectList/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ProjectSelectionButton" parent="MarginContainer/VBoxContainer/ProjectList/ScrollContainer/ProjectListContainer" instance=ExtResource("3_8gvaf")]
+[node name="ProjectSelectionButton" parent="MarginContainer/VBoxContainer/ProjectList/MarginContainer/ScrollContainer/ProjectListContainer" instance=ExtResource("3_8gvaf")]
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]

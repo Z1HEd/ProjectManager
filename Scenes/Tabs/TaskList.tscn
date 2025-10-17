@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://2ekwb5hb6y03"]
+[gd_scene load_steps=2 format=3 uid="uid://biih5ep85lxbm"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ga35b"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_o3xiw"]
 
-[node name="UserProfile" type="Control"]
+[node name="TaskList" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_ga35b")
+theme = ExtResource("1_o3xiw")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -38,15 +38,15 @@ theme_override_constants/separation = 10
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("1_ga35b")
-text = "Profile"
+theme = ExtResource("1_o3xiw")
+text = "Tasks"
 horizontal_alignment = 1
 
-[node name="Profile settings" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="List" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Profile settings"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/List"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

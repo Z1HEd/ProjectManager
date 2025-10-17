@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4qye4a5atpqs"
-path="res://.godot/imported/Project Manager.png-00ac68687bf57b27b4d4bf973f38de96.ctex"
+uid="uid://de58pqolxc0bv"
+path="res://.godot/imported/Timeline.png-b964feaf0c86e0b4725ccd5042a86b78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/Project Manager.png"
-dest_files=["res://.godot/imported/Project Manager.png-00ac68687bf57b27b4d4bf973f38de96.ctex"]
+source_file="res://Assets/Icons/Timeline.png"
+dest_files=["res://.godot/imported/Timeline.png-b964feaf0c86e0b4725ccd5042a86b78.ctex"]
 
 [params]
 

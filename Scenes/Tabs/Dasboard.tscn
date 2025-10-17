@@ -1,8 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://btknm6kha8sv5"]
+[gd_scene load_steps=12 format=3 uid="uid://btknm6kha8sv5"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_djewf"]
-[ext_resource type="Texture2D" uid="uid://bg54h2tquc34b" path="res://Assets/Icons/Icon-User.png" id="2_ngleu"]
-[ext_resource type="Texture2D" uid="uid://4qye4a5atpqs" path="res://Assets/Icons/Project Manager.png" id="3_pvish"]
+[ext_resource type="Texture2D" uid="uid://bg54h2tquc34b" path="res://Assets/Icons/Profile.png" id="2_posp1"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="3_cvu0e"]
+[ext_resource type="Texture2D" uid="uid://4qye4a5atpqs" path="res://Assets/Icons/Project List.png" id="4_eqll0"]
+[ext_resource type="Texture2D" uid="uid://br8rkbtn1g5gs" path="res://Assets/Icons/Settings.png" id="5_einoq"]
+[ext_resource type="Texture2D" uid="uid://blwo5hcwjjkh3" path="res://Assets/Icons/Summary.png" id="6_posp1"]
+[ext_resource type="Texture2D" uid="uid://dcgbs3l8brgoe" path="res://Assets/Icons/Board.png" id="7_eqll0"]
+[ext_resource type="Texture2D" uid="uid://m6i30f6ebptr" path="res://Assets/Icons/Chat.png" id="8_eqll0"]
+[ext_resource type="Texture2D" uid="uid://bgsih2kqisu6q" path="res://Assets/Icons/TaskList.png" id="8_gxkdd"]
+[ext_resource type="Texture2D" uid="uid://de58pqolxc0bv" path="res://Assets/Icons/Timeline.png" id="8_hldj4"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_6d038"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -5.0
+grow_end = -5.0
+thickness = 2
 
 [node name="Dasboard" type="Control"]
 custom_minimum_size = Vector2(65, 0)
@@ -31,38 +48,143 @@ grow_vertical = 2
 theme = ExtResource("1_djewf")
 theme_type_variation = &"DarkPanel"
 
-[node name="General" type="VBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/General"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Profile" type="Button" parent="VBoxContainer/General/MarginContainer"]
+[node name="Profile" type="Button" parent="VBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 theme = ExtResource("1_djewf")
 theme_type_variation = &"TransparentButton"
-icon = ExtResource("2_ngleu")
+icon = ExtResource("2_posp1")
 expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/General"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ProjectsList" type="Button" parent="VBoxContainer/General/MarginContainer2"]
+[node name="ProjectsList" type="Button" parent="VBoxContainer/MarginContainer2"]
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 theme = ExtResource("1_djewf")
 theme_type_variation = &"TransparentButton"
-icon = ExtResource("3_pvish")
+icon = ExtResource("4_eqll0")
 expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
 
-[node name="Project view" type="VBoxContainer" parent="VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Settings" type="Button" parent="VBoxContainer/MarginContainer3"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("5_einoq")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+theme_override_styles/separator = SubResource("StyleBoxLine_6d038")
+
+[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Summary" type="Button" parent="VBoxContainer/MarginContainer4"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("6_posp1")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="MarginContainer5" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TaskBoard" type="Button" parent="VBoxContainer/MarginContainer5"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("7_eqll0")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="MarginContainer6" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TaskList" type="Button" parent="VBoxContainer/MarginContainer6"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("8_gxkdd")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="MarginContainer7" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Timeline" type="Button" parent="VBoxContainer/MarginContainer7"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("8_hldj4")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="MarginContainer8" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Chat" type="Button" parent="VBoxContainer/MarginContainer8"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("8_eqll0")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
