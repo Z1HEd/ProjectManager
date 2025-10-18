@@ -56,20 +56,24 @@ fit_content = true
 
 [node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
 layout_mode = 2
+secret = true
 
 [node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Return" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Return"
 
-[node name="Sign In" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Sign in
 "
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/Return" to="." method="_on_return_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/Sign In" to="." method="_on_sign_in_pressed"]
+[node name="ErrorLabel" type="Label" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/LoginButton" to="." method="_on_login_button_pressed"]

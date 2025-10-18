@@ -1,4 +1,3 @@
-# FirebaseManager.gd (fixed)
 extends Node
 class_name FirebaseManager
 
@@ -20,7 +19,8 @@ func _ready() -> void:
 	add_child(http)
 	http.request_completed.connect(Callable(self, "_on_request_completed"))
 
-# Generic send_request (body may be Dictionary or String or null)
+# body may be Dictionary or String or null
+# on_success, on_fail callbacks may be null
 func send_request(url: String, method: int = HTTPClient.METHOD_GET, body = null, headers: Array = [], on_success = null, on_fail = null, tag: String = "") -> int:
 	var req_id = _request_counter
 	_request_counter += 1
@@ -30,12 +30,11 @@ func send_request(url: String, method: int = HTTPClient.METHOD_GET, body = null,
 		"method": method,
 		"body": body,
 		"headers": headers,
-		"on_success": on_success, # can be null or Callable
-		"on_fail": on_fail,       # can be null or Callable
+		"on_success": on_success,
+		"on_fail": on_fail,
 		"tag": tag
 	}
 	_queue.append(entry)
-	print(entry)
 	_process_next()
 	return req_id
 
@@ -51,11 +50,11 @@ func _process_next() -> void:
 	var method = _current_request.method
 	var headers = _current_request.headers.duplicate()
 	var payload = ""
-	if typeof(_current_request.body) == TYPE_DICTIONARY:
+	if _current_request.body is Dictionary:
 		payload = JSON.stringify(_current_request.body)
 		if "Content-Type: application/json" not in headers:
 			headers.append("Content-Type: application/json")
-	elif typeof(_current_request.body) == TYPE_STRING:
+	elif _current_request.body is String:
 		payload = _current_request.body
 
 	var err = http.request(url, headers, method, payload)
@@ -71,24 +70,23 @@ func _process_next() -> void:
 		emit_signal("request_concluded")
 		_process_next()
 
-# moved helper to top-level (no nested functions)
 func _extract_error_message(parsed) -> String:
 	# Accept either:
 	#  - parsed == actual response Dictionary
 	#  - parsed == JSON.parse_string() wrapper with keys "result" or "error"
-	if typeof(parsed) == TYPE_DICTIONARY:
+	if parsed is Dictionary:
 		# case: wrapper returned by JSON.parse_string() (Godot 4)
 		if parsed.has("error"):
 			var err_block = parsed["error"]
-			if typeof(err_block) == TYPE_DICTIONARY and err_block.has("message"):
+			if err_block is Dictionary and err_block.has("message"):
 				return str(err_block["message"])
-			elif typeof(err_block) == TYPE_STRING:
+			elif err_block is String:
 				return str(err_block)
 		# case: some Firebase responses put message at top-level
-		if parsed.has("message") and typeof(parsed["message"]) == TYPE_STRING:
+		if parsed.has("message") and parsed["message"] is String:
 			return str(parsed["message"])
 		# case: the actual result object might itself hold an "error" or "message"
-		if parsed.has("result") and typeof(parsed["result"]) == TYPE_DICTIONARY:
+		if parsed.has("result") and parsed["result"] is Dictionary:
 			var r = parsed["result"]
 			if r.has("error"):
 				var e = r["error"]
@@ -98,7 +96,6 @@ func _extract_error_message(parsed) -> String:
 					return str(e)
 			if r.has("message") and typeof(r["message"]) == TYPE_STRING:
 				return str(r["message"])
-	# fallback
 	return ""
 
 func _on_request_completed(_result: int, response_code: int, _headers: Array, body: PackedByteArray) -> void:
@@ -111,16 +108,16 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 	if body_text.length() > 0:
 		# JSON.parse_string returns a wrapper in Godot 4, so unwrap "result" when present
 		raw_parse_result = JSON.parse_string(body_text)
-		if typeof(raw_parse_result) == TYPE_DICTIONARY and raw_parse_result.has("result"):
+		if raw_parse_result is Dictionary and raw_parse_result.has("result"):
 			parsed = raw_parse_result["result"]
 			parsed_ok = true
-		elif typeof(raw_parse_result) == TYPE_DICTIONARY and raw_parse_result.has("error"):
+		elif raw_parse_result is Dictionary and raw_parse_result.has("error"):
 			# keep wrapper so _extract_error_message can inspect it
 			parsed = raw_parse_result
 			parsed_ok = false
 		else:
 			# fallback: try to use the raw_parse_result directly if it seems like the parsed JSON object
-			if typeof(raw_parse_result) == TYPE_DICTIONARY:
+			if raw_parse_result is Dictionary:
 				parsed = raw_parse_result
 				parsed_ok = true
 			else:

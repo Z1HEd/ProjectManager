@@ -56,6 +56,7 @@ fit_content = true
 
 [node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
 layout_mode = 2
+secret = true
 
 [node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
