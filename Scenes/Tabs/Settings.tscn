@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cs7q0aknfj3xt"]
+[gd_scene load_steps=3 format=3 uid="uid://cs7q0aknfj3xt"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_m3n2h"]
+[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="2_et4ab"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3
@@ -10,6 +11,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_m3n2h")
+script = ExtResource("2_et4ab")
+metadata/_custom_type_script = "uid://jjgyrpflaa31"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

@@ -90,11 +90,11 @@ func _extract_error_message(parsed) -> String:
 			var r = parsed["result"]
 			if r.has("error"):
 				var e = r["error"]
-				if typeof(e) == TYPE_DICTIONARY and e.has("message"):
+				if e is Dictionary and e.has("message"):
 					return str(e["message"])
-				elif typeof(e) == TYPE_STRING:
+				elif e is String:
 					return str(e)
-			if r.has("message") and typeof(r["message"]) == TYPE_STRING:
+			if r.has("message") and r["message"] is String:
 				return str(r["message"])
 	return ""
 

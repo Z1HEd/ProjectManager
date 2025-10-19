@@ -1,5 +1,4 @@
-extends Control
-class_name ProjectsList
+extends Tab
 
 func _on_open_project_button_pressed() -> void:
 	pass # Replace with function body.

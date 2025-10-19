@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 @onready var email_input : LineEdit = $CenterContainer/VBoxContainer/VBoxContainer/Email/EmailInput
 @onready var password_input : LineEdit = $CenterContainer/VBoxContainer/VBoxContainer/Password/PasswordInput

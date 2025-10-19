@@ -1,0 +1,104 @@
+[gd_scene load_steps=4 format=3 uid="uid://iuqpwkl2il1q"]
+
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_n8cam"]
+[ext_resource type="Script" uid="uid://tdacxjlrty2x" path="res://Scripts/Controllers/CreateProjectController.gd" id="2_q0nvk"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="3_n8cam"]
+
+[node name="CreateProject" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_n8cam")
+theme_type_variation = &"TransparentPanel"
+script = ExtResource("2_q0nvk")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CenterContainer"]
+custom_minimum_size = Vector2(400, 500)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_n8cam")
+text = "Create a project"
+horizontal_alignment = 1
+
+[node name="NameEdit" type="LineEdit" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Name"
+
+[node name="TextEdit" type="TextEdit" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Description"
+wrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+script = ExtResource("3_n8cam")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="CreateButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create
+"
+
+[node name="ErrorText" type="RichTextLabel" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+fit_content = true
+
+[connection signal="pressed" from="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/CreateButton" to="." method="_on_create_project_button_pressed"]

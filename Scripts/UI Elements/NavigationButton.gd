@@ -2,13 +2,13 @@
 extends Button
 class_name NavigationButton
 
-@export var tab : Control : set = set_tab
-@export var menu : MainMenu : set=set_menu
+@export var tab : Tab : set = set_tab
+@export var menu : MainMenuController : set=set_menu
 
 func _ready() -> void:
 	if !Engine.is_editor_hint() or menu:
 		return
-	if get_tree().edited_scene_root is MainMenu:
+	if get_tree().edited_scene_root is MainMenuController:
 		menu=get_tree().edited_scene_root
 
 func _pressed() -> void:

@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://ci1klfcefhdim"]
+[gd_scene load_steps=13 format=3 uid="uid://ci1klfcefhdim"]
 
-[ext_resource type="Script" uid="uid://d1grwhmkedwlf" path="res://Scripts/Scene Controllers/MainMenu.gd" id="1_a1jv6"]
+[ext_resource type="Script" uid="uid://d1grwhmkedwlf" path="res://Scripts/Controllers/MainMenuController.gd" id="1_a1jv6"]
 [ext_resource type="PackedScene" uid="uid://br1sagcs4olx7" path="res://Scenes/Tabs/NoProjectSelected.tscn" id="2_f35bi"]
 [ext_resource type="PackedScene" uid="uid://btknm6kha8sv5" path="res://Scenes/Tabs/Dasboard.tscn" id="3_441x2"]
 [ext_resource type="PackedScene" uid="uid://y3i7vgo6fv3f" path="res://Scenes/Tabs/ProjectsList.tscn" id="4_f35bi"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://biih5ep85lxbm" path="res://Scenes/Tabs/TaskList.tscn" id="9_4dij5"]
 [ext_resource type="PackedScene" uid="uid://be2eddut3my3o" path="res://Scenes/Tabs/Summary.tscn" id="10_kpgju"]
 [ext_resource type="PackedScene" uid="uid://cs7q0aknfj3xt" path="res://Scenes/Tabs/Settings.tscn" id="11_kpgju"]
+[ext_resource type="PackedScene" uid="uid://iuqpwkl2il1q" path="res://Scenes/Tabs/CreateProject.tscn" id="12_3oy6j"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -101,6 +102,10 @@ layout_mode = 1
 offset_left = 1.0
 offset_right = 1.0
 
+[node name="CreateProjectButton" parent="HBoxContainer/TabArea/UnactiveTabs/ProjectsList/CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer" index="1" node_paths=PackedStringArray("tab", "menu")]
+tab = NodePath("../../../../../../../CreateProject")
+menu = NodePath("../../../../../../../../../..")
+
 [node name="TaskBoard" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("5_441x2")]
 layout_mode = 1
 
@@ -122,5 +127,14 @@ layout_mode = 1
 [node name="Settings" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("11_kpgju")]
 layout_mode = 1
 
+[node name="CreateProject" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("12_3oy6j")]
+layout_mode = 1
+
+[node name="CancelButton" parent="HBoxContainer/TabArea/UnactiveTabs/CreateProject/CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer" index="0" node_paths=PackedStringArray("tab", "menu")]
+tab = NodePath("../../../../../../../ProjectsList")
+menu = NodePath("../../../../../../../../../..")
+
 [editable path="HBoxContainer/Dasboard"]
 [editable path="HBoxContainer/TabArea/ActiveTab/ChooseProject"]
+[editable path="HBoxContainer/TabArea/UnactiveTabs/ProjectsList"]
+[editable path="HBoxContainer/TabArea/UnactiveTabs/CreateProject"]
