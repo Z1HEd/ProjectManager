@@ -3,6 +3,13 @@ class_name MainMenuController
 
 @onready var active_tab = $HBoxContainer/TabArea/ActiveTab
 @onready var unactive_tabs = $HBoxContainer/TabArea/UnactiveTabs
+@onready var summary_tab : Tab = $HBoxContainer/TabArea/UnactiveTabs/Summary
+
+func _ready():
+	var _on_project_opened = func():
+		open_tab(summary_tab)
+	
+	CurrentProject.project_opened.connect(_on_project_opened)
 
 func open_tab(tab:Tab)->void:
 	if active_tab.get_child_count() ==0:

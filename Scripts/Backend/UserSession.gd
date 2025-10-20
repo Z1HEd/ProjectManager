@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func from_firebase_response(data: Dictionary) -> void:
 	# data is the parsed auth response from Firebase
-	if typeof(data) != TYPE_DICTIONARY:
+	if not data is Dictionary:
 		return
 	uid = str(data.get("localId", ""))
 	email = str(data.get("email", ""))
