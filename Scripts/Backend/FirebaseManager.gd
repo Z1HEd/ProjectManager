@@ -98,46 +98,43 @@ func _extract_error_message(parsed) -> String:
 				return str(r["message"])
 	return ""
 
+static func _parse_response_body(body_text: String) :
+	if body_text == null or body_text.strip_edges(true, true) == "":
+		return ""
+
+	var raw = JSON.parse_string(body_text)
+
+	if raw is Dictionary:
+		var err_val = raw.get("error", null)
+		if err_val == OK:
+			return raw.get("result", null)
+		else:
+			return raw
+	
+	body_text = body_text.trim_prefix('"')
+	body_text = body_text.trim_suffix('"')
+	
+	return body_text
+
+
 func _on_request_completed(_result: int, response_code: int, _headers: Array, body: PackedByteArray) -> void:
 	var id = _current_request.get("id", -1)
 	var body_text = body.get_string_from_utf8()
-	var parsed = null
-	var parsed_ok = false
-	var raw_parse_result = null
 
-	if body_text.length() > 0:
-		# JSON.parse_string returns a wrapper in Godot 4, so unwrap "result" when present
-		raw_parse_result = JSON.parse_string(body_text)
-		if raw_parse_result is Dictionary and raw_parse_result.has("result"):
-			parsed = raw_parse_result["result"]
-			parsed_ok = true
-		elif raw_parse_result is Dictionary and raw_parse_result.has("error"):
-			# keep wrapper so _extract_error_message can inspect it
-			parsed = raw_parse_result
-			parsed_ok = false
-		else:
-			# fallback: try to use the raw_parse_result directly if it seems like the parsed JSON object
-			if raw_parse_result is Dictionary:
-				parsed = raw_parse_result
-				parsed_ok = true
-			else:
-				# not JSON or empty — keep body text
-				parsed = body_text
-				parsed_ok = false
+	var parsed = _parse_response_body(body_text)
 
 	var success_cb = _current_request.get("on_success", null)
 	var fail_cb = _current_request.get("on_fail", null)
 
 	if response_code >= 200 and response_code < 300:
-		# success
 		if success_cb and success_cb is Callable:
-			# give the callback the unwrapped parsed object when possible
-			success_cb.call(parsed if parsed_ok else body_text)
-		emit_signal("request_success", id, parsed if parsed_ok else body_text)
+			success_cb.call(parsed)
+		emit_signal("request_success", id, parsed)
 	else:
+		# error: try to extract a message from the parsed result (if it's a dict), otherwise fall back
 		var err_msg = _extract_error_message(parsed)
 		if err_msg == "":
-			err_msg = body_text if body_text.size() > 0 else "HTTP %s" % str(response_code)
+			err_msg =  body_text if body_text.size() > 0 else "HTTP %s" % str(response_code)
 		if fail_cb and fail_cb is Callable:
 			fail_cb.call(err_msg)
 		emit_signal("request_fail", id, err_msg)

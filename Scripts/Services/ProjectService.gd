@@ -31,7 +31,6 @@ static func create_project(project_name: String, description: String, on_success
 			on_fail
 	)
 
-
 static func add_project_to_user(uid : String,role : String ,on_success : Callable, on_fail : Callable) -> int:
 	var url = "%s/users/%s/projects.json?auth=%s" % [Firebase.project_db_url, Session.uid, Session.id_token]
 	var body = { uid: role }
@@ -44,13 +43,12 @@ static func add_project_to_user(uid : String,role : String ,on_success : Callabl
 	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, body, ["Content-Type: application/json"], _on_success, on_fail)
 
 
-static func get_project(uid: String,on_success : Callable, on_fail : Callable) -> int:
-	var url = "%s/projects/%s.json?auth=%s" % [Firebase.project_db_url, uid, Session.id_token]
-	var body = {}
+static func get_project(pid: String,on_success : Callable, on_fail : Callable) -> int:
+	var url = "%s/projects/%s.json?auth=%s" % [Firebase.project_db_url, pid, Session.id_token]
 	
 	var _on_success = func(response):
 		if not response is Dictionary:
 			on_fail.call("Invalid response: %s" % response)
 		on_success.call(response)
 	
-	return Firebase.send_request(url, HTTPClient.METHOD_GET, body, [], _on_success, on_fail)
+	return Firebase.send_request(url, HTTPClient.METHOD_GET, {}, [], _on_success, on_fail)

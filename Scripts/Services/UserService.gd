@@ -12,3 +12,9 @@ static func get_user_projects(uid, on_success,on_fail) -> int:
 			on_success.call(result)
 	
 	return Firebase.send_request(url, HTTPClient.METHOD_GET, {}, [], _on_success, on_fail)
+
+static func get_display_name(uid,on_success,on_fail):
+	var url = "%s/users/%s/displayName.json?auth=%s" % \
+			[Firebase.project_db_url, uid, Session.id_token]
+	
+	return Firebase.send_request(url, HTTPClient.METHOD_GET, {}, [], on_success, on_fail)

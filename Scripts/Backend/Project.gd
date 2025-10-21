@@ -1,35 +1,44 @@
-extends Object
+extends Node
 class_name Project
 
 signal project_opened
+signal project_updated
 signal project_closed
 
-@export var name := ""
-@export var description := ""
-@export var uid := ""
+@export var project_name := ""
+@export var project_description := ""
+@export var pid := ""
 @export var creation_date := 0.0
-@export var owner := ""
+@export var project_owner := ""
+@export var members := {}
 @export var user_role := ""
 
 @export var is_open := false
 
-func open(_uid: String, _user_role: String, dict : Dictionary):
-	uid = _uid
-	name = dict.get("name")
-	description = dict.get("description")
-	creation_date = dict.get("creationDate")
-	owner = dict.get("owner")
-	user_role = _user_role
-	
+func set_project(uid: String):
+	if uid=="":
+		push_error("Tried setting project with empty uid!")
+	pid = uid
 	is_open = true
 	project_opened.emit()
+	
 
-func close():
-	name = ""
-	description = ""
-	uid = ""
+func set_data(dict : Dictionary):
+	project_name = dict.get("name")
+	project_description = dict.get("description")
+	creation_date = dict.get("creationDate")
+	project_owner = dict.get("owner")
+	members =dict.get("members")
+	user_role = members.get(Session.uid).get("role")
+	
+	project_updated.emit()
+
+func clear():
+	project_name = ""
+	project_description = ""
+	pid = ""
 	creation_date = 0.0
-	owner = ""
+	project_owner = ""
 	user_role = ""
 	
 	is_open = false

@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpfndmvh84h6s"]
+
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_i61au"]
+[ext_resource type="Texture2D" uid="uid://biexkgqfk3rev" path="res://Assets/Icons/More.png" id="1_jvf2i"]
+[ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://Scripts/UI Elements/MemberControl.gd" id="2_j5aft"]
+
+[node name="ProjectMember" type="Control"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -952.0
+offset_bottom = -618.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_i61au")
+script = ExtResource("2_j5aft")
+uid = null
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Some Dude"
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="Role" type="Label" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.75686276)
+theme_override_font_sizes/font_size = 12
+text = "Owner"
+
+[node name="MoreButton" type="MenuButton" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+icon = ExtResource("1_jvf2i")
+expand_icon = true
+item_count = 2
+popup/item_0/text = "Change role"
+popup/item_0/id = 0
+popup/item_1/text = "Kick"
+popup/item_1/id = 1

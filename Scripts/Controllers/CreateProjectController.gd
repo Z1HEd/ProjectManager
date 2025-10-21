@@ -1,14 +1,16 @@
 extends Tab
 
-@onready var name_input : LineEdit = $CenterContainer/Control/MarginContainer/VBoxContainer/NameEdit
-@onready var description_input : TextEdit = $CenterContainer/Control/MarginContainer/VBoxContainer/TextEdit
-@onready var create_button : Button = $CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/CreateButton
-@onready var cancel_button : NavigationButton = $CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/CancelButton
-@onready var error_label : RichTextLabel = $CenterContainer/Control/MarginContainer/VBoxContainer/ErrorText
+@onready var name_input : LineEdit = %NameEdit
+@onready var description_input : TextEdit = %TextEdit
+@onready var create_button : Button = %CreateButton
+@onready var cancel_button : NavigationButton = %CancelButton
+@onready var error_label : RichTextLabel = %ErrorText
+
+@export var summary_tab : Tab
 
 func _on_create_success(_project_id : String):
 	create_button.disabled = false
-	cancel_button._pressed()
+	cancel_button.menu.open_tab(summary_tab)
 
 func _on_create_fail(err_msg: String):
 	create_button.disabled = false

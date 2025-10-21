@@ -71,10 +71,12 @@ text = "Create a project"
 horizontal_alignment = 1
 
 [node name="NameEdit" type="LineEdit" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Name"
 
 [node name="TextEdit" type="TextEdit" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Description"
@@ -84,6 +86,7 @@ wrap_mode = 1
 layout_mode = 2
 
 [node name="CancelButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
@@ -91,12 +94,14 @@ script = ExtResource("3_n8cam")
 metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
 
 [node name="CreateButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create
 "
 
 [node name="ErrorText" type="RichTextLabel" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"SmallLabel"
 fit_content = true
