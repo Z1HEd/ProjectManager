@@ -1,15 +1,23 @@
 extends Control
 class_name MainMenuController
 
-@onready var active_tab = $HBoxContainer/TabArea/ActiveTab
-@onready var unactive_tabs = $HBoxContainer/TabArea/UnactiveTabs
-@onready var summary_tab : Tab = $HBoxContainer/TabArea/UnactiveTabs/Summary
+@onready var dashboard = %Dashboard
+@onready var active_tab = %ActiveTab
+@onready var unactive_tabs = %UnactiveTabs
+@onready var summary_tab : Tab = %Summary
 
 func _ready():
+	
 	var _on_project_opened = func():
 		open_tab(summary_tab)
+		dashboard.set_project_buttons_enabled(true)
+		
+	
+	var _on_project_closed = func():
+		dashboard.set_project_buttons_enabled(false)
 	
 	CurrentProject.project_opened.connect(_on_project_opened)
+	CurrentProject.project_closed.connect(_on_project_closed)
 
 func open_tab(tab:Tab)->void:
 	if active_tab.get_child_count() ==0:

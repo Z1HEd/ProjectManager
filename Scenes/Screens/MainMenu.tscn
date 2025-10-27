@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1grwhmkedwlf" path="res://Scripts/Controllers/MainMenuController.gd" id="1_a1jv6"]
 [ext_resource type="PackedScene" uid="uid://br1sagcs4olx7" path="res://Scenes/Tabs/NoProjectSelected.tscn" id="2_f35bi"]
-[ext_resource type="PackedScene" uid="uid://btknm6kha8sv5" path="res://Scenes/Tabs/Dasboard.tscn" id="3_441x2"]
+[ext_resource type="PackedScene" uid="uid://btknm6kha8sv5" path="res://Scenes/Tabs/Dashboard.tscn" id="3_441x2"]
 [ext_resource type="PackedScene" uid="uid://y3i7vgo6fv3f" path="res://Scenes/Tabs/ProjectsList.tscn" id="4_f35bi"]
 [ext_resource type="PackedScene" uid="uid://snsi3livmyh" path="res://Scenes/Tabs/TaskBoard.tscn" id="5_441x2"]
 [ext_resource type="PackedScene" uid="uid://cv2yd8hwdj8jj" path="res://Scenes/Tabs/TeamChat.tscn" id="6_0xkci"]
@@ -31,38 +31,39 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="Dasboard" parent="HBoxContainer" instance=ExtResource("3_441x2")]
+[node name="Dashboard" parent="HBoxContainer" instance=ExtResource("3_441x2")]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Profile" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="Profile" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/UserProfile")
 menu = NodePath("../../../../..")
 
-[node name="ProjectsList" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer2" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="ProjectsList" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer2" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/ProjectsList")
 menu = NodePath("../../../../..")
 
-[node name="Settings" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer3" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="Settings" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer3" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/Settings")
 menu = NodePath("../../../../..")
 
-[node name="Summary" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer4" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="Summary" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer4" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/Summary")
 menu = NodePath("../../../../..")
 
-[node name="TaskBoard" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer5" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="TaskBoard" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer5" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/TaskBoard")
 menu = NodePath("../../../../..")
 
-[node name="TaskList" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer6" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="TaskList" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer6" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/TaskList")
 menu = NodePath("../../../../..")
 
-[node name="Timeline" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer7" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="Timeline" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer7" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/Timeline")
 menu = NodePath("../../../../..")
 
-[node name="Chat" parent="HBoxContainer/Dasboard/VBoxContainer/MarginContainer8" index="0" node_paths=PackedStringArray("tab", "menu")]
+[node name="Chat" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer8" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/TeamChat")
 menu = NodePath("../../../../..")
 
@@ -71,6 +72,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ActiveTab" type="Control" parent="HBoxContainer/TabArea"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,6 +89,7 @@ tab = NodePath("../../../../../UnactiveTabs/ProjectsList")
 menu = NodePath("../../../../../../..")
 
 [node name="UnactiveTabs" type="Control" parent="HBoxContainer/TabArea"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -122,6 +125,7 @@ layout_mode = 1
 layout_mode = 1
 
 [node name="Summary" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("10_kpgju")]
+unique_name_in_owner = true
 layout_mode = 1
 
 [node name="Settings" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("11_kpgju")]
@@ -135,7 +139,7 @@ summary_tab = NodePath("../Summary")
 tab = NodePath("../../../../../../../ProjectsList")
 menu = NodePath("../../../../../../../../../..")
 
-[editable path="HBoxContainer/Dasboard"]
+[editable path="HBoxContainer/Dashboard"]
 [editable path="HBoxContainer/TabArea/ActiveTab/ChooseProject"]
 [editable path="HBoxContainer/TabArea/UnactiveTabs/ProjectsList"]
 [editable path="HBoxContainer/TabArea/UnactiveTabs/CreateProject"]

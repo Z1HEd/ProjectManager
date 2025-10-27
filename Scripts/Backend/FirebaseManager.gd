@@ -106,10 +106,12 @@ static func _parse_response_body(body_text: String) :
 
 	if raw is Dictionary:
 		var err_val = raw.get("error", null)
-		if err_val == OK:
-			return raw.get("result", null)
-		else:
+		if err_val != null:
 			return raw
+		var res = raw.get("result", null)
+		if res != null:
+			return res
+		return raw
 	
 	body_text = body_text.trim_prefix('"')
 	body_text = body_text.trim_suffix('"')

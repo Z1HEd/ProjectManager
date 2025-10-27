@@ -21,7 +21,7 @@ static func create_project(project_name: String, description: String, on_success
 		if !response is Dictionary:
 			on_fail.call("Invalid response from Firebase: %s" % response)
 		var uid = response.get("name","")
-		add_project_to_user(uid,"owner",on_success,on_fail)
+		add_project_to_current_user(uid,"owner",on_success,on_fail)
 	
 	return Firebase.send_request(url, 
 			HTTPClient.METHOD_POST, 
@@ -31,7 +31,11 @@ static func create_project(project_name: String, description: String, on_success
 			on_fail
 	)
 
-static func add_project_to_user(uid : String,role : String ,on_success : Callable, on_fail : Callable) -> int:
+static func add_user_to_project(user_id: String, project_id: String,role:String, on_success : Callable, on_fail : Callable) -> int:
+	#shouldnt be able to add projects to users except self
+	return 0
+
+static func add_project_to_current_user(uid : String,role : String ,on_success : Callable, on_fail : Callable) -> int:
 	var url = "%s/users/%s/projects.json?auth=%s" % [Firebase.project_db_url, Session.uid, Session.id_token]
 	var body = { uid: role }
 	

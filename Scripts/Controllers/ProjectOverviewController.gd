@@ -5,6 +5,7 @@ extends Tab
 @onready var refresh_button = %RefreshButton
 @onready var project_description = %ProjectDescription
 @onready var error_message = %ErrorMessage
+@onready var add_member_popup = %AddMemberPopup
 
 @export var member_control_prefab = preload("res://Scenes/Elements/ProjectMember.tscn")
 
@@ -48,3 +49,6 @@ func update_project_data():
 		)
 		members_list.add_child(member_control)
 	
+
+func _on_add_member_button_pressed() -> void:
+	add_member_popup.visible = true

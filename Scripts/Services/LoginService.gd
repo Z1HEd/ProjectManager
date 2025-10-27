@@ -13,6 +13,7 @@ static func login_user(email: String, password: String, on_success: Callable, on
 
 	var _signin_success = func(user_data):
 		if not user_data is Dictionary or not user_data.has("localId"):
+			print(user_data)
 			on_fail.call("Unexpected sign-in response")
 			return
 		
