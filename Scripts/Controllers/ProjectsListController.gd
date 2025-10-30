@@ -21,6 +21,9 @@ func refresh_projects():
 	item_list.clear()
 	selected_id = -1
 	refresh_button.disabled = true
+	project_name.text = ""
+	project_description.text = ""
+	project_member_count.text = ""
 	
 	var _on_projects_refresh_success = func(projects_dict):
 		projects = projects_dict

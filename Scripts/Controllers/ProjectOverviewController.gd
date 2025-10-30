@@ -45,7 +45,7 @@ func update_project_data():
 		member_control.call_deferred(
 				"set_member",
 				member_uid,
-				CurrentProject.members[member_uid].get("role")
+				CurrentProject.members[member_uid]
 		)
 		members_list.add_child(member_control)
 	

@@ -9,19 +9,19 @@ var expires_at: int = 0
 
 const AUTH_CFG_PATH := "user://auth.cfg"
 
+signal on_authenticated
+
 func _ready() -> void:
 	_load_from_config()
 
 func from_firebase_response(data: Dictionary) -> void:
-	# data is the parsed auth response from Firebase
-	if not data is Dictionary:
-		return
 	uid = str(data.get("localId", ""))
 	email = str(data.get("email", ""))
 	id_token = str(data.get("idToken", ""))
 	refresh_token = str(data.get("refreshToken", ""))
 	var expires_in = int(data.get("expiresIn", 0))
 	expires_at = int(Time.get_unix_time_from_system()) + expires_in
+	on_authenticated.emit()
 	_save_to_config()
 
 func is_logged_in() -> bool:

@@ -13,7 +13,7 @@ static func create_project(project_name: String, description: String, on_success
 		"owner": Session.uid,
 		"creationDate": int(Time.get_unix_time_from_system()),
 		"members": {
-			Session.uid:{"role": "owner","joinedDate": int(Time.get_unix_time_from_system())}
+			Session.uid:"owner"
 		}
 	}
 	
@@ -30,10 +30,6 @@ static func create_project(project_name: String, description: String, on_success
 			_on_project_created, 
 			on_fail
 	)
-
-static func add_user_to_project(user_id: String, project_id: String,role:String, on_success : Callable, on_fail : Callable) -> int:
-	#shouldnt be able to add projects to users except self
-	return 0
 
 static func add_project_to_current_user(uid : String,role : String ,on_success : Callable, on_fail : Callable) -> int:
 	var url = "%s/users/%s/projects.json?auth=%s" % [Firebase.project_db_url, Session.uid, Session.id_token]

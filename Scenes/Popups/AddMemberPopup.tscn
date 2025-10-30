@@ -89,11 +89,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 selected = 1
 item_count = 3
-popup/item_0/text = "Viewer"
+popup/item_0/text = "viewer"
 popup/item_0/id = 2
-popup/item_1/text = "Member"
+popup/item_1/text = "member"
 popup/item_1/id = 0
-popup/item_2/text = "Manager"
+popup/item_2/text = "manager"
 popup/item_2/id = 1
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]

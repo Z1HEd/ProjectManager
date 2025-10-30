@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://btknm6kha8sv5"]
+[gd_scene load_steps=14 format=3 uid="uid://btknm6kha8sv5"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_djewf"]
 [ext_resource type="Script" uid="uid://cgt80hbk7rjtm" path="res://Scripts/Controllers/DashboardController.gd" id="1_g5cr7"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://br8rkbtn1g5gs" path="res://Assets/Icons/Settings.png" id="5_einoq"]
 [ext_resource type="Texture2D" uid="uid://blwo5hcwjjkh3" path="res://Assets/Icons/Summary.png" id="6_posp1"]
 [ext_resource type="Texture2D" uid="uid://dcgbs3l8brgoe" path="res://Assets/Icons/Board.png" id="7_eqll0"]
+[ext_resource type="Texture2D" uid="uid://tmdvw2n1ny2m" path="res://Assets/Icons/Notifications.png" id="7_kqgw7"]
 [ext_resource type="Texture2D" uid="uid://m6i30f6ebptr" path="res://Assets/Icons/Chat.png" id="8_eqll0"]
 [ext_resource type="Texture2D" uid="uid://bgsih2kqisu6q" path="res://Assets/Icons/TaskList.png" id="8_gxkdd"]
 [ext_resource type="Texture2D" uid="uid://de58pqolxc0bv" path="res://Assets/Icons/Timeline.png" id="8_hldj4"]
@@ -97,6 +98,23 @@ layout_mode = 2
 theme = ExtResource("1_djewf")
 theme_type_variation = &"TransparentButton"
 icon = ExtResource("5_einoq")
+expand_icon = true
+script = ExtResource("3_cvu0e")
+metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
+
+[node name="MarginContainer9" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Notifications" type="Button" parent="VBoxContainer/MarginContainer9"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+theme = ExtResource("1_djewf")
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("7_kqgw7")
 expand_icon = true
 script = ExtResource("3_cvu0e")
 metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"

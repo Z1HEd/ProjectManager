@@ -6,8 +6,8 @@ static func get_user_projects(uid, on_success,on_fail) -> int:
 			[Firebase.project_db_url, Session.uid, Session.id_token]
 	
 	var _on_success = func(result):
-		if not result is Dictionary:
-			on_fail.call("Invalid response: %s" % result)
+		if result == null:
+			on_success.call({})
 		else:
 			on_success.call(result)
 	

@@ -1,7 +1,7 @@
 extends Tab
 
 func _on_open():
-	print("open")
+	pass
 
 func _on_close():
-	print("close")
+	pass

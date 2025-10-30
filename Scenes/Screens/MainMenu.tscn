@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ci1klfcefhdim"]
+[gd_scene load_steps=14 format=3 uid="uid://ci1klfcefhdim"]
 
 [ext_resource type="Script" uid="uid://d1grwhmkedwlf" path="res://Scripts/Controllers/MainMenuController.gd" id="1_a1jv6"]
 [ext_resource type="PackedScene" uid="uid://br1sagcs4olx7" path="res://Scenes/Tabs/NoProjectSelected.tscn" id="2_f35bi"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://be2eddut3my3o" path="res://Scenes/Tabs/Overview.tscn" id="10_kpgju"]
 [ext_resource type="PackedScene" uid="uid://cs7q0aknfj3xt" path="res://Scenes/Tabs/Settings.tscn" id="11_kpgju"]
 [ext_resource type="PackedScene" uid="uid://iuqpwkl2il1q" path="res://Scenes/Tabs/CreateProject.tscn" id="12_3oy6j"]
+[ext_resource type="PackedScene" uid="uid://c7gxr345rrlex" path="res://Scenes/Tabs/Notifications.tscn" id="13_cc4ve"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -45,6 +46,10 @@ menu = NodePath("../../../../..")
 
 [node name="Settings" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer3" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/Settings")
+menu = NodePath("../../../../..")
+
+[node name="Notifications" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer9" index="0" node_paths=PackedStringArray("tab", "menu")]
+tab = NodePath("../../../../TabArea/UnactiveTabs/Notifications")
 menu = NodePath("../../../../..")
 
 [node name="Summary" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer4" index="0" node_paths=PackedStringArray("tab", "menu")]
@@ -138,6 +143,9 @@ summary_tab = NodePath("../Summary")
 [node name="CancelButton" parent="HBoxContainer/TabArea/UnactiveTabs/CreateProject/CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../../../../ProjectsList")
 menu = NodePath("../../../../../../../../../..")
+
+[node name="Notifications" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("13_cc4ve")]
+layout_mode = 1
 
 [editable path="HBoxContainer/Dashboard"]
 [editable path="HBoxContainer/TabArea/ActiveTab/ChooseProject"]

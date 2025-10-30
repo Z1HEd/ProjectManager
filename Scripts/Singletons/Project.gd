@@ -29,7 +29,7 @@ func set_data(dict : Dictionary):
 	creation_date = dict.get("creationDate")
 	project_owner = dict.get("owner")
 	members =dict.get("members")
-	user_role = members.get(Session.uid).get("role")
+	user_role = members.get(Session.uid)
 	
 	project_updated.emit()
 
