@@ -58,7 +58,7 @@ func _accept_invite():
 	decline_button.disabled = true
 	
 	var _on_success = func(_result):
-		Notifications.list.remove_at(selected_id)
+		Notifications.remove(selected_id)
 		item_list.deselect(selected_id)
 		item_list.remove_item(selected_id)
 		accept_button.disabled = false
@@ -87,7 +87,7 @@ func _decline_invite():
 	var _on_success = func(_result):
 		accept_button.disabled = false
 		decline_button.disabled = false
-		Notifications.list.remove_at(selected_id)
+		Notifications.remove(selected_id)
 		item_list.deselect(selected_id)
 		item_list.remove_item(selected_id)
 		_reset_notification_details()

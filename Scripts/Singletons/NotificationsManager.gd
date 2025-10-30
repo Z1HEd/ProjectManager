@@ -44,3 +44,7 @@ func load_notifications() -> void:
 		_on_success,
 		_on_fail
 	)
+
+func remove(index:int):
+	list.remove_at(index)
+	notifications_updated.emit()

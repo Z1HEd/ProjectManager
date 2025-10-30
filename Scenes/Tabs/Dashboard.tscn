@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://btknm6kha8sv5"]
+[gd_scene load_steps=15 format=3 uid="uid://btknm6kha8sv5"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_djewf"]
 [ext_resource type="Script" uid="uid://cgt80hbk7rjtm" path="res://Scripts/Controllers/DashboardController.gd" id="1_g5cr7"]
 [ext_resource type="Texture2D" uid="uid://bg54h2tquc34b" path="res://Assets/Icons/Profile.png" id="2_posp1"]
 [ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="3_cvu0e"]
+[ext_resource type="Texture2D" uid="uid://fxqmbvhbgx1d" path="res://Assets/Icons/UnreadNotifications.png" id="3_wokev"]
 [ext_resource type="Texture2D" uid="uid://4qye4a5atpqs" path="res://Assets/Icons/Project List.png" id="4_eqll0"]
 [ext_resource type="Texture2D" uid="uid://br8rkbtn1g5gs" path="res://Assets/Icons/Settings.png" id="5_einoq"]
 [ext_resource type="Texture2D" uid="uid://blwo5hcwjjkh3" path="res://Assets/Icons/Summary.png" id="6_posp1"]
@@ -30,6 +31,8 @@ anchors_preset = 9
 anchor_bottom = 1.0
 grow_vertical = 2
 script = ExtResource("1_g5cr7")
+notifications_icon = ExtResource("7_kqgw7")
+unread_notifications_icon = ExtResource("3_wokev")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -110,6 +113,7 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="Notifications" type="Button" parent="VBoxContainer/MarginContainer9"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
 theme = ExtResource("1_djewf")
