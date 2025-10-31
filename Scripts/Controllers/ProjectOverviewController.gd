@@ -17,6 +17,8 @@ func refresh_project():
 	refresh_button.disabled = true
 	project_name.text = "Loading..."
 	project_description.text = ""
+	for old_member in members_list.get_children():
+		old_member.queue_free()
 	
 	pid = CurrentProject.pid
 	
@@ -32,8 +34,6 @@ func refresh_project():
 	ProjectService.get_project(pid,_on_success,_on_fail)
 
 func update_project_data():
-	for old_member in members_list.get_children():
-		old_member.queue_free()
 	
 	project_name.text = CurrentProject.project_name
 	project_description.text = CurrentProject.project_description

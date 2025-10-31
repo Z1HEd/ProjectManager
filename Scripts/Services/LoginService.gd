@@ -17,7 +17,7 @@ static func login_user(email: String, password: String, on_success: Callable, on
 			on_fail.call("Unexpected sign-in response")
 			return
 		
-		Session.from_firebase_response(user_data)
+		Session.update_from_response(user_data)
 		on_success.call(Session)
 
 	var _signin_fail = func(err_msg):
@@ -30,5 +30,5 @@ static func login_user(email: String, password: String, on_success: Callable, on
 			["Content-Type: application/json"],
 			_signin_success,
 			_signin_fail,
-			"signin"
+			"auth"
 	)

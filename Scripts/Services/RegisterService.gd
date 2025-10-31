@@ -25,7 +25,7 @@ static func register_user(email: String, password: String, on_success: Callable,
 			on_success.call("Unexpected signup response")
 			return
 		
-		Session.from_firebase_response(user_data)
+		Session.update_from_response(user_data)
 		var profile = {
 			"email": Session.email,
 			"displayName": user_data.get("displayName", ""),
@@ -43,14 +43,14 @@ static func register_user(email: String, password: String, on_success: Callable,
 				["Content-Type: application/json"], 
 				_profile_write_success,
 				_profile_write_fail,
-				"write_profile"
+				"auth"
 		)
 
 	var _signup_fail = func(err_msg):
 			on_fail.call(str(err_msg))
 
 	return Firebase.send_request(url, HTTPClient.METHOD_POST, body, ["Content-Type: application/json"], 
-			_signup_success, _signup_fail, "signup")
+			_signup_success, _signup_fail)
 
 static func _attempt_delete_auth_then_report(original_error: String, on_complete: Callable) -> void:
 	
@@ -79,5 +79,5 @@ static func _attempt_delete_auth_then_report(original_error: String, on_complete
 			["Content-Type: application/json"],
 			_on_delete_success,
 			_on_delete_fail,
-			"delete_account" 
+			"auth"
 	)

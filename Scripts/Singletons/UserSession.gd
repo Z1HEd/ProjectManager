@@ -7,6 +7,9 @@ var id_token: String = ""
 var refresh_token: String = ""
 var expires_at: int = 0
 
+var _refresh_in_progress: bool = false
+var _refresh_waiters: Array = []
+
 const AUTH_CFG_PATH := "user://auth.cfg"
 
 signal on_authenticated
@@ -14,15 +17,106 @@ signal on_authenticated
 func _ready() -> void:
 	_load_from_config()
 
-func from_firebase_response(data: Dictionary) -> void:
-	uid = str(data.get("localId", ""))
-	email = str(data.get("email", ""))
-	id_token = str(data.get("idToken", ""))
-	refresh_token = str(data.get("refreshToken", ""))
-	var expires_in = int(data.get("expiresIn", 0))
-	expires_at = int(Time.get_unix_time_from_system()) + expires_in
-	on_authenticated.emit()
+# Ensures token is fresh and then calls on_ready
+func ensure_fresh_token(on_ready: Callable, on_fail: Callable) -> void:
+	if not is_token_expired():
+		on_ready.call()
+		return
+
+	_refresh_waiters.append({
+		"on_ready": on_ready,
+		"on_fail": on_fail
+	})
+
+	if _refresh_in_progress:
+		return
+	_refresh_in_progress = true
+
+	var _on_refresh_success = func(_resp):
+		_refresh_in_progress = false
+		for w in _refresh_waiters:
+			w["on_ready"].call()
+		_refresh_waiters.clear()
+
+	var _on_refresh_fail = func(err):
+		_refresh_in_progress = false
+		for w in _refresh_waiters:
+			w["on_fail"].call(err)
+		_refresh_waiters.clear()
+
+	refresh_tokens(_on_refresh_success, _on_refresh_fail)
+
+func refresh_tokens(on_success: Callable, on_fail: Callable) -> int:
+	if refresh_token == "":
+		on_fail.call("no_refresh_token")
+		return -1
+	
+	print("refreshing a token...")
+	var refresh_url = "https://securetoken.googleapis.com/v1/token?key=%s" % Firebase.api_key
+	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % str(refresh_token)
+	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
+
+	var _on_refresh_success = func(parsed):
+		if parsed == null or not parsed is Dictionary:
+			on_fail.call("invalid_refresh_response")
+			return
+			
+		print("token refreshed!")
+		update_from_response(parsed)
+
+		on_success.call(parsed)
+
+	var _on_refresh_fail = func(err):
+		on_fail.call(err)
+
+	return Firebase.send_request(
+			refresh_url, 
+			HTTPClient.METHOD_POST, 
+			refresh_body, 
+			refresh_headers, 
+			_on_refresh_success, 
+			_on_refresh_fail,
+			"auth"
+	)
+
+func update_from_response(response: Dictionary) -> void:
+	if response == null:
+		return
+
+	# UID
+	if response.has("localId"):
+		uid = str(response["localId"])
+	elif response.has("user_id"):
+		uid = str(response["user_id"])
+
+	# Email (only in sign-in/up case)
+	if response.has("email"):
+		email = str(response["email"])
+
+	# ID token
+	if response.has("idToken"):
+		id_token = str(response["idToken"])
+	elif response.has("id_token"):
+		id_token = str(response["id_token"])
+
+	# Refresh token
+	if response.has("refreshToken"):
+		refresh_token = str(response["refreshToken"])
+	elif response.has("refresh_token"):
+		refresh_token = str(response["refresh_token"])
+
+	# Expires in 
+	if response.has("expiresIn"):
+		var secs = int(response["expiresIn"])
+		expires_at = int(Time.get_unix_time_from_system()) + secs
+	elif response.has("expires_in"):
+		var secs2 = int(response["expires_in"])
+		expires_at = int(Time.get_unix_time_from_system()) + secs2
+
 	_save_to_config()
+
+	if uid != "" and id_token != "":
+		emit_signal("on_authenticated")
 
 func is_logged_in() -> bool:
 	return uid != "" and id_token != ""

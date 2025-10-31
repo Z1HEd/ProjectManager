@@ -19,9 +19,9 @@ func _ready() -> void:
 	add_child(http)
 	http.request_completed.connect(Callable(self, "_on_request_completed"))
 
+
 # body may be Dictionary or String or null
-# on_success, on_fail callbacks may be null
-func send_request(url: String, method: int = HTTPClient.METHOD_GET, body = null, headers: Array = [], on_success = null, on_fail = null, tag: String = "") -> int:
+func send_request(url: String, method : HTTPClient.Method, body, headers: Array, on_success : Callable, on_fail : Callable, tag := "") -> int:
 	var req_id = _request_counter
 	_request_counter += 1
 	var entry := {
@@ -32,43 +32,66 @@ func send_request(url: String, method: int = HTTPClient.METHOD_GET, body = null,
 		"headers": headers,
 		"on_success": on_success,
 		"on_fail": on_fail,
-		"tag": tag
+		"tag":tag
 	}
-	_queue.append(entry)
+	
+	if tag == "auth":
+		_queue.push_front(entry)
+	else:
+		_queue.append(entry)
+	
 	_process_next()
 	return req_id
+
 
 func _process_next() -> void:
 	if is_busy:
 		return
 	if _queue.is_empty():
 		return
+
+	var  _on_refresh_failed = func(err) -> void:
+		_current_request["on_fail"].call("Failed to refresh session: %s" % err)
+		request_fail.emit(_current_request["id"], err)
+		
+		is_busy = false
+		_current_request = {}
+		
+		request_concluded.emit()
+		_process_next()
+
+	if Session.is_token_expired() and _queue[0]["tag"] != "auth":
+		Session.ensure_fresh_token(_process_next, _on_refresh_failed)
+		return
+	
 	_current_request = _queue.pop_front()
 	is_busy = true
+	_send_current_request()
 
+# Starts the HTTP request for the _current_request
+func _send_current_request() -> void:
 	var url = _current_request.url
 	var method = _current_request.method
 	var headers = _current_request.headers.duplicate()
 	var payload = ""
 	if _current_request.body is Dictionary:
 		payload = JSON.stringify(_current_request.body)
-		if "Content-Type: application/json" not in headers:
-			headers.append("Content-Type: application/json")
 	elif _current_request.body is String:
 		payload = _current_request.body
 
 	var err = http.request(url, headers, method, payload)
 	if err != OK:
+		
 		var id = _current_request.id
-		var fail_cb = _current_request.on_fail
 		is_busy = false
-		_current_request = {}
 		var msg = "failed to start HTTP request: %s" % err
-		if fail_cb and fail_cb is Callable:
-			fail_cb.call(msg)
+		_current_request.on_fail.call(msg)
+		
+		_current_request = {}
 		emit_signal("request_fail", id, msg)
 		emit_signal("request_concluded")
 		_process_next()
+
 
 func _extract_error_message(parsed) -> String:
 	# Accept either:
@@ -97,6 +120,7 @@ func _extract_error_message(parsed) -> String:
 			if r.has("message") and r["message"] is String:
 				return str(r["message"])
 	return ""
+
 
 static func _parse_response_body(body_text: String) :
 	if body_text == null or body_text.strip_edges(true, true) == "":
@@ -128,23 +152,40 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 
 	var parsed = _parse_response_body(body_text)
 
-	var success_cb = _current_request.get("on_success", null)
-	var fail_cb = _current_request.get("on_fail", null)
+	var success_cb = _current_request["on_success"]
+	var fail_cb = _current_request["on_fail"]
 
 	if response_code >= 200 and response_code < 300:
-		if success_cb and success_cb is Callable:
-			success_cb.call(parsed)
+		success_cb.call(parsed)
+		is_busy = false
+		_current_request = {}
+		emit_signal("request_concluded")
 		emit_signal("request_success", id, parsed)
+		_process_next()
 	else:
-		# error: try to extract a message from the parsed result (if it's a dict), otherwise fall back
 		var err_msg = _extract_error_message(parsed)
-		if err_msg == "":
-			err_msg =  body_text if body_text.size() > 0 else "HTTP %s" % str(response_code)
-		if fail_cb and fail_cb is Callable:
-			fail_cb.call(err_msg)
-		emit_signal("request_fail", id, err_msg)
+		var is_perm_error = (response_code == 401) or (err_msg is String and err_msg.findn("Permission denied") != -1)
+		var already_retried = _current_request.get("retried", false)
 
-	is_busy = false
-	_current_request = {}
-	emit_signal("request_concluded")
-	_process_next()
+		if !is_perm_error or already_retried:
+			fail_cb.call(err_msg)
+			emit_signal("request_fail", id, err_msg)
+			return
+		
+		var _on_refresh_success = func(_response):
+			_current_request["retried"] = true
+			_send_current_request()
+
+		var _on_refresh_fail = func(err):
+			# refresh failed -> call original fail callback
+			var fail_msg = "token_refresh_failed: %s" % str(err)
+			if fail_cb and fail_cb is Callable:
+				fail_cb.call(fail_msg)
+			emit_signal("request_fail", id, fail_msg)
+			is_busy = false
+			_current_request = {}
+			emit_signal("request_concluded")
+			_process_next()
+
+		Session.ensure_fresh_token(_on_refresh_success, _on_refresh_fail)
+		return
