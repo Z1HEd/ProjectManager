@@ -21,4 +21,6 @@ func set_member(_uid:String, _role : String):
 		display_name.text = err_msg
 	
 	UserService.get_display_name(uid,_on_success,_on_fail)
-	
+
+func set_more_button_visible(value: bool):
+	more_button.visible = value

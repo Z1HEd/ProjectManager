@@ -2,7 +2,8 @@ extends Object
 class_name ProjectService
 
 # Note: users have a list of ids and roles of projects they are in
-# to speed up project list lookup
+# to speed up project list lookup. 
+# no project delete if failed to write to users- this is not crucial.
 
 static func create_project(project_name: String, description: String, on_success: Callable, on_fail: Callable) -> int:
 	var url = "%s/projects.json?auth=%s" % [Firebase.project_db_url, Session.id_token]
@@ -52,3 +53,12 @@ static func get_project(pid: String,on_success : Callable, on_fail : Callable) -
 		on_success.call(response)
 	
 	return Firebase.send_request(url, HTTPClient.METHOD_GET, {}, [], _on_success, on_fail)
+
+static func remove_member(project_id: String, user_id: String, on_success: Callable = func(_res):pass, on_fail: Callable = func(_err):pass) -> void:
+	var payload = {}
+	payload["projects/%s/members/%s" % [project_id, user_id]] = null
+	payload["users/%s/projects/%s" % [user_id, project_id]] = null
+
+	var root_patch_url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+
+	return Firebase.send_request(root_patch_url, HTTPClient.METHOD_PATCH, payload, [], on_success, on_fail)

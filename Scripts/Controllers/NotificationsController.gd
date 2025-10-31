@@ -9,10 +9,10 @@ extends Tab
 
 var selected_id := -1
 
-func _on_open():
+func open():
 	refresh_notification_list()
 
-func _on_close():
+func close():
 	pass
 
 func refresh_notification_list():

@@ -6,7 +6,7 @@ signal request_success(request_id: int, data)
 signal request_fail(request_id: int, error_msg)
 
 @export var api_key: String = "AIzaSyAYDWyOf_ctpewELcbabKZnQ191V5BYg5Y"
-@export var project_db_url: String = "https://projectmanager-39d37-default-rtdb.europe-west1.firebasedatabase.app/" # no trailing slash
+@export var project_db_url: String = "https://projectmanager-39d37-default-rtdb.europe-west1.firebasedatabase.app/"
 
 var http: HTTPRequest
 var is_busy: bool = false
@@ -168,23 +168,26 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 		var already_retried = _current_request.get("retried", false)
 
 		if !is_perm_error or already_retried:
-			fail_cb.call(err_msg)
+			is_busy = false
+			_current_request = {}
 			emit_signal("request_fail", id, err_msg)
+			emit_signal("request_concluded")
+			fail_cb.call(err_msg)
+			_process_next()
 			return
 		
-		var _on_refresh_success = func(_response):
+		var _on_refresh_success = func():
 			_current_request["retried"] = true
 			_send_current_request()
 
 		var _on_refresh_fail = func(err):
 			# refresh failed -> call original fail callback
 			var fail_msg = "token_refresh_failed: %s" % str(err)
-			if fail_cb and fail_cb is Callable:
-				fail_cb.call(fail_msg)
-			emit_signal("request_fail", id, fail_msg)
 			is_busy = false
 			_current_request = {}
 			emit_signal("request_concluded")
+			emit_signal("request_fail", id, fail_msg)
+			fail_cb.call(fail_msg)
 			_process_next()
 
 		Session.ensure_fresh_token(_on_refresh_success, _on_refresh_fail)

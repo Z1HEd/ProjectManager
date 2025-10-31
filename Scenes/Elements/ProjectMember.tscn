@@ -16,7 +16,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_i61au")
 script = ExtResource("2_j5aft")
-uid = null
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

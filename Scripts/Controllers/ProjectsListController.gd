@@ -7,20 +7,21 @@ extends Tab
 @onready var project_name = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/Name
 @onready var project_member_count = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/MemberCount
 @onready var project_description = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/Description
+@onready var open_project_button = %OpenButton
 
 var projects : Dictionary = {}
 var projects_details = []
 var selected_id := -1
 
-func _on_open():
+func open():
 	refresh_projects()
 
 func refresh_projects():
-	
 	error_message.text = ""
 	item_list.clear()
 	selected_id = -1
 	refresh_button.disabled = true
+	open_project_button.disabled = true
 	project_name.text = ""
 	project_description.text = ""
 	project_member_count.text = ""
@@ -31,7 +32,7 @@ func refresh_projects():
 	
 	var _on_projects_refresh_fail = func(err_msg):
 		error_message.text ="Failed to refresh project list: %s" % err_msg
-		
+	
 	UserService.get_user_projects(Session.uid,_on_projects_refresh_success,_on_projects_refresh_fail)
 
 var projects_to_read : int
@@ -39,12 +40,17 @@ func repopulate_project_list():
 	
 	projects_to_read = projects.size()
 	
+	if projects_to_read == 0:
+		refresh_button.disabled = false
+		return
+	
 	var _on_success = func(project : Dictionary):
 		projects_details.append(project)
 		item_list.add_item(project.get("name"))
 		projects_to_read -= 1
 		if projects_to_read == 0:
 			refresh_button.disabled = false
+			open_project_button.disabled = false
 	
 	var _on_fail = func(err_msg : String):
 		refresh_button.disabled = false

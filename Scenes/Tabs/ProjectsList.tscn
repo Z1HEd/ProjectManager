@@ -146,6 +146,7 @@ text = "Select a project from the list or create a new one."
 fit_content = true
 
 [node name="OpenButton" type="Button" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
 size_flags_horizontal = 0

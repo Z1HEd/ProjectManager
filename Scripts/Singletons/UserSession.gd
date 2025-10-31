@@ -51,7 +51,6 @@ func refresh_tokens(on_success: Callable, on_fail: Callable) -> int:
 		on_fail.call("no_refresh_token")
 		return -1
 	
-	print("refreshing a token...")
 	var refresh_url = "https://securetoken.googleapis.com/v1/token?key=%s" % Firebase.api_key
 	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % str(refresh_token)
 	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
@@ -61,7 +60,6 @@ func refresh_tokens(on_success: Callable, on_fail: Callable) -> int:
 			on_fail.call("invalid_refresh_response")
 			return
 			
-		print("token refreshed!")
 		update_from_response(parsed)
 
 		on_success.call(parsed)
