@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://be2eddut3my3o"]
+[gd_scene load_steps=11 format=3 uid="uid://be2eddut3my3o"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ldptw"]
 [ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectOverviewController.gd" id="2_jc0vq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="5_lrxk1"]
 [ext_resource type="PackedScene" uid="uid://cua184qg6p7w1" path="res://Scenes/Popups/AddMemberPopup.tscn" id="7_lrxk1"]
 [ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://Scenes/Popups/ConfirmActionPopup.tscn" id="9_ojhqf"]
+[ext_resource type="PackedScene" uid="uid://4aok4m6i3rcy" path="res://Scenes/Popups/EditProjectPopup.tscn" id="10_5rwxb"]
 
 [node name="Overview" type="Control"]
 layout_mode = 3
@@ -64,6 +65,7 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer"]
+custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
@@ -78,8 +80,8 @@ layout_mode = 2
 
 [node name="ProjectName" type="Label" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(375, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 theme = ExtResource("1_ldptw")
 text = "Project Name"
 
@@ -94,20 +96,22 @@ expand_icon = true
 
 [node name="ProjectSettings" type="MenuButton" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 4
 icon = ExtResource("3_aqjdb")
 expand_icon = true
-item_count = 2
-popup/item_0/text = "Transfer Ownership"
+item_count = 3
+popup/item_0/text = "Edit Project"
 popup/item_0/id = 0
-popup/item_1/text = "Delete Project"
+popup/item_1/text = "Transfer Ownership"
 popup/item_1/id = 1
+popup/item_2/text = "Delete Project"
+popup/item_2/id = 2
 
 [node name="LeaveButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 theme_type_variation = &"TransparentButton"
@@ -176,6 +180,12 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
+[node name="EditProjectPopup" parent="." instance=ExtResource("10_5rwxb")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/RefreshButton" to="." method="refresh_project"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_leave_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/AddMemberButton" to="." method="_on_add_member_button_pressed"]
+[connection signal="on_project_edited" from="EditProjectPopup" to="." method="refresh_project"]

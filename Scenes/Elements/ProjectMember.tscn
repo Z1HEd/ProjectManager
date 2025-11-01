@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_i61au"]
 [ext_resource type="Texture2D" uid="uid://biexkgqfk3rev" path="res://Assets/Icons/More.png" id="1_jvf2i"]
-[ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://Scripts/UI Elements/MemberControl.gd" id="2_j5aft"]
+[ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://Scripts/UIElements/MemberControl.gd" id="2_j5aft"]
 
 [node name="ProjectMember" type="Control"]
 custom_minimum_size = Vector2(200, 30)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="1_ftv3i"]
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_opnq4"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="2_b3lh5"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="2_b3lh5"]
 
 [node name="NoProjectSelected" type="Control"]
 layout_mode = 3

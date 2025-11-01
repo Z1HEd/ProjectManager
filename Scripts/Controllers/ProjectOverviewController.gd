@@ -12,8 +12,18 @@ extends Tab
 
 @onready var add_member_popup = %AddMemberPopup
 @onready var confirm_action_popup : ConfirmActionPopup = %ConfirmActionPopup
+@onready var edit_project_popup : EditProjectPopup = %EditProjectPopup
 
 @export var member_control_prefab = preload("res://Scenes/Elements/ProjectMember.tscn")
+
+enum Action{
+	EDIT,
+	TRANSFER_OWNERSHIP,
+	DELETE
+}
+
+func _ready() -> void:
+	project_settings_button.get_popup().id_pressed.connect(_on_project_setting_pressed)
 
 func open():
 	refresh_project()
@@ -65,11 +75,9 @@ func update_project_data():
 			CurrentProject.user_role == "owner"
 		)
 		members_list.add_child(member_control)
-	
 
 func _on_add_member_button_pressed() -> void:
 	add_member_popup.visible = true
-
 
 func _on_leave_button_pressed() -> void:
 	
@@ -82,3 +90,10 @@ func _on_leave_button_pressed() -> void:
 		"You can join this project again, if the owner invites you.")
 	confirm_action_popup.set_callbacks(_on_confirm)
 	confirm_action_popup.visible = true
+
+func _on_project_setting_pressed(id: int):
+	match id:
+		Action.EDIT:
+			edit_project_popup.set_current_info(CurrentProject.project_name,
+					CurrentProject.project_description)
+			edit_project_popup.visible=true

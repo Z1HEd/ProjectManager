@@ -61,4 +61,32 @@ static func remove_member(project_id: String, user_id: String, on_success: Calla
 
 	var root_patch_url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
 
-	return Firebase.send_request(root_patch_url, HTTPClient.METHOD_PATCH, payload, [], on_success, on_fail)
+	return Firebase.send_request(
+			root_patch_url, 
+			HTTPClient.METHOD_PATCH, 
+			payload, 
+			[], 
+			on_success, 
+			on_fail
+	)
+
+static func edit_project(project_id: String, project_name: String, project_description: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+	var path = "%s/projects/%s.json?auth=%s" % [
+		Firebase.project_db_url.trim_suffix("/"),
+		project_id,
+		Session.id_token
+	]
+
+	var payload = {
+		"name": project_name,
+		"description": project_description,
+	}
+
+	return Firebase.send_request(
+			path, 
+			HTTPClient.METHOD_PATCH, 
+			payload, 
+			["Content-Type: application/json"], 
+			on_success, 
+			on_fail
+	)

@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_djewf"]
 [ext_resource type="Script" uid="uid://cgt80hbk7rjtm" path="res://Scripts/Controllers/DashboardController.gd" id="1_g5cr7"]
 [ext_resource type="Texture2D" uid="uid://bg54h2tquc34b" path="res://Assets/Icons/Profile.png" id="2_posp1"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="3_cvu0e"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="3_cvu0e"]
 [ext_resource type="Texture2D" uid="uid://fxqmbvhbgx1d" path="res://Assets/Icons/UnreadNotifications.png" id="3_wokev"]
 [ext_resource type="Texture2D" uid="uid://4qye4a5atpqs" path="res://Assets/Icons/Project List.png" id="4_eqll0"]
 [ext_resource type="Texture2D" uid="uid://br8rkbtn1g5gs" path="res://Assets/Icons/Settings.png" id="5_einoq"]

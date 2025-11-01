@@ -28,6 +28,6 @@ func _on_create_project_button_pressed() -> void:
 	
 	ProjectService.create_project(project_name, 
 			description, 
-			Callable(self, "_on_create_success"), 
-			Callable(self, "_on_create_fail")
+			_on_create_success, 
+			_on_create_fail
 	)
