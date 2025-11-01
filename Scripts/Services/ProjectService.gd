@@ -43,7 +43,6 @@ static func add_project_to_current_user(uid : String,role : String ,on_success :
 	
 	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, body, ["Content-Type: application/json"], _on_success, on_fail)
 
-
 static func get_project(pid: String,on_success : Callable, on_fail : Callable) -> int:
 	var url = "%s/projects/%s.json?auth=%s" % [Firebase.project_db_url, pid, Session.id_token]
 	
@@ -90,3 +89,15 @@ static func edit_project(project_id: String, project_name: String, project_descr
 			on_success, 
 			on_fail
 	)
+
+static func delete_project(project_id: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+	var updates := {}
+	
+	for member_uid in CurrentProject.members.keys():
+		updates["users/%s/projects/%s" % [member_uid, project_id]] = null
+		updates["invites/%s/%s" % [member_uid, project_id]] = null
+
+	updates["projects/%s" % project_id] = null
+
+	var patch_url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	return Firebase.send_request(patch_url, HTTPClient.METHOD_PATCH, updates, ["Content-Type: application/json"], on_success, on_fail)

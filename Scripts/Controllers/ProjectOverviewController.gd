@@ -7,23 +7,16 @@ extends Tab
 
 @onready var refresh_button = %RefreshButton
 @onready var leave_project_button = %LeaveButton
-@onready var project_settings_button = %ProjectSettings
+@onready var edit_project_button = %EditButton
+@onready var delete_project_button = %DeleteButton
 @onready var add_member_button = %AddMemberButton
 
 @onready var add_member_popup = %AddMemberPopup
 @onready var confirm_action_popup : ConfirmActionPopup = %ConfirmActionPopup
+@onready var confirm_critical_popup : ConfirmCriticalPopup = %ConfirmCriticalPopup
 @onready var edit_project_popup : EditProjectPopup = %EditProjectPopup
 
 @export var member_control_prefab = preload("res://Scenes/Elements/ProjectMember.tscn")
-
-enum Action{
-	EDIT,
-	TRANSFER_OWNERSHIP,
-	DELETE
-}
-
-func _ready() -> void:
-	project_settings_button.get_popup().id_pressed.connect(_on_project_setting_pressed)
 
 func open():
 	refresh_project()
@@ -32,10 +25,12 @@ var pid
 func refresh_project():
 	refresh_button.disabled = true
 	leave_project_button.visible = false
-	project_settings_button.visible = false
+	edit_project_button.visible = false
+	delete_project_button.visible = false
 	add_member_button.visible = false
 	project_name.text = "Loading..."
 	project_description.text = ""
+	error_message.text = ""
 	for old_member in members_list.get_children():
 		old_member.queue_free()
 	
@@ -58,7 +53,8 @@ func update_project_data():
 	project_description.text = CurrentProject.project_description
 	
 	leave_project_button.visible = CurrentProject.user_role != "owner"
-	project_settings_button.visible = CurrentProject.user_role == "owner"
+	edit_project_button.visible = CurrentProject.user_role == "owner"
+	delete_project_button.visible = CurrentProject.user_role == "owner"
 	add_member_button.visible =  CurrentProject.user_role == "owner"
 	
 	for member_uid in CurrentProject.members.keys():
@@ -91,9 +87,15 @@ func _on_leave_button_pressed() -> void:
 	confirm_action_popup.set_callbacks(_on_confirm)
 	confirm_action_popup.visible = true
 
-func _on_project_setting_pressed(id: int):
-	match id:
-		Action.EDIT:
-			edit_project_popup.set_current_info(CurrentProject.project_name,
-					CurrentProject.project_description)
-			edit_project_popup.visible=true
+func _on_edit_button_pressed() -> void:
+	edit_project_popup.set_current_info(CurrentProject.project_name,
+			CurrentProject.project_description)
+	edit_project_popup.visible=true
+
+func _on_delete_button_pressed() -> void:
+	var _on_confirmed = func():
+		ProjectService.delete_project(CurrentProject.pid)
+		CurrentProject.clear()
+	confirm_critical_popup.set_info("Delete project irreversibly?", CurrentProject.project_name)
+	confirm_critical_popup.set_callbacks(_on_confirmed)
+	confirm_critical_popup.visible=true
