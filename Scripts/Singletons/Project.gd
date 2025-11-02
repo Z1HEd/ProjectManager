@@ -28,7 +28,7 @@ func set_data(dict : Dictionary):
 	project_description = dict.get("description")
 	creation_date = dict.get("creationDate")
 	project_owner = dict.get("owner")
-	members =dict.get("members")
+	members = dict.get("members")
 	user_role = members.get(Session.uid)
 	
 	project_updated.emit()

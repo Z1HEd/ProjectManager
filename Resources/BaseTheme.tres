@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://b5c65h2sk3h6q"]
+[gd_resource type="Theme" load_steps=14 format=3 uid="uid://b5c65h2sk3h6q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fg72"]
 content_margin_left = 4.0
@@ -23,6 +23,14 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubuol"]
+bg_color = Color(0, 0, 0, 0.1764706)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_636ej"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80efh"]
+bg_color = Color(0, 0, 0, 0.3137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kn0t"]
 content_margin_left = 0.0
@@ -72,6 +80,9 @@ DarkPanel/styles/panel = SubResource("StyleBoxFlat_rlvek")
 Label/font_sizes/font_size = 24
 MediumLabel/base_type = &"Label"
 MediumLabel/font_sizes/font_size = 24
+OptionButton/styles/hover = SubResource("StyleBoxFlat_ubuol")
+OptionButton/styles/normal = SubResource("StyleBoxEmpty_636ej")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_80efh")
 Panel/styles/panel = SubResource("StyleBoxFlat_2kn0t")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ln5p0")
 SmallLabel/base_type = &"Label"

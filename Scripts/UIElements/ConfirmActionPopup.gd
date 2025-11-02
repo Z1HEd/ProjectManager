@@ -11,7 +11,7 @@ func set_info(title_text:String, description_text:String):
 	title.text = title_text
 	description.text = description_text
 
-func set_callbacks(on_confirm: Callable = func(_res):pass, on_cancel : Callable = func(_res):pass):
+func set_callbacks(on_confirm: Callable = func():pass, on_cancel : Callable = func():pass):
 	
 	var _on_confirm_pressed = func():
 		on_confirm.call()

@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://dpfndmvh84h6s"]
+[gd_scene load_steps=5 format=3 uid="uid://dpfndmvh84h6s"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_i61au"]
 [ext_resource type="Texture2D" uid="uid://biexkgqfk3rev" path="res://Assets/Icons/More.png" id="1_jvf2i"]
 [ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://Scripts/UIElements/MemberControl.gd" id="2_j5aft"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_j5aft"]
+size = Vector2(0, 0)
 
 [node name="ProjectMember" type="Control"]
 custom_minimum_size = Vector2(200, 30)
@@ -47,6 +50,22 @@ text = "Some Dude"
 clip_text = true
 text_overrun_behavior = 3
 
+[node name="MoreButton" type="OptionButton" parent="MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+theme_override_icons/icon = ExtResource("1_jvf2i")
+theme_override_icons/arrow = SubResource("PlaceholderTexture2D_j5aft")
+expand_icon = true
+fit_to_longest_item = false
+item_count = 3
+popup/item_0/text = "Change Role"
+popup/item_0/id = 0
+popup/item_1/text = "Kick"
+popup/item_1/id = 1
+popup/item_2/text = "Transfer ownership"
+popup/item_2/id = 2
+
 [node name="Role" type="Label" parent="MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -54,14 +73,4 @@ theme_override_colors/font_color = Color(1, 1, 1, 0.75686276)
 theme_override_font_sizes/font_size = 12
 text = "Owner"
 
-[node name="MoreButton" type="MenuButton" parent="MarginContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-icon = ExtResource("1_jvf2i")
-expand_icon = true
-item_count = 2
-popup/item_0/text = "Change role"
-popup/item_0/id = 0
-popup/item_1/text = "Kick"
-popup/item_1/id = 1
+[connection signal="item_selected" from="MarginContainer/HBoxContainer/MoreButton" to="." method="_on_more_button_item_selected"]

@@ -6,6 +6,7 @@ class_name ConfirmCriticalPopup
 @onready var confirm_button = %ConfirmButton
 @onready var cancel_button = %CancelButton
 @onready var button_separator = %ButtonSeparator
+@onready var input = %Input
 
 var text_to_enter := ""
 
@@ -13,6 +14,8 @@ func set_info(title_text:String, _text_to_enter:String):
 	title.text = title_text
 	text_to_enter = _text_to_enter
 	description.text = 'Enter "%s" to confirm:' % _text_to_enter
+	confirm_button.disabled = text_to_enter != ""
+	input.text = ""
 
 func set_callbacks(on_confirm: Callable = func():pass, on_cancel : Callable = func():pass):
 	

@@ -68,9 +68,17 @@ func update_project_data():
 		)
 		member_control.call_deferred(
 			"set_more_button_visible",
-			CurrentProject.user_role == "owner"
+			CurrentProject.user_role == "owner" && member_uid != Session.uid
+		)
+		member_control.connect_signals(
+			_on_change_role_pressed,
+			_on_kick_pressed,
+			_on_transfer_ownership_pressed
 		)
 		members_list.add_child(member_control)
+	
+	call_deferred("_sort_member_list")
+	
 
 func _on_add_member_button_pressed() -> void:
 	add_member_popup.visible = true
@@ -81,21 +89,66 @@ func _on_leave_button_pressed() -> void:
 		ProjectService.remove_member(CurrentProject.pid,Session.uid)
 		CurrentProject.clear()
 	
-	
 	confirm_action_popup.set_info("Leave Project?", 
 		"You can join this project again, if the owner invites you.")
 	confirm_action_popup.set_callbacks(_on_confirm)
 	confirm_action_popup.visible = true
 
 func _on_edit_button_pressed() -> void:
+	
 	edit_project_popup.set_current_info(CurrentProject.project_name,
 			CurrentProject.project_description)
+	
 	edit_project_popup.visible=true
 
 func _on_delete_button_pressed() -> void:
+	
 	var _on_confirmed = func():
 		ProjectService.delete_project(CurrentProject.pid)
 		CurrentProject.clear()
+	
 	confirm_critical_popup.set_info("Delete project irreversibly?", CurrentProject.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirmed)
 	confirm_critical_popup.visible=true
+
+func _on_change_role_pressed(uid:String,_name:String):
+	pass
+
+func _on_kick_pressed(uid:String, _name:String):
+	var _on_confirm = func():
+		ProjectService.remove_member(CurrentProject.pid,uid)
+		CurrentProject.members.erase(uid)
+		refresh_project()
+	
+	confirm_action_popup.set_info("Kick %s?"%_name, 
+		"This action will remove them from project.\nThey can rejoin later if you invite them.")
+	confirm_action_popup.set_callbacks(_on_confirm)
+	confirm_action_popup.visible = true
+
+func _on_transfer_ownership_pressed(uid:String,_name:String):
+	pass
+
+func _sort_member_list():
+	var list := members_list.get_children()
+	list.sort_custom(_compare_members)
+	
+	for child in members_list.get_children():
+		members_list.remove_child(child)
+		
+	for member in list:
+		members_list.add_child(member)
+
+func _compare_members(a:ProjectMember,b:ProjectMember):
+		if _get_role_value(a.role.text)>_get_role_value(b.role.text):
+			return 1
+		if _get_role_value(a.role.text)<_get_role_value(b.role.text):
+			return -1
+		return a.display_name.text.naturalnocasecmp_to(b.display_name.text)
+
+func _get_role_value(role:String):
+		match role:
+			"owner": return 3
+			"manager": return 2
+			"member": return 1
+			"viewer": return 0
+		return -1

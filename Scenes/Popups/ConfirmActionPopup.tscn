@@ -59,7 +59,6 @@ size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 14
 text = "Description"
 fit_content = true
-horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
