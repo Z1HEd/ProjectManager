@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://be2eddut3my3o"]
+[gd_scene load_steps=14 format=3 uid="uid://be2eddut3my3o"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ldptw"]
 [ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectOverviewController.gd" id="2_jc0vq"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://Scenes/Popups/ConfirmActionPopup.tscn" id="9_ojhqf"]
 [ext_resource type="PackedScene" uid="uid://4aok4m6i3rcy" path="res://Scenes/Popups/EditProjectPopup.tscn" id="10_5rwxb"]
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="12_lh0xu"]
+[ext_resource type="PackedScene" uid="uid://cuym1dcv4ctl2" path="res://Scenes/Popups/OptionPopup.tscn" id="13_uxoly"]
 
 [node name="Overview" type="Control"]
 layout_mode = 3
@@ -189,6 +190,11 @@ visible = false
 layout_mode = 1
 
 [node name="ConfirmCriticalPopup" parent="." instance=ExtResource("12_lh0xu")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="OptionPopup" parent="." instance=ExtResource("13_uxoly")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1

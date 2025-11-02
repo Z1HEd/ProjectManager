@@ -101,3 +101,25 @@ static func delete_project(project_id: String, on_success := func(_res):pass, on
 
 	var patch_url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
 	return Firebase.send_request(patch_url, HTTPClient.METHOD_PATCH, updates, ["Content-Type: application/json"], on_success, on_fail)
+
+static func set_role(project_id: String, user_id: String, role: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+	var payload := {}
+	payload["projects/%s/members/%s" % [project_id, user_id]] = role
+	payload["users/%s/projects/%s" % [user_id, project_id]] = role
+
+	var url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, payload, ["Content-Type: application/json"], on_success, on_fail)
+
+static func transfer_ownership(project_id: String, from_uid: String, to_uid: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+	var updates := {}
+	
+	updates["projects/%s/owner" % project_id] = to_uid
+	
+	updates["projects/%s/members/%s" % [project_id, to_uid]] = "owner"
+	updates["projects/%s/members/%s" % [project_id, from_uid]] = "member"
+	
+	updates["users/%s/projects/%s" % [to_uid, project_id]] = "owner"
+	updates["users/%s/projects/%s" % [from_uid, project_id]] = "member"
+
+	var url = "%s/.json?auth=%s" % [Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, updates, ["Content-Type: application/json"], on_success, on_fail)

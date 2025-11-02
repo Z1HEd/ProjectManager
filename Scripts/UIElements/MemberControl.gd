@@ -44,7 +44,7 @@ func _on_more_button_item_selected(index: int) -> void:
 	more_button.selected = -1
 	match index:
 		Action.CHANGE_ROLE:
-			change_role_pressed.emit(uid,display_name.text)
+			change_role_pressed.emit(uid,display_name.text,role.text)
 		Action.KICK:
 			kick_pressed.emit(uid,display_name.text)
 		Action.TRANSFER_OWNERSHIP:

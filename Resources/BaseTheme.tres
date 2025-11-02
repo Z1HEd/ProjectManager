@@ -24,14 +24,6 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubuol"]
-bg_color = Color(0, 0, 0, 0.1764706)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_636ej"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80efh"]
-bg_color = Color(0, 0, 0, 0.3137255)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2kn0t"]
 content_margin_left = 0.0
 content_margin_top = 0.0
@@ -69,6 +61,14 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ubuol"]
+bg_color = Color(0, 0, 0, 0.1764706)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_636ej"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_80efh"]
+bg_color = Color(0, 0, 0, 0.3137255)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ieqs5"]
 bg_color = Color(0, 0, 0, 0.16078432)
 
@@ -80,9 +80,6 @@ DarkPanel/styles/panel = SubResource("StyleBoxFlat_rlvek")
 Label/font_sizes/font_size = 24
 MediumLabel/base_type = &"Label"
 MediumLabel/font_sizes/font_size = 24
-OptionButton/styles/hover = SubResource("StyleBoxFlat_ubuol")
-OptionButton/styles/normal = SubResource("StyleBoxEmpty_636ej")
-OptionButton/styles/pressed = SubResource("StyleBoxFlat_80efh")
 Panel/styles/panel = SubResource("StyleBoxFlat_2kn0t")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ln5p0")
 SmallLabel/base_type = &"Label"
@@ -93,5 +90,9 @@ TransparentButton/styles/focus = SubResource("StyleBoxEmpty_2kn0t")
 TransparentButton/styles/hover = SubResource("StyleBoxFlat_a2yai")
 TransparentButton/styles/normal = SubResource("StyleBoxEmpty_rlvek")
 TransparentButton/styles/pressed = SubResource("StyleBoxFlat_ecwjl")
+TransparentOptionButton/base_type = &"OptionButton"
+TransparentOptionButton/styles/hover = SubResource("StyleBoxFlat_ubuol")
+TransparentOptionButton/styles/normal = SubResource("StyleBoxEmpty_636ej")
+TransparentOptionButton/styles/pressed = SubResource("StyleBoxFlat_80efh")
 TransparentPanel/base_type = &"Panel"
 TransparentPanel/styles/panel = SubResource("StyleBoxFlat_ieqs5")

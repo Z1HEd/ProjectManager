@@ -15,6 +15,7 @@ extends Tab
 @onready var confirm_action_popup : ConfirmActionPopup = %ConfirmActionPopup
 @onready var confirm_critical_popup : ConfirmCriticalPopup = %ConfirmCriticalPopup
 @onready var edit_project_popup : EditProjectPopup = %EditProjectPopup
+@onready var option_popup : OptionPopup = %OptionPopup
 
 @export var member_control_prefab = preload("res://Scenes/Elements/ProjectMember.tscn")
 
@@ -111,8 +112,26 @@ func _on_delete_button_pressed() -> void:
 	confirm_critical_popup.set_callbacks(_on_confirmed)
 	confirm_critical_popup.visible=true
 
-func _on_change_role_pressed(uid:String,_name:String):
-	pass
+func _on_change_role_pressed(uid:String,_name:String,current_role:String):
+	var _on_confirm = func(role: String):
+		if role == current_role:
+			return
+		ProjectService.set_role(CurrentProject.pid,uid,role)
+		refresh_project()
+	
+	option_popup.set_info("Change role for %s?"%_name, 
+		(
+			"Select a role from the list:\n"+
+			"Managers can create, assign and edit any task,\n"+
+			"Members can only create new tasks and edit those assigned to them,\n"+
+			"Viewers can only view tasks and messages.\n"
+		)
+	)
+	var roles :Array[String]= ["manager","member","viewer"]
+	option_popup.set_items(roles,roles.find(current_role))
+	option_popup.set_callbacks(_on_confirm)
+	
+	option_popup.visible=true
 
 func _on_kick_pressed(uid:String, _name:String):
 	var _on_confirm = func():
@@ -126,10 +145,16 @@ func _on_kick_pressed(uid:String, _name:String):
 	confirm_action_popup.visible = true
 
 func _on_transfer_ownership_pressed(uid:String,_name:String):
-	pass
+	var _on_confirm = func():
+		ProjectService.transfer_ownership(CurrentProject.pid,Session.uid,uid)
+		refresh_project()
+	
+	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, CurrentProject.project_name)
+	confirm_critical_popup.set_callbacks(_on_confirm)
+	confirm_critical_popup.visible = true
 
 func _sort_member_list():
-	var list := members_list.get_children()
+	var list := members_list.get_children() 
 	list.sort_custom(_compare_members)
 	
 	for child in members_list.get_children():
@@ -139,11 +164,11 @@ func _sort_member_list():
 		members_list.add_child(member)
 
 func _compare_members(a:ProjectMember,b:ProjectMember):
-		if _get_role_value(a.role.text)>_get_role_value(b.role.text):
-			return 1
-		if _get_role_value(a.role.text)<_get_role_value(b.role.text):
-			return -1
-		return a.display_name.text.naturalnocasecmp_to(b.display_name.text)
+	if _get_role_value(a.role.text)>_get_role_value(b.role.text):
+		return true
+	if _get_role_value(a.role.text)<_get_role_value(b.role.text):
+		return false
+	return a.display_name.text.naturalnocasecmp_to(b.display_name.text)
 
 func _get_role_value(role:String):
 		match role:
