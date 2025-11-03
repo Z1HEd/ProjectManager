@@ -1,9 +1,9 @@
 extends Node
 
-@onready var email_input : LineEdit = $CenterContainer/VBoxContainer/VBoxContainer/Email/EmailInput
-@onready var password_input : LineEdit = $CenterContainer/VBoxContainer/VBoxContainer/Password/PasswordInput
-@onready var login_button : Button = $CenterContainer/VBoxContainer/VBoxContainer/Buttons/LoginButton
-@onready var error_label : Label = $CenterContainer/VBoxContainer/VBoxContainer/ErrorLabel
+@onready var email_input : LineEdit = %EmailInput
+@onready var password_input : LineEdit = %PasswordInput
+@onready var login_button : Button = %LoginButton
+@onready var error_label : Label = %ErrorLabel
 
 func _on_login_button_pressed() -> void:
 	var email = email_input.text.strip_edges()
@@ -13,7 +13,7 @@ func _on_login_button_pressed() -> void:
 		error_label.text="Email and password required"
 		return
 	login_button.disabled = true
-	AccountService.login(email, password, Callable(self, "_on_register_success"), Callable(self, "_on_register_fail"))
+	AccountService.login(email, password, _on_register_success, _on_register_fail)
 
 func _on_register_success(_session):
 	login_button.disabled = false

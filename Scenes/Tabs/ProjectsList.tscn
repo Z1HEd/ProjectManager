@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="2_y3uu2"]
 [ext_resource type="Texture2D" uid="uid://djjvnfdhjc7hh" path="res://Assets/Icons/Refresh.png" id="3_y3uu2"]
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="4_8gvaf"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UI Elements/NavigationButton.gd" id="4_y3uu2"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="4_y3uu2"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_efite"]
 content_margin_left = 0.0
@@ -80,6 +80,7 @@ theme = ExtResource("2_y3uu2")
 text = "Projects"
 
 [node name="RefreshButton" type="Button" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 theme_type_variation = &"TransparentButton"
@@ -96,10 +97,12 @@ script = ExtResource("4_y3uu2")
 metadata/_custom_type_script = "uid://b8cyv5tgcxrhb"
 
 [node name="ItemList" type="ItemList" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ErrorMessage" type="RichTextLabel" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 fit_content = true
 
@@ -131,15 +134,18 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="Name" type="Label" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "No project selected"
 
 [node name="MemberCount" type="RichTextLabel" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/default_color = Color(0.61745477, 0.61745477, 0.6174547, 1)
 fit_content = true
 
 [node name="Description" type="RichTextLabel" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 text = "Select a project from the list or create a new one."

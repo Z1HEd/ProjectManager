@@ -17,7 +17,8 @@ extends Tab
 @onready var edit_project_popup : EditProjectPopup = %EditProjectPopup
 @onready var option_popup : OptionPopup = %OptionPopup
 
-@export var member_control_prefab = preload("res://Scenes/Elements/ProjectMember.tscn")
+@export var member_control_prefab = \
+		preload("res://Scenes/Elements/ProjectMember.tscn")
 
 func open():
 	refresh_project()
@@ -108,7 +109,8 @@ func _on_delete_button_pressed() -> void:
 		ProjectService.delete_project(Project.pid)
 		Project.clear()
 	
-	confirm_critical_popup.set_info("Delete project irreversibly?", Project.project_name)
+	confirm_critical_popup.set_info("Delete project irreversibly?", 
+			Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirmed)
 	confirm_critical_popup.visible=true
 
@@ -140,7 +142,8 @@ func _on_kick_pressed(uid:String, _name:String):
 		refresh_project()
 	
 	confirm_action_popup.set_info("Kick %s?"%_name, 
-		"This action will remove them from project.\nThey can rejoin later if you invite them.")
+		"This action will remove them from project.\n"+
+		"They can rejoin later if you invite them.")
 	confirm_action_popup.set_callbacks(_on_confirm)
 	confirm_action_popup.visible = true
 
@@ -149,7 +152,8 @@ func _on_transfer_ownership_pressed(uid:String,_name:String):
 		ProjectService.transfer_ownership(Project.pid,Session.uid,uid)
 		refresh_project()
 	
-	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, Project.project_name)
+	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, 
+			Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirm)
 	confirm_critical_popup.visible = true
 

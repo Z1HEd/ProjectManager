@@ -1,12 +1,12 @@
 extends Tab
 
-@onready var refresh_button = $HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/HBoxContainer2/RefreshButton
-@onready var error_message = $HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/ErrorMessage
-@onready var item_list = $HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/ItemList
+@onready var refresh_button = %RefreshButton
+@onready var error_message = %ErrorMessage
+@onready var item_list = %ItemList
 
-@onready var project_name = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/Name
-@onready var project_member_count = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/MemberCount
-@onready var project_description = $HBoxContainer/MarginContainer/MarginContainer/VBoxContainer/Description
+@onready var project_name = %Name
+@onready var project_member_count = %MemberCount
+@onready var project_description = %Description
 @onready var open_project_button = %OpenButton
 
 var projects : Dictionary = {}
@@ -26,14 +26,14 @@ func refresh_projects():
 	project_description.text = ""
 	project_member_count.text = ""
 	
-	var _on_projects_refresh_success = func(projects_dict):
+	var _on_success = func(projects_dict):
 		projects = projects_dict
 		repopulate_project_list()
 	
-	var _on_projects_refresh_fail = func(err_msg):
+	var _on_fail = func(err_msg):
 		error_message.text ="Failed to refresh project list: %s" % err_msg
 	
-	UserService.get_user_projects(Session.uid,_on_projects_refresh_success,_on_projects_refresh_fail)
+	UserService.get_user_projects(Session.uid,_on_success,_on_fail)
 
 var projects_to_read : int
 func repopulate_project_list():
@@ -63,7 +63,8 @@ func _on_item_list_item_selected(index: int) -> void:
 	selected_id = index
 	project_name.text = projects_details[index].get("name")
 	project_description.text = projects_details[index].get("description")
-	project_member_count.text = "Members: %s" % projects_details[index].get("members").size()
+	project_member_count.text = "Members: %s" % \
+			projects_details[index].get("members").size()
 
 
 func _on_open_button_pressed() -> void:

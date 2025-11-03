@@ -44,6 +44,7 @@ text = "Email"
 fit_content = true
 
 [node name="EmailInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Password" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
@@ -55,6 +56,7 @@ text = "Password"
 fit_content = true
 
 [node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
+unique_name_in_owner = true
 layout_mode = 2
 secret = true
 
@@ -67,12 +69,14 @@ size_flags_horizontal = 3
 text = "Return"
 
 [node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Sign in
 "
 
 [node name="ErrorLabel" type="Label" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]

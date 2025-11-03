@@ -26,4 +26,5 @@ func set_project_buttons_enabled(enabled : bool)->void:
 		button.disabled = !enabled
 
 func _set_has_unread_notifications(value: bool):
-	notifications_button.icon = unread_notifications_icon if value else notifications_icon
+	notifications_button.icon = unread_notifications_icon if value \
+			else notifications_icon
