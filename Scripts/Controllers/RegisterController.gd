@@ -13,7 +13,7 @@ func _on_register_button_pressed() -> void:
 		error_label.text="Email and password required"
 		return
 	register_button.disabled = true
-	RegisterService.register_user(email, password, Callable(self, "_on_register_success"), Callable(self, "_on_register_fail"))
+	AccountService.register(email, password, Callable(self, "_on_register_success"), Callable(self, "_on_register_fail"))
 
 func _on_register_success(_session):
 	register_button.disabled = false

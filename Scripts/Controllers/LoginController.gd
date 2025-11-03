@@ -13,7 +13,7 @@ func _on_login_button_pressed() -> void:
 		error_label.text="Email and password required"
 		return
 	login_button.disabled = true
-	LoginService.login_user(email, password, Callable(self, "_on_register_success"), Callable(self, "_on_register_fail"))
+	AccountService.login(email, password, Callable(self, "_on_register_success"), Callable(self, "_on_register_fail"))
 
 func _on_register_success(_session):
 	login_button.disabled = false

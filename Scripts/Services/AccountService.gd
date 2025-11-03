@@ -1,15 +1,20 @@
 extends Object
-class_name RegisterService
+class_name AccountService
+
+const SIGNUP_ENDPOINT := "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
+const SIGNIN_ENDPOINT := "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
+const DELETE_ACCOUNT_ENDPOINT := "https://identitytoolkit.googleapis.com/v1/accounts:delete?key="
 
 # Firebase Auth account and Firebase Realtime DB entry are two different things
 # This code first creates an auth account, recieves id and tokens and then attempts write to DB
 # If auth acc is created but database write fails - it will attempt to rollback auth
 # Rollback failure will leave auth account hanging, which requires manual cleanup
-
-const SIGNUP_ENDPOINT := "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
-const DELETE_ACCOUNT_ENDPOINT := "https://identitytoolkit.googleapis.com/v1/accounts:delete?key="
-
-static func register_user(email: String, password: String, on_success: Callable, on_fail : Callable) -> int:
+static func register(
+		email: String, 
+		password: String, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
 	var url = SIGNUP_ENDPOINT + Firebase.api_key
 	var body = {"email": email, "password": password, "returnSecureToken": true}
 
@@ -19,7 +24,8 @@ static func register_user(email: String, password: String, on_success: Callable,
 	var _profile_write_fail = func(err_msg):
 		_attempt_delete_auth_then_report(str(err_msg), on_fail)
 	
-	# This lambda is ugly but i dont want to pass callbacks into callbacks so i will leave it here
+	# This lambda is ugly but i dont want to pass callbacks into callbacks 
+	# so i will leave it as is
 	var _signup_success = func(user_data):
 		if not user_data is Dictionary or not user_data.has("localId"):
 			on_success.call("Unexpected signup response")
@@ -49,10 +55,18 @@ static func register_user(email: String, password: String, on_success: Callable,
 	var _signup_fail = func(err_msg):
 			on_fail.call(str(err_msg))
 
-	return Firebase.send_request(url, HTTPClient.METHOD_POST, body, ["Content-Type: application/json"], 
-			_signup_success, _signup_fail)
+	return Firebase.send_request(
+			url, 
+			HTTPClient.METHOD_POST, 
+			body, 
+			["Content-Type: application/json"], 
+			_signup_success, 
+			_signup_fail
+	)
 
-static func _attempt_delete_auth_then_report(original_error: String, on_complete: Callable) -> void:
+static func _attempt_delete_auth_then_report(
+		original_error: String, 
+		on_complete: Callable) -> void:
 	
 	# Auth rolled back
 	var _on_delete_success = func():
@@ -62,7 +76,7 @@ static func _attempt_delete_auth_then_report(original_error: String, on_complete
 	
 	# Rollback failed
 	var _on_delete_fail = func(err_msg):
-		var msg = "Profile write failed; rollback (delete) failed: %s. Original error: %s" % \
+		var msg = "Profile write failed; rollback failed: %s. Original error: %s" % \
 				[err_msg, original_error]
 		on_complete.call(msg)
 
@@ -79,5 +93,39 @@ static func _attempt_delete_auth_then_report(original_error: String, on_complete
 			["Content-Type: application/json"],
 			_on_delete_success,
 			_on_delete_fail,
+			"auth"
+	)
+
+static func login(
+		email: String, 
+		password: String, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
+	var url = SIGNIN_ENDPOINT + Firebase.api_key
+	var body = {
+		"email": email,
+		"password": password,
+		"returnSecureToken": true
+	}
+
+	var _signin_success = func(user_data):
+		if not user_data is Dictionary or not user_data.has("localId"):
+			on_fail.call("Unexpected sign-in response")
+			return
+		
+		Session.update_from_response(user_data)
+		on_success.call(Session)
+
+	var _signin_fail = func(err_msg):
+		on_fail.call(str(err_msg))
+
+	return Firebase.send_request(
+			url,
+			HTTPClient.METHOD_POST,
+			body,
+			["Content-Type: application/json"],
+			_signin_success,
+			_signin_fail,
 			"auth"
 	)
