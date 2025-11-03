@@ -1,5 +1,5 @@
 extends Node
-class_name UserSession
+class_name SessionManager
 
 var uid: String = ""
 var email: String = ""
@@ -18,7 +18,7 @@ func _ready() -> void:
 	_load_from_config()
 
 # Ensures token is fresh and then calls on_ready
-func ensure_fresh_token(on_ready: Callable, on_fail: Callable) -> void:
+func ensure_fresh_token(on_ready:=func():pass, on_fail:=func():pass) -> void:
 	if not is_token_expired():
 		on_ready.call()
 		return
@@ -46,7 +46,7 @@ func ensure_fresh_token(on_ready: Callable, on_fail: Callable) -> void:
 
 	refresh_tokens(_on_refresh_success, _on_refresh_fail)
 
-func refresh_tokens(on_success: Callable, on_fail: Callable) -> int:
+func refresh_tokens(on_success:=func():pass, on_fail:=func():pass) -> int:
 	if refresh_token == "":
 		on_fail.call("no_refresh_token")
 		return -1

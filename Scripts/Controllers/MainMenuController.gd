@@ -18,8 +18,8 @@ func _ready():
 		dashboard.set_project_buttons_enabled(false)
 		open_tab(projects_list_tab)
 	
-	CurrentProject.project_opened.connect(_on_project_opened)
-	CurrentProject.project_closed.connect(_on_project_closed)
+	Project.project_opened.connect(_on_project_opened)
+	Project.project_closed.connect(_on_project_closed)
 
 func open_tab(tab:Tab)->void:
 	if active_tab.get_child_count() ==0:

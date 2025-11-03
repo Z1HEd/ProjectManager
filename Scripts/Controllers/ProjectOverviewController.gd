@@ -35,10 +35,10 @@ func refresh_project():
 	for old_member in members_list.get_children():
 		old_member.queue_free()
 	
-	pid = CurrentProject.pid
+	pid = Project.pid
 	
 	var _on_success = func(project_dict : Dictionary):
-		CurrentProject.set_data(project_dict)
+		Project.set_data(project_dict)
 		update_project_data()
 		refresh_button.disabled = false
 	
@@ -50,26 +50,26 @@ func refresh_project():
 
 func update_project_data():
 	
-	project_name.text = CurrentProject.project_name
-	project_description.text = CurrentProject.project_description
+	project_name.text = Project.project_name
+	project_description.text = Project.project_description
 	
-	leave_project_button.visible = CurrentProject.user_role != "owner"
-	edit_project_button.visible = CurrentProject.user_role == "owner"
-	delete_project_button.visible = CurrentProject.user_role == "owner"
-	add_member_button.visible =  CurrentProject.user_role == "owner"
+	leave_project_button.visible = Project.user_role != "owner"
+	edit_project_button.visible = Project.user_role == "owner"
+	delete_project_button.visible = Project.user_role == "owner"
+	add_member_button.visible =  Project.user_role == "owner"
 	
-	for member_uid in CurrentProject.members.keys():
+	for member_uid in Project.members.keys():
 		var member_control = member_control_prefab.instantiate() as ProjectMember
 		# Call deffered because needs to set children's properties, 
 		# which can only be done after _ready()
 		member_control.call_deferred(
 				"set_member",
 				member_uid,
-				CurrentProject.members[member_uid]
+				Project.members[member_uid]
 		)
 		member_control.call_deferred(
 			"set_more_button_visible",
-			CurrentProject.user_role == "owner" && member_uid != Session.uid
+			Project.user_role == "owner" && member_uid != Session.uid
 		)
 		member_control.connect_signals(
 			_on_change_role_pressed,
@@ -87,8 +87,8 @@ func _on_add_member_button_pressed() -> void:
 func _on_leave_button_pressed() -> void:
 	
 	var _on_confirm = func():
-		ProjectService.remove_member(CurrentProject.pid,Session.uid)
-		CurrentProject.clear()
+		ProjectService.remove_member(Project.pid,Session.uid)
+		Project.clear()
 	
 	confirm_action_popup.set_info("Leave Project?", 
 		"You can join this project again, if the owner invites you.")
@@ -97,18 +97,18 @@ func _on_leave_button_pressed() -> void:
 
 func _on_edit_button_pressed() -> void:
 	
-	edit_project_popup.set_current_info(CurrentProject.project_name,
-			CurrentProject.project_description)
+	edit_project_popup.set_current_info(Project.project_name,
+			Project.project_description)
 	
 	edit_project_popup.visible=true
 
 func _on_delete_button_pressed() -> void:
 	
 	var _on_confirmed = func():
-		ProjectService.delete_project(CurrentProject.pid)
-		CurrentProject.clear()
+		ProjectService.delete_project(Project.pid)
+		Project.clear()
 	
-	confirm_critical_popup.set_info("Delete project irreversibly?", CurrentProject.project_name)
+	confirm_critical_popup.set_info("Delete project irreversibly?", Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirmed)
 	confirm_critical_popup.visible=true
 
@@ -116,7 +116,7 @@ func _on_change_role_pressed(uid:String,_name:String,current_role:String):
 	var _on_confirm = func(role: String):
 		if role == current_role:
 			return
-		ProjectService.set_role(CurrentProject.pid,uid,role)
+		ProjectService.set_role(Project.pid,uid,role)
 		refresh_project()
 	
 	option_popup.set_info("Change role for %s?"%_name, 
@@ -135,8 +135,8 @@ func _on_change_role_pressed(uid:String,_name:String,current_role:String):
 
 func _on_kick_pressed(uid:String, _name:String):
 	var _on_confirm = func():
-		ProjectService.remove_member(CurrentProject.pid,uid)
-		CurrentProject.members.erase(uid)
+		ProjectService.remove_member(Project.pid,uid)
+		Project.members.erase(uid)
 		refresh_project()
 	
 	confirm_action_popup.set_info("Kick %s?"%_name, 
@@ -146,10 +146,10 @@ func _on_kick_pressed(uid:String, _name:String):
 
 func _on_transfer_ownership_pressed(uid:String,_name:String):
 	var _on_confirm = func():
-		ProjectService.transfer_ownership(CurrentProject.pid,Session.uid,uid)
+		ProjectService.transfer_ownership(Project.pid,Session.uid,uid)
 		refresh_project()
 	
-	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, CurrentProject.project_name)
+	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirm)
 	confirm_critical_popup.visible = true
 

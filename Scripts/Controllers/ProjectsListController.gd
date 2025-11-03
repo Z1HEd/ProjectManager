@@ -70,4 +70,4 @@ func _on_open_button_pressed() -> void:
 	if (selected_id == -1):
 		push_error("Tried opening project when no project is selected!")
 	
-	CurrentProject.set_project(projects.keys()[selected_id])
+	Project.set_project(projects.keys()[selected_id])

@@ -93,7 +93,7 @@ static func edit_project(project_id: String, project_name: String, project_descr
 static func delete_project(project_id: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
 	var updates := {}
 	
-	for member_uid in CurrentProject.members.keys():
+	for member_uid in Project.members.keys():
 		updates["users/%s/projects/%s" % [member_uid, project_id]] = null
 		updates["invites/%s/%s" % [member_uid, project_id]] = null
 

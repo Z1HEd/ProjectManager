@@ -17,8 +17,8 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 [autoload]
 
 Firebase="*res://Scripts/Singletons/FirebaseManager.gd"
-Session="*res://Scripts/Singletons/UserSession.gd"
-CurrentProject="*res://Scripts/Singletons/Project.gd"
+Session="*res://Scripts/Singletons/SessionManager.gd"
+Project="*res://Scripts/Singletons/ProjectManager.gd"
 Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
 
 [file_customization]

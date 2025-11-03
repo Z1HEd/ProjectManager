@@ -25,7 +25,7 @@ func _on_user_found(data):
 			visible = false
 		
 		InviteService.create_invite(
-				CurrentProject.pid,
+				Project.pid,
 				uid,
 				role_picker.text,
 				invite_text.text,

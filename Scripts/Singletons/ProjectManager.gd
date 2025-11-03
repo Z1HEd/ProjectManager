@@ -1,5 +1,5 @@
 extends Node
-class_name Project
+class_name ProjectManager
 
 signal project_opened
 signal project_updated

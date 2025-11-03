@@ -36,7 +36,7 @@ func _on_submit_button_pressed() -> void:
 		error_label.text=err_msg
 	
 	ProjectService.edit_project(
-			CurrentProject.pid,
+			Project.pid,
 			project_name, 
 			description, 
 			_on_success, 
