@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://2ekwb5hb6y03"]
+[gd_scene load_steps=5 format=3 uid="uid://2ekwb5hb6y03"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ga35b"]
 [ext_resource type="Script" uid="uid://dq1tm0d1ujc75" path="res://Scripts/Controllers/ProfileController.gd" id="2_ndu16"]
+[ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://Scenes/Popups/ConfirmActionPopup.tscn" id="3_bddqc"]
+[ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="4_e4eyr"]
 
 [node name="UserProfile" type="Control"]
 layout_mode = 3
@@ -23,38 +25,114 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HBoxContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="ProjectsList" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ProjectsList"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Title" type="Label" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ga35b")
+text = "Your Account"
+
+[node name="AccountView" type="VBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ga35b")
+theme_type_variation = &"SmallLabel"
+text = "Displayed name"
+
+[node name="NameEdit" type="LineEdit" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ga35b")
+theme_type_variation = &"SmallLabel"
+text = "Email"
+
+[node name="EmailEdit" type="LineEdit" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SessionPersistToggle" type="CheckButton" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Remember me"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="SaveButton" type="Button" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-theme = ExtResource("1_ga35b")
-text = "Profile"
-horizontal_alignment = 1
+text = " Save changes "
 
-[node name="Profile settings" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="RevertButton" type="Button" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 3
+text = " Revert changes "
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Profile settings"]
+[node name="SignOutButton" type="Button" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
+layout_mode = 2
+text = "Sign Out"
+
+[node name="DeleteAccountButton" type="Button" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8745098, 0.24313726, 0.24313726, 1)
+text = "Delete Account"
+
+[node name="ErrorMessage" type="RichTextLabel" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Error:"
+fit_content = true
+
+[node name="ConfirmActionPopup" parent="." instance=ExtResource("3_bddqc")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-mouse_filter = 2
+
+[node name="ConfirmCriticalPopup" parent="." instance=ExtResource("4_e4eyr")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/SignOutButton" to="." method="_on_sign_out_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/DeleteAccountButton" to="." method="_on_delete_account_button_pressed"]

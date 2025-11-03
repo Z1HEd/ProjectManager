@@ -60,3 +60,23 @@ static func get_user_by_email(
 			on_success,
 			on_fail
 	)
+
+static func get_user(
+		uid: String, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
+	var url = "%s/users/%s.json?auth=%s" % [
+		Firebase.project_db_url.trim_suffix("/"),
+		uid,
+		Session.id_token
+	]
+	
+	return Firebase.send_request(
+		url, 
+		HTTPClient.METHOD_GET, 
+		{}, 
+		[], 
+		on_success,
+		on_fail
+	)

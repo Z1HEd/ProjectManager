@@ -129,3 +129,57 @@ static func login(
 			_signin_fail,
 			"auth"
 	)
+
+static func delete_user(
+		uid: String, 
+		projects_dict: Dictionary, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
+	for pid in projects_dict.keys():
+		if projects_dict[pid] == "owner":
+			on_fail.call("Cannot delete owner of any project!")
+			return -1
+	
+
+	var updates := {}
+	for pid in projects_dict.keys():
+		updates["projects/%s/members/%s" % [pid, uid]] = null
+		updates["users/%s/projects/%s" % [uid, pid]] = null
+		updates["invites/%s/%s" % [uid, pid]] = null
+
+	updates["users/%s" % uid] = null
+	updates["invites/%s" % uid] = null
+
+	var patch_url = "%s/.json?auth=%s" % \
+			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+
+	var _on_patch_success = func(_patch_resp):
+		var auth_delete_url =  DELETE_ACCOUNT_ENDPOINT + Firebase.api_key
+		var auth_delete_body = {"idToken": Session.id_token}
+		
+		var _on_success = func(_res):
+			on_success.call("user_deleted")
+		var _on_fail = func(err_msg:String):
+			on_fail.call("db_cleaned_but_auth_delete_failed: %s" % err_msg)
+		
+		return Firebase.send_request(
+				auth_delete_url, 
+				HTTPClient.METHOD_POST, 
+				auth_delete_body, 
+				["Content-Type: application/json"], 
+				_on_success, 
+				_on_fail
+		)
+
+	var _on_patch_fail = func(err):
+		on_fail.call("db_cleanup_failed: %s" % str(err))
+
+	return Firebase.send_request(
+			patch_url, 
+			HTTPClient.METHOD_PATCH, 
+			updates, 
+			["Content-Type: application/json"], 
+			_on_patch_success, 
+			_on_patch_fail
+	)

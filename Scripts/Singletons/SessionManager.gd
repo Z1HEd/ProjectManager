@@ -3,6 +3,8 @@ class_name SessionManager
 
 var uid: String = ""
 var email: String = ""
+var session_persist : bool = true
+
 var id_token: String = ""
 var refresh_token: String = ""
 var expires_at: int = 0
@@ -129,7 +131,6 @@ func clear() -> void:
 	refresh_token = ""
 	expires_at = 0
 	var cfg = ConfigFile.new()
-	cfg.remove_section("auth")
 	cfg.save(AUTH_CFG_PATH)
 
 func _save_to_config() -> void:

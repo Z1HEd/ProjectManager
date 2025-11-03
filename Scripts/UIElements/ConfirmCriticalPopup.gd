@@ -10,10 +10,10 @@ class_name ConfirmCriticalPopup
 
 var text_to_enter := ""
 
-func set_info(title_text:String, _text_to_enter:String):
+func set_info(title_text:String, description_text : String ,_text_to_enter:String):
 	title.text = title_text
 	text_to_enter = _text_to_enter
-	description.text = 'Enter "%s" to confirm:' % _text_to_enter
+	description.text = description_text
 	confirm_button.disabled = text_to_enter != ""
 	input.text = ""
 
