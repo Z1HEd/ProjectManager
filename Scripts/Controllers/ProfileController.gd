@@ -32,7 +32,7 @@ func open():
 		current_email = user_data["email"]
 		email_edit.text = current_email
 		
-		projects =  user_data["projects"]
+		projects =  user_data.get("projects",{})
 		
 		session_persist_toggle.button_pressed = Session.session_persist
 	
@@ -57,15 +57,24 @@ func _on_sign_out_button_pressed() -> void:
 func _on_delete_account_button_pressed() -> void:
 	error_message.visible = false
 	
-	var _on_confirm = func():
+	var _on_relogin_success = func(_uid:String):
 		delete_account()
 	
+	var _on_relogin_fail = func(err_msg:String):
+		error_message.visible = true
+		error_message.text = err_msg
+	
+	var _on_confirm = func(password):
+		AccountService.login(Session.email,password,_on_relogin_success,_on_relogin_fail)
+	
 	confirm_critical_popup.set_info("Delete your account?",
-		"Account %s will be deleted irreversibly.\n"%current_name+
-		"Delete or transfer ownership of your projects before deleting."
+		"Account %s will be deleted irreversibly. "%current_name+
+		"Delete or transfer ownership of your projects before deleting.\n"+
+		'Enter your password to confirm:'
 		)
 	confirm_critical_popup.set_callbacks(_on_confirm)
 	confirm_critical_popup.visible = true
+	confirm_critical_popup.input.secret = true
 
 func delete_account():
 	var on_success = func(_res):

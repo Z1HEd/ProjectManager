@@ -10,17 +10,17 @@ class_name ConfirmCriticalPopup
 
 var text_to_enter := ""
 
-func set_info(title_text:String, description_text : String ,_text_to_enter:String):
+func set_info(title_text:String, description_text : String ,_text_to_enter:=""):
 	title.text = title_text
 	text_to_enter = _text_to_enter
 	description.text = description_text
 	confirm_button.disabled = text_to_enter != ""
 	input.text = ""
 
-func set_callbacks(on_confirm: Callable = func():pass, on_cancel : Callable = func():pass):
+func set_callbacks(on_confirm: Callable = func(_input):pass, on_cancel : Callable = func():pass):
 	
 	var _on_confirm_pressed = func():
-		on_confirm.call()
+		on_confirm.call(input.text)
 		visible = false
 	
 	var _on_cancel_pressed = func():
@@ -37,4 +37,4 @@ func set_callbacks(on_confirm: Callable = func():pass, on_cancel : Callable = fu
 
 
 func _on_input_text_changed(new_text: String) -> void:
-	confirm_button.disabled = text_to_enter != new_text
+	confirm_button.disabled = text_to_enter != new_text and text_to_enter != ""

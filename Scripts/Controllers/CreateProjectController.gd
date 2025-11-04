@@ -8,8 +8,9 @@ extends Tab
 
 @export var summary_tab : Tab
 
-func _on_create_success(_project_id : String):
+func _on_create_success(project_id : String):
 	create_button.disabled = false
+	Project.pid = project_id
 	cancel_button.menu.open_tab(summary_tab)
 
 func _on_create_fail(err_msg: String):

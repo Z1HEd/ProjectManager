@@ -61,7 +61,8 @@ static func register(
 			body, 
 			["Content-Type: application/json"], 
 			_signup_success, 
-			_signup_fail
+			_signup_fail,
+			"auth"
 	)
 
 static func _attempt_delete_auth_then_report(
@@ -115,7 +116,7 @@ static func login(
 			return
 		
 		Session.update_from_response(user_data)
-		on_success.call(Session)
+		on_success.call(Session.uid)
 
 	var _signin_fail = func(err_msg):
 		on_fail.call(str(err_msg))
@@ -145,8 +146,6 @@ static func delete_user(
 	var updates := {}
 	for pid in projects_dict.keys():
 		updates["projects/%s/members/%s" % [pid, uid]] = null
-		updates["users/%s/projects/%s" % [uid, pid]] = null
-		updates["invites/%s/%s" % [uid, pid]] = null
 
 	updates["users/%s" % uid] = null
 	updates["invites/%s" % uid] = null

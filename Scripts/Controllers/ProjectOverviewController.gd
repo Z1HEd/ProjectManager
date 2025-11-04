@@ -109,7 +109,9 @@ func _on_delete_button_pressed() -> void:
 		ProjectService.delete_project(Project.pid)
 		Project.clear()
 	
-	confirm_critical_popup.set_info("Delete project irreversibly?", 
+	confirm_critical_popup.set_info("Delete project?",
+			"All data associated with that project will be lost forever.\n"+
+			'Enter "%s" to confirm:'%Project.project_name, 
 			Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirmed)
 	confirm_critical_popup.visible=true
@@ -152,7 +154,10 @@ func _on_transfer_ownership_pressed(uid:String,_name:String):
 		ProjectService.transfer_ownership(Project.pid,Session.uid,uid)
 		refresh_project()
 	
-	confirm_critical_popup.set_info("Transfering ownership to %s"%_name, 
+	confirm_critical_popup.set_info("Transfering ownership", 
+			"This will make %s a new owner of the project.\n"%_name+
+			'Your role will be set to member. Enter "%s" to confirm:'%
+			Project.project_name,
 			Project.project_name)
 	confirm_critical_popup.set_callbacks(_on_confirm)
 	confirm_critical_popup.visible = true
