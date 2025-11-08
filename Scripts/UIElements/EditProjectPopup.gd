@@ -14,9 +14,11 @@ func set_current_info(current_name: String, current_description: String):
 	description_input.text = current_description
 
 func _on_submit_button_pressed() -> void:
+	error_label.visible = false
 	var project_name = name_input.text.strip_edges()
 	var description = description_input.text.strip_edges()
 	if project_name == "":
+		error_label.visible = true
 		error_label.text="Project must have a name!"
 		return
 	
@@ -34,6 +36,7 @@ func _on_submit_button_pressed() -> void:
 		submit_button.disabled = false
 		cancel_button.disabled = false
 		error_label.text=err_msg
+		error_label.visible = true
 	
 	ProjectService.edit_project(
 			Project.pid,

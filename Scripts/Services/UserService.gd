@@ -287,7 +287,12 @@ static func change_name(
 			on_fail
 	)
 
-static func change_email(uid: String, new_email: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+static func change_email(
+		uid: String, 
+		new_email: String, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
 	var url = UPDATE_ENDPOINT + Firebase.api_key
 	
 	var auth_body = {
@@ -326,5 +331,32 @@ static func change_email(uid: String, new_email: String, on_success := func(_res
 			auth_body, 
 			["Content-Type: application/json"], 
 			_on_auth_success, 
+			on_fail
+	)
+
+static func change_password(
+		new_password: String, 
+		on_success := func(_res):pass, 
+		on_fail := func(_err):pass) -> int:
+	
+	var url = UPDATE_ENDPOINT + Firebase.api_key
+	
+	var body = {
+		"idToken": Session.id_token,
+		"password": new_password,
+		"returnSecureToken": true
+	}
+	
+	var _on_success = func(resp):
+		if resp is Dictionary:
+			Session.update_from_response(resp)
+		on_success.call(resp)
+	
+	return Firebase.send_request(
+			url, 
+			HTTPClient.METHOD_POST, 
+			body, 
+			["Content-Type: application/json"], 
+			_on_success, 
 			on_fail
 	)

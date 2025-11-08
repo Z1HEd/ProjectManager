@@ -17,12 +17,9 @@ const AUTH_CFG_PATH := "user://auth.cfg"
 signal on_authenticated
 
 func _ready() -> void:
-	print("HI")
 	if _load_from_config():
-		print("true")
 		session_persist = true
 	else:
-		print("false")
 		session_persist = false
 
 func set_session_persist(enable: bool) -> void:
@@ -139,7 +136,7 @@ func clear() -> void:
 	id_token = ""
 	refresh_token = ""
 	expires_at = 0
-	# always remove persisted file when clearing session
+	
 	if FileAccess.file_exists(AUTH_CFG_PATH):
 		DirAccess.remove_absolute(AUTH_CFG_PATH)
 

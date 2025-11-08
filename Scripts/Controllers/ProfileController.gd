@@ -9,6 +9,8 @@ extends Tab
 
 @onready var confirm_action_popup : ConfirmActionPopup = %ConfirmActionPopup
 @onready var confirm_critical_popup : ConfirmCriticalPopup = %ConfirmCriticalPopup
+@onready var change_password_popup : PasswordChangePopup = %PasswordChangePopup
+
 
 @onready var account_view = %AccountView
 @onready var error_message = %ErrorMessage
@@ -174,6 +176,7 @@ func change_name(new_name:String):
 	var _on_success = func(_res):
 		save_button.text = "Save changes"
 		email_edit.editable = true
+		current_name = new_name
 		
 		save_button.visible = false
 		revert_button.visible = false
@@ -198,6 +201,8 @@ func _on_revert_button_pressed() -> void:
 	save_button.disabled = false
 	revert_button.disabled = false
 
-
 func _on_session_persist_toggle_toggled(toggled_on: bool) -> void:
 	Session.set_session_persist(toggled_on)
+
+func _on_change_password_button_pressed() -> void:
+	change_password_popup.visible = true

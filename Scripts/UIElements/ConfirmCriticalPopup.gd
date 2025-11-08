@@ -35,6 +35,5 @@ func set_callbacks(on_confirm: Callable = func(_input):pass, on_cancel : Callabl
 	confirm_button.pressed.connect(_on_confirm_pressed)
 	cancel_button.pressed.connect(_on_cancel_pressed)
 
-
 func _on_input_text_changed(new_text: String) -> void:
 	confirm_button.disabled = text_to_enter != new_text and text_to_enter != ""
