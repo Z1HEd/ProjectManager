@@ -3,7 +3,7 @@ class_name SessionManager
 
 var uid: String = ""
 var email: String = ""
-var session_persist : bool = true
+var session_persist : bool = false # default OFF
 
 var id_token: String = ""
 var refresh_token: String = ""
@@ -17,9 +17,23 @@ const AUTH_CFG_PATH := "user://auth.cfg"
 signal on_authenticated
 
 func _ready() -> void:
-	_load_from_config()
+	print("HI")
+	if _load_from_config():
+		print("true")
+		session_persist = true
+	else:
+		print("false")
+		session_persist = false
 
-# Ensures token is fresh and then calls on_ready
+func set_session_persist(enable: bool) -> void:
+	if session_persist == enable:
+		return
+	session_persist = enable
+	if session_persist:
+		_save_to_config()
+	elif FileAccess.file_exists(AUTH_CFG_PATH):
+		DirAccess.remove_absolute(AUTH_CFG_PATH)
+
 func ensure_fresh_token(on_ready:=func():pass, on_fail:=func():pass) -> void:
 	if not is_token_expired():
 		on_ready.call()
@@ -48,7 +62,7 @@ func ensure_fresh_token(on_ready:=func():pass, on_fail:=func():pass) -> void:
 
 	refresh_tokens(_on_refresh_success, _on_refresh_fail)
 
-func refresh_tokens(on_success:=func():pass, on_fail:=func():pass) -> int:
+func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> int:
 	if refresh_token == "":
 		on_fail.call("no_refresh_token")
 		return -1
@@ -83,29 +97,24 @@ func update_from_response(response: Dictionary) -> void:
 	if response == null:
 		return
 
-	# UID
 	if response.has("localId"):
 		uid = str(response["localId"])
 	elif response.has("user_id"):
 		uid = str(response["user_id"])
 
-	# Email (only in sign-in/up case)
 	if response.has("email"):
 		email = str(response["email"])
 
-	# ID token
 	if response.has("idToken"):
 		id_token = str(response["idToken"])
 	elif response.has("id_token"):
 		id_token = str(response["id_token"])
 
-	# Refresh token
 	if response.has("refreshToken"):
 		refresh_token = str(response["refreshToken"])
 	elif response.has("refresh_token"):
 		refresh_token = str(response["refresh_token"])
 
-	# Expires in 
 	if response.has("expiresIn"):
 		var secs = int(response["expiresIn"])
 		expires_at = int(Time.get_unix_time_from_system()) + secs
@@ -130,22 +139,27 @@ func clear() -> void:
 	id_token = ""
 	refresh_token = ""
 	expires_at = 0
-	var cfg = ConfigFile.new()
-	cfg.save(AUTH_CFG_PATH)
+	# always remove persisted file when clearing session
+	if FileAccess.file_exists(AUTH_CFG_PATH):
+		DirAccess.remove_absolute(AUTH_CFG_PATH)
 
 func _save_to_config() -> void:
+	if not session_persist:
+		return
 	var cfg = ConfigFile.new()
 	cfg.load(AUTH_CFG_PATH)
 	cfg.set_value("auth", "refresh_token", refresh_token)
 	cfg.set_value("auth", "uid", uid)
 	cfg.set_value("auth", "email", email)
-	cfg.set_value("auth", "expires_at", expires_at)
 	cfg.save(AUTH_CFG_PATH)
 
-func _load_from_config() -> void:
+# Returns true if config existed and was loaded
+func _load_from_config() -> bool:
 	var cfg = ConfigFile.new()
 	if cfg.load(AUTH_CFG_PATH) == OK:
 		refresh_token = str(cfg.get_value("auth", "refresh_token", ""))
 		uid = str(cfg.get_value("auth", "uid", ""))
 		email = str(cfg.get_value("auth", "email", ""))
-		expires_at = int(cfg.get_value("auth", "expires_at", 0))
+		refresh_tokens()
+		return true
+	return false

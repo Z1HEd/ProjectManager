@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://b5c65h2sk3h6q"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://b5c65h2sk3h6q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fg72"]
 content_margin_left = 4.0
@@ -11,6 +11,8 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ecwjl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rlvek"]
 content_margin_left = 0.0
@@ -75,6 +77,7 @@ bg_color = Color(0, 0, 0, 0.16078432)
 [resource]
 Button/font_sizes/font_size = 16
 Button/styles/pressed = SubResource("StyleBoxFlat_8fg72")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_ecwjl")
 DarkPanel/base_type = &"Panel"
 DarkPanel/styles/panel = SubResource("StyleBoxFlat_rlvek")
 Label/font_sizes/font_size = 24

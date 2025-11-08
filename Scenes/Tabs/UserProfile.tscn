@@ -91,7 +91,7 @@ layout_mode = 2
 [node name="SessionPersistToggle" type="CheckButton" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
+button_pressed = true
 text = "Remember me"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
@@ -134,5 +134,10 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
+[connection signal="text_changed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer/NameEdit" to="." method="_on_name_edit_text_changed"]
+[connection signal="text_changed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer2/EmailEdit" to="." method="_on_email_edit_text_changed"]
+[connection signal="toggled" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/SessionPersistToggle" to="." method="_on_session_persist_toggle_toggled"]
+[connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/HBoxContainer/RevertButton" to="." method="_on_revert_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/SignOutButton" to="." method="_on_sign_out_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/DeleteAccountButton" to="." method="_on_delete_account_button_pressed"]
