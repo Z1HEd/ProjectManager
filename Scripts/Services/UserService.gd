@@ -231,7 +231,6 @@ static func get_user_by_email(
 		user_email,
 		Session.id_token
 	]
-
 	return Firebase.send_request(
 			query_url,
 			HTTPClient.METHOD_GET,

@@ -19,11 +19,10 @@ static func create_invite(
 
 	var payload = {
 		"role": role,
-		"inviter_uid": Session.uid,
-		"invite_message": invite_message,
-		"created_at": Time.get_unix_time_from_system()
+		"inviterUid": Session.uid,
+		"inviteMessage": invite_message
 	}
-
+	
 	return Firebase.send_request(
 			path, 
 			HTTPClient.METHOD_PUT, 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cua184qg6p7w1"]
+[gd_scene load_steps=5 format=3 uid="uid://cua184qg6p7w1"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5aau7"]
 [ext_resource type="Script" uid="uid://0bjvompwuy8k" path="res://Scripts/UIElements/AddMemberPopup.gd" id="2_tomxh"]
 [ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="3_ihhju"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="4_4xr2w"]
 
 [node name="AddMemberPopup" type="Control"]
 layout_mode = 3
@@ -74,6 +75,7 @@ text = "Email"
 [node name="EmailInput" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+max_length = 254
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -113,6 +115,8 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Join my project and start collaborating with the team!"
 wrap_mode = 1
+script = ExtResource("4_4xr2w")
+max_length = 200
 
 [node name="ErrorMessage" type="RichTextLabel" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

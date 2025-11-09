@@ -74,6 +74,7 @@ text = "Displayed name"
 [node name="NameEdit" type="LineEdit" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+max_length = 25
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
 layout_mode = 2
@@ -88,6 +89,7 @@ text = "Email"
 [node name="EmailEdit" type="LineEdit" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+max_length = 254
 
 [node name="SessionPersistToggle" type="CheckButton" parent="HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/AccountView"]
 unique_name_in_owner = true

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://4aok4m6i3rcy"]
+[gd_scene load_steps=5 format=3 uid="uid://4aok4m6i3rcy"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5b2c0"]
 [ext_resource type="Script" uid="uid://cjr6hh825geml" path="res://Scripts/UIElements/EditProjectPopup.gd" id="2_e8kdm"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_e8kdm"]
 [ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="3_v3pcd"]
 
 [node name="EditProjectPopup" type="Control"]
@@ -76,6 +77,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Name"
+max_length = 50
 
 [node name="TextEdit" type="TextEdit" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -83,6 +85,8 @@ layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Description"
 wrap_mode = 1
+script = ExtResource("3_e8kdm")
+max_length = 1000
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2

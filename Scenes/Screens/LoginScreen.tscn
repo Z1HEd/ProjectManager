@@ -46,6 +46,7 @@ fit_content = true
 [node name="EmailInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
 unique_name_in_owner = true
 layout_mode = 2
+max_length = 254
 
 [node name="Password" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -58,6 +59,7 @@ fit_content = true
 [node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
 unique_name_in_owner = true
 layout_mode = 2
+max_length = 64
 secret = true
 
 [node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
