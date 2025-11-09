@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cv2yd8hwdj8jj"]
+[gd_scene load_steps=5 format=3 uid="uid://cv2yd8hwdj8jj"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ya51r"]
-[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="2_rhe56"]
+[ext_resource type="Script" uid="uid://dpc2xclrdn5y3" path="res://Scripts/Controllers/ChatController.gd" id="2_2vnhs"]
+[ext_resource type="Script" uid="uid://m4oghr4wgu7g" path="res://Scripts/UIElements/MessageEdit.gd" id="3_twpfu"]
+[ext_resource type="Texture2D" uid="uid://mjwvuqapx7u1" path="res://Assets/Icons/Send Message.png" id="3_y1xpl"]
 
 [node name="TeamChat" type="Control"]
 layout_mode = 3
@@ -11,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ya51r")
-script = ExtResource("2_rhe56")
+script = ExtResource("2_2vnhs")
 metadata/_custom_type_script = "uid://jjgyrpflaa31"
 
 [node name="Panel" type="Panel" parent="."]
@@ -35,26 +37,73 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
-theme = ExtResource("1_ya51r")
-text = "Chat"
-horizontal_alignment = 1
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Chat" type="Control" parent="MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Team Chat"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/Chat"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 2
+
+[node name="NoMessagesLabel" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "No messages here yet..."
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MessagesContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MessageEdit" type="TextEdit" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = -2
+placeholder_text = "Enter your message"
+script = ExtResource("3_twpfu")
+max_lines = 10
+metadata/_custom_type_script = "uid://m4oghr4wgu7g"
+
+[node name="Button" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 0
+icon = ExtResource("3_y1xpl")
+vertical_icon_alignment = 0
+expand_icon = true
+
+[connection signal="send_message" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/HBoxContainer/MessageEdit" to="." method="send_message"]
