@@ -111,24 +111,21 @@ static func login(
 		"returnSecureToken": true
 	}
 
-	var _signin_success = func(user_data):
+	var _on_success = func(user_data):
 		if not user_data is Dictionary or not user_data.has("localId"):
 			on_fail.call("Unexpected sign-in response")
 			return
 		
 		Session.update_from_response(user_data)
 		on_success.call(Session.uid)
-
-	var _signin_fail = func(err_msg):
-		on_fail.call(str(err_msg))
-
+	
 	return Firebase.send_request(
 			url,
 			HTTPClient.METHOD_POST,
 			body,
 			["Content-Type: application/json"],
-			_signin_success,
-			_signin_fail,
+			_on_success,
+			on_fail,
 			"auth"
 	)
 
