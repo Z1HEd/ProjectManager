@@ -1,4 +1,3 @@
-@tool
 extends TextEdit
 class_name LimitedTextEdit
 

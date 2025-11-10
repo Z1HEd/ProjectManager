@@ -1,4 +1,4 @@
-extends TextEdit
+extends LimitedTextEdit
 class_name MessageEdit
 
 @export_range(1, 10)
@@ -6,7 +6,7 @@ var min_lines: int = 1
 @export_range(5, 40)
 var max_lines: int = 15
 
-signal send_message(msg: String)
+signal sent_message(msg: String)
 
 func _ready() -> void:
 	_on_text_changed()
@@ -27,16 +27,20 @@ func _gui_input(event: InputEvent) -> void:
 		insert_text_at_caret("\n")
 		return
 	
+	message_send()
+
+func message_send():
 	var msg := text.strip_edges()
 	if msg == "":
 		return
 	
-	emit_signal("send_message", msg)
+	sent_message.emit(msg)
 	clear()
 	grab_focus()
 	_on_text_changed()
 
 func _on_text_changed() -> void:
+	super()
 	var lines = get_line_count()
 	if lines < min_lines:
 		lines = min_lines
@@ -55,10 +59,10 @@ func _on_text_changed() -> void:
 		#ensure_cursor_is_visible()
 
 func ensure_cursor_is_visible() -> void:
-	var cursor_line = get_caret_line()
+	var current_line = get_caret_line()
 	var top_line = get_v_scroll()
 	var visible_lines = int((size.y) / get_line_height())
-	if cursor_line < top_line:
-		set_v_scroll(cursor_line)
-	elif cursor_line >= top_line + visible_lines:
-		set_v_scroll(cursor_line - visible_lines + 1)
+	if current_line < top_line:
+		set_v_scroll(current_line)
+	elif current_line >= top_line + visible_lines:
+		set_v_scroll(current_line - visible_lines + 1)

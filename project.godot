@@ -20,6 +20,7 @@ Firebase="*res://Scripts/Singletons/FirebaseManager.gd"
 Session="*res://Scripts/Singletons/SessionManager.gd"
 Project="*res://Scripts/Singletons/ProjectManager.gd"
 Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
+Streaming="*res://Scripts/Singletons/StreamingManager.gd"
 
 [file_customization]
 
