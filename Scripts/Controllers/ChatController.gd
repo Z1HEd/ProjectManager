@@ -4,15 +4,25 @@ class_name TeamChatController
 @onready var title :Label = %Title
 @onready var no_messages_text : Label = %NoMessagesLabel
 @onready var messages_container : VBoxContainer = %MessagesContainer
+@onready var scroll : ScrollContainer = %ScrollContainer
 
 @export var message_prefab := preload("res://Scenes/Elements/ChatMessage.tscn")
+
+var oldest : String
+var _connected_vb : VScrollBar = null
+var message_ids := []
+
+const SCROLL_TOLERANCE := 10
 
 func open():
 	title.text = "Loading messages..."
 
 	for child in messages_container.get_children():
 		child.queue_free()
-
+	
+	oldest = ""
+	message_ids = []
+	
 	var on_success = func(res:Dictionary):
 		if res.size() == 0:
 			no_messages_text.visible = true
@@ -20,35 +30,49 @@ func open():
 			return
 
 		no_messages_text.visible = false
-		var arr := []
-		for msg_id in res.keys():
-			var m = res[msg_id]
-			m["_id"] = msg_id
-			arr.append(m)
-
-		arr.sort_custom(_sort_by_ts_server)
-
-		for m in arr:
-			var item = message_prefab.instantiate()
-			messages_container.add_child(item)
-			var sender_name = str(m.get("authorId", ""))
-			var ts = int(m.get("ts_server", 0))
-			var body = str(m.get("text", ""))
-			item.set_data(sender_name, ts, body)
-
+		var arr := to_sorted_array(res)
+		
+		append_messages(arr)
+		
+		ChatService.start_listening(
+			Project.pid,
+			arr[-1]["id"],
+			append_messages,
+			on_error)
+		
 		title.text = "Team Chat"
-
-	var on_fail = func(err):
-		no_messages_text.visible = true
-		no_messages_text.text = "Error: %s" % err
-		title.text = "Team Chat"
-
-	ChatService.fetch_recent(Project.pid, 25, on_success, on_fail)
 	
-	ChatService.start_listening(Project.pid,_on_new_messages,on_fail)
+	Project.update_member_names()
+	
+	ChatService.fetch_recent(Project.pid, 25, on_success, on_error)
 
-func _on_new_messages(res):
-	print(res)
+func append_messages(arr:Array, from_top := false):
+	var sb = scroll.get_v_scroll_bar()
+	var was_at_bottom : bool = sb == null or \
+			sb.value >= sb.max_value - SCROLL_TOLERANCE - sb.page
+	
+	oldest = arr[0]["id"] if oldest == "" else \
+			(oldest if oldest<arr[0]["id"] else arr[0]["id"])
+	
+	for i in range(arr.size()):
+		var m = arr[i]
+		if message_ids.count(m["id"])>0:
+			return
+		message_ids.append(m["id"])
+		var item := message_prefab.instantiate()
+		messages_container.add_child(item)
+		if (from_top): messages_container.move_child(item,i)
+		var sender_id = str(m.get("authorId", ""))
+		var sender_name = Project.members_names.get(sender_id,"Unknown user")
+		var ts = int(m.get("ts_server", 0))
+		var body = str(m.get("text", ""))
+		item.set_data(sender_name, ts, body)
+	
+	if was_at_bottom and sb:
+		await get_tree().process_frame
+		sb.value = sb.max_value
+	
+	call_deferred("_ensure_vscroll_connected")
 
 func send_message(msg: String) -> void:
 	
@@ -62,7 +86,52 @@ func send_message(msg: String) -> void:
 		on_fail
 	)
 
+func _on_scrolled_to_top() -> void:
+	var on_success = func(res:Dictionary):
+		if res.size()>0:
+			append_messages(to_sorted_array(res),true)
+	
+	ChatService.fetch_before(Project.pid,oldest,25,on_success,on_error)
+
+func _ensure_vscroll_connected() -> void:
+	var vb = scroll.get_v_scroll_bar()
+	if vb == _connected_vb:
+		return
+		
+	if _connected_vb and is_instance_valid(_connected_vb):
+		_connected_vb.value_changed.disconnect(_on_vscroll_changed)
+	_connected_vb = null
+	
+	if vb:
+		vb.value_changed.connect(_on_vscroll_changed)
+	_connected_vb = vb
+
+func _on_vscroll_changed(value: float) -> void:
+	if value <= 4.0:
+		_on_scrolled_to_top()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED:
+		call_deferred("_ensure_vscroll_connected")
+
+func to_sorted_array(messages:Dictionary) ->Array:
+	var arr :=[]
+	
+	for msg_id in messages.keys():
+		var m = messages[msg_id]
+		m["id"] = msg_id
+		arr.append(m)
+	
+	arr.sort_custom(_sort_by_ts_server)
+	
+	return arr
+
 func _sort_by_ts_server(a, b) -> bool:
 	var at := int(a.get("ts_server", 0))
 	var bt := int(b.get("ts_server", 0))
 	return at < bt
+
+func on_error(err:String):
+		no_messages_text.visible = true
+		no_messages_text.text = "Error: %s" % err
+		title.text = "Team Chat"

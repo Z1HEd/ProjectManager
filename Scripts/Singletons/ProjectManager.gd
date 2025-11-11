@@ -12,6 +12,7 @@ signal project_closed
 @export var project_owner := ""
 @export var members := {}
 @export var user_role := ""
+var members_names := {}
 
 @export var is_open := false
 
@@ -43,3 +44,14 @@ func clear():
 	
 	is_open = false
 	project_closed.emit()
+
+func update_member_names():
+	if members.size() ==0:
+		return
+	
+	for uid in members:
+		
+		var on_success = func(_name:String):
+			members_names[uid] = _name
+		
+		UserService.get_display_name(uid,on_success,func(err):print(err))

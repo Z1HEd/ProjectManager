@@ -17,7 +17,7 @@ var _request_counter: int = 0
 func _ready() -> void:
 	http = HTTPRequest.new()
 	add_child(http)
-	http.request_completed.connect(Callable(self, "_on_request_completed"))
+	http.request_completed.connect(_on_request_completed)
 
 
 # body may be Dictionary or String or null

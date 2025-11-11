@@ -34,7 +34,7 @@ static func fetch_recent(
 		on_fail := func(_err):pass) -> int:
 
 	var url = "%s/chatMessages/%s.json?orderBy=%%22ts_server%%22&limitToLast=%d&auth=%s" % \
-		[Firebase.project_db_url, pid, limit, Session.id_token]
+			[Firebase.project_db_url, pid, limit, Session.id_token]
 
 	var _on_success = func(response):
 		if response == null:
@@ -43,6 +43,38 @@ static func fetch_recent(
 		if not response is Dictionary:
 			on_fail.call("Invalid response: %s" % response)
 			return
+		on_success.call(response)
+
+	return Firebase.send_request(
+			url,
+			HTTPClient.METHOD_GET,
+			{},
+			[],
+			_on_success,
+			on_fail,
+			"chat"
+	)
+
+static func fetch_before(
+		pid: String,
+		before_key: String,
+		limit := 25,
+		on_success := func(_res):pass,
+		on_fail := func(_err):pass) -> int:
+
+	var url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&endAt=%%22%s%%22&limitToLast=%d&auth=%s" % \
+		[Firebase.project_db_url, pid, before_key, limit, Session.id_token]
+
+	var _on_success = func(response):
+		if response == null:
+			on_success.call({})
+			return
+		if not response is Dictionary:
+			on_fail.call("Invalid response: %s" % response)
+			return
+
+		response.erase(before_key)
+
 		on_success.call(response)
 
 	return Firebase.send_request(
@@ -55,29 +87,27 @@ static func fetch_recent(
 		"chat"
 	)
 
-
-
-# Start listening to chatMessages/<pid> and call on_new_messages(messages_array) for incoming messages.
-# on_fail(error_string) is called on errors.
 static func start_listening(
-		pid: String, 
-		on_new_messages:=func(_res):pass, 
-		on_fail:=func(_res):pass) -> void:
-	
+	pid: String,
+	last_known_key: String,
+	on_new_messages := func(_res):pass,
+	on_fail := func(_err):pass) -> void:
+
 	if _listeners.has(pid):
 		return
 
-	var full_url = "%schatMessages/%s.json?auth=%s" % \
-			[ Firebase.project_db_url, pid, Session.id_token]
-	
+	var full_url = "%schatMessages/%s.json?orderBy=%%22$key%%22&startAfter=%%22%s%%22&auth=%s" % \
+		[ Firebase.project_db_url, pid, last_known_key, Session.id_token ]
+
 	var _on_new_messages = _on_raw_stream_event.bind(on_new_messages)
 	
-	var listener_id = Streaming.start_listener(full_url, _on_new_messages, on_fail)
-	if listener_id == null:
-		on_fail.call("failed_to_start_listener")
-		return
+	var _on_error = func(err:String):
+		_listeners.erase(pid)
+		on_fail.call(err)
+	
+	var listener_id = Streaming.start_listener(full_url, _on_new_messages, _on_error)
+	
 	_listeners[pid] = listener_id
-
 
 static func stop_listening(pid: String) -> void:
 	if not _listeners.has(pid):
@@ -86,40 +116,26 @@ static func stop_listening(pid: String) -> void:
 	Streaming.stop_listener(id)
 	_listeners.erase(pid)
 
-# called by StreamingManager when an SSE "put"/"patch" arrives; runs on main thread
 static func _on_raw_stream_event(
-		on_new_messages: Callable, 
-		parsed) -> void:
-	# parsed example: { "path": "/-MzA...","data": { ... } } or { "path": "/", "data": { "<msgId>": {...}, ... } }
-	if parsed == null:
-		return
+		parsed,
+		on_new_messages: Callable) -> void:
 
-	# if it's an initial snapshot (path == "/") it may contain many messages.
-	var path = parsed.get("path", "/")
-	var payload = parsed.get("data",parsed)
+	var path : String = parsed["path"]
+	var payload = parsed["data"]
 
 	var messages := []
-	if path == "/" and typeof(payload) == TYPE_DICTIONARY:
-		# Initial snapshot: payload is dict of id -> message
+	if path == "/":
+		# Payload is dict of id -> message
 		for key in payload.keys():
 			var m = payload[key]
-			if typeof(m) == TYPE_DICTIONARY:
-				if not m.has("id"):
-					m["id"] = key
-				messages.append(m)
+			m["id"] = key
+			messages.append(m)
 	else:
-		# child changed/added. path = "/<messageId>" or "/<messageId>/subfield"
-		var stripped = path.strip_prefix("/")
-		var parts = stripped.split("/")
-		if parts.size() >= 1 and parts[0] != "":
-			var msg_id = parts[0]
-			if typeof(payload) == TYPE_DICTIONARY:
-				var m = payload.duplicate(true)
-				if not m.has("id"):
-					m["id"] = msg_id
-				messages.append(m)
-			else:
-				# payload is primitive (unlikely for chat message) - pass raw
-				messages.append({ "id": msg_id, "value": payload })
+		# child added. path = "/<messageId>"
+		var msg_id = path.lstrip("/")
+		var m = payload.duplicate(true)
+		m["id"] = msg_id
+		messages.append(m)
+
 	if messages.size() > 0:
 		on_new_messages.call(messages)
