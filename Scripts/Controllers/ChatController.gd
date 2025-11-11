@@ -7,8 +7,11 @@ class_name TeamChatController
 @onready var scroll : ScrollContainer = %ScrollContainer
 
 @export var message_prefab := preload("res://Scenes/Elements/ChatMessage.tscn")
+@export var date_label_prefab := preload("res://Scenes/Elements/DateLabel.tscn")
 
 var oldest : String
+var oldest_date: String
+var newest_date: String
 var _connected_vb : VScrollBar = null
 var message_ids := []
 
@@ -21,6 +24,8 @@ func open():
 		child.queue_free()
 	
 	oldest = ""
+	oldest_date = ""
+	newest_date = ""
 	message_ids = []
 	
 	var on_success = func(res:Dictionary):
@@ -53,15 +58,28 @@ func append_messages(arr:Array, from_top := false):
 	
 	oldest = arr[0]["id"] if oldest == "" else \
 			(oldest if oldest<arr[0]["id"] else arr[0]["id"])
+	if oldest_date == "":
+		oldest_date = Time.get_date_string_from_unix_time(arr[0]["ts_server"]/1000)
+		newest_date = oldest_date
+		add_date_label(oldest_date)
 	
-	for i in range(arr.size()):
-		var m = arr[i]
+	for m in arr:
 		if message_ids.count(m["id"])>0:
 			return
 		message_ids.append(m["id"])
 		var item := message_prefab.instantiate()
 		messages_container.add_child(item)
-		if (from_top): messages_container.move_child(item,i)
+		
+		var current_date = Time.get_date_string_from_unix_time(m["ts_server"]/1000)
+		if from_top:
+			if current_date < oldest_date:
+				oldest_date = current_date
+				add_date_label(oldest_date,true)
+			messages_container.move_child(item,1)
+		elif current_date > newest_date:
+			newest_date = current_date
+			add_date_label(oldest_date)
+		
 		var sender_id = str(m.get("authorId", ""))
 		var sender_name = Project.members_names.get(sender_id,"Unknown user")
 		var ts = int(m.get("ts_server", 0))
@@ -86,10 +104,19 @@ func send_message(msg: String) -> void:
 		on_fail
 	)
 
+func add_date_label(date:String,from_top = false):
+	var label : Label = date_label_prefab.instantiate()
+	label.text = date
+	messages_container.add_child(label)
+	if from_top:
+		messages_container.move_child(label,0)
+
 func _on_scrolled_to_top() -> void:
 	var on_success = func(res:Dictionary):
 		if res.size()>0:
-			append_messages(to_sorted_array(res),true)
+			var arr = to_sorted_array(res)
+			arr.reverse()
+			append_messages(arr,true)
 	
 	ChatService.fetch_before(Project.pid,oldest,25,on_success,on_error)
 
