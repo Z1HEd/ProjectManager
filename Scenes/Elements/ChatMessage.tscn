@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://ccvfa0cuaqi8y"]
+[gd_scene load_steps=4 format=3 uid="uid://ccvfa0cuaqi8y"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_kso31"]
 [ext_resource type="Script" uid="uid://nb5bt6try03o" path="res://Scripts/UIElements/ChatMessage.gd" id="2_toms1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kso31"]
 
 [node name="ChatMessage" type="PanelContainer"]
 offset_right = 100.0
@@ -43,6 +45,12 @@ text = "16:27"
 [node name="Body" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kso31")
+bbcode_enabled = true
 text = "Message"
 fit_content = true
 autowrap_mode = 2
+selection_enabled = true
+
+[connection signal="meta_clicked" from="MarginContainer/VBoxContainer/Body" to="." method="_on_body_meta_clicked"]

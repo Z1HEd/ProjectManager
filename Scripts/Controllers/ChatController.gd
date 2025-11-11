@@ -19,6 +19,7 @@ const SCROLL_TOLERANCE := 10
 
 func open():
 	title.text = "Loading messages..."
+	no_messages_text.text = "No messages here yet..."
 
 	for child in messages_container.get_children():
 		child.queue_free()
@@ -112,6 +113,8 @@ func add_date_label(date:String,from_top = false):
 		messages_container.move_child(label,0)
 
 func _on_scrolled_to_top() -> void:
+	if oldest == "": return
+	
 	var on_success = func(res:Dictionary):
 		if res.size()>0:
 			var arr = to_sorted_array(res)

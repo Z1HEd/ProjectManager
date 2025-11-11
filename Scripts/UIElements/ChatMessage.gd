@@ -9,11 +9,29 @@ func set_data(sender_name: String, time_unix: int, message: String) -> void:
 	sender.text = sender_name
 	@warning_ignore("integer_division")
 	time.text = Time.get_time_string_from_unix_time(time_unix / 1000)
-	body.text = message
-
-	var max_w := get_max_width(message)
 	
+	var max_w := get_max_width(message)
 	body.custom_minimum_size.x = min(max_w, 500)
+	
+	message = format_message(message)
+	body.text = message
+	
+
+func format_message(message:String) -> String:
+	var safe := message.replace("[", "\\[").replace("]", "\\]")
+	var parts := safe.split(" ")
+	
+	for i in parts.size():
+		var t := parts[i]
+		var url := ""
+		if t.begins_with("http://") or t.begins_with("https://"):
+			url = t
+		elif t.begins_with("www."):
+			url = "http://" + t
+		if url != "":
+			parts[i] = "[url=%s]%s[/url]" % [url, t]
+			
+	return " ".join(parts)
 
 func get_max_width(message:String) -> int:
 	var result := 0
@@ -30,3 +48,6 @@ func get_max_width(message:String) -> int:
 			result = w
 	meas.queue_free()
 	return result
+
+func _on_body_meta_clicked(meta: Variant) -> void:
+	OS.shell_open(meta)
