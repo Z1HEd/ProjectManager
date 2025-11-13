@@ -19,7 +19,6 @@ func _ready() -> void:
 	add_child(http)
 	http.request_completed.connect(_on_request_completed)
 
-
 # body may be Dictionary or String or null
 func send_request(url: String, method : HTTPClient.Method, body, headers: Array, on_success : Callable, on_fail : Callable, tag := "") -> int:
 	var req_id = _request_counter
@@ -42,7 +41,6 @@ func send_request(url: String, method : HTTPClient.Method, body, headers: Array,
 	
 	_process_next()
 	return req_id
-
 
 func _process_next() -> void:
 	if is_busy:
@@ -92,7 +90,6 @@ func _send_current_request() -> void:
 		emit_signal("request_concluded")
 		_process_next()
 
-
 func _extract_error_message(parsed) -> String:
 	# Accept either:
 	#  - parsed == actual response Dictionary
@@ -121,7 +118,6 @@ func _extract_error_message(parsed) -> String:
 				return str(r["message"])
 	return ""
 
-
 static func _parse_response_body(body_text: String) :
 	if body_text == null or body_text.strip_edges(true, true) == "":
 		return ""
@@ -144,7 +140,6 @@ static func _parse_response_body(body_text: String) :
 	body_text = body_text.trim_suffix('"')
 	
 	return body_text
-
 
 func _on_request_completed(_result: int, response_code: int, _headers: Array, body: PackedByteArray) -> void:
 	var id = _current_request.get("id", -1)

@@ -73,17 +73,17 @@ size_flags_vertical = 3
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CancelButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Cancel"
-
 [node name="SubmitButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Submit"
+
+[node name="CancelButton" type="Button" parent="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
 
 [node name="ErrorText" type="RichTextLabel" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true

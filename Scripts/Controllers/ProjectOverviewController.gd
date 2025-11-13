@@ -120,7 +120,7 @@ func _on_change_role_pressed(uid:String,_name:String,current_role:String):
 	var _on_confirm = func(role: String):
 		if role == current_role:
 			return
-		ProjectService.set_role(Project.pid,uid,role)
+		ProjectService.set_role(Project.pid,uid,role,func(_res):pass,func(err):print(err))
 		refresh_project()
 	
 	option_popup.set_info("Change role for %s?"%_name, 
