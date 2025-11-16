@@ -10,7 +10,7 @@ static func send_message(
 		on_success := func(_res):pass,
 		on_fail := func(_err):pass) -> int:
 
-	var url = "%s/chatMessages/%s.json?auth=%s" % [Firebase.project_db_url, pid, Session.id_token]
+	var url = "%s/chatMessages/%s.json?auth=" % [Firebase.project_db_url, pid]
 	
 	var body = {
 		"authorId": Session.uid,
@@ -33,8 +33,8 @@ static func fetch_recent(
 		on_success := func(_res):pass,
 		on_fail := func(_err):pass) -> int:
 
-	var url = "%s/chatMessages/%s.json?orderBy=%%22ts_server%%22&limitToLast=%d&auth=%s" % \
-			[Firebase.project_db_url, pid, limit, Session.id_token]
+	var url = "%s/chatMessages/%s.json?orderBy=%%22ts_server%%22&limitToLast=%d&auth=" % \
+			[Firebase.project_db_url, pid, limit]
 
 	var _on_success = func(response):
 		if response == null:
@@ -62,8 +62,8 @@ static func fetch_before(
 		on_success := func(_res):pass,
 		on_fail := func(_err):pass) -> int:
 
-	var url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&endAt=%%22%s%%22&limitToLast=%d&auth=%s" % \
-		[Firebase.project_db_url, pid, before_key, limit, Session.id_token]
+	var url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&endAt=%%22%s%%22&limitToLast=%d&auth=" % \
+		[Firebase.project_db_url, pid, before_key, limit]
 
 	var _on_success = func(response):
 		if response == null:
@@ -96,8 +96,8 @@ static func start_listening(
 	if _listeners.has(pid):
 		return
 
-	var full_url = "%schatMessages/%s.json?orderBy=%%22$key%%22&startAfter=%%22%s%%22&auth=%s" % \
-		[ Firebase.project_db_url, pid, last_known_key, Session.id_token ]
+	var full_url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&startAfter=%%22%s%%22&auth=" % \
+		[ Firebase.project_db_url, pid, last_known_key]
 
 	var _on_new_messages = _on_raw_stream_event.bind(on_new_messages)
 	

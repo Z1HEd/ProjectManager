@@ -11,8 +11,7 @@ static func create_project(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/projects.json?auth=%s" % \
-			[Firebase.project_db_url, Session.id_token]
+	var url = "%s/projects.json?auth=" % [Firebase.project_db_url]
 	
 	var body = {
 		"name": project_name,
@@ -44,8 +43,9 @@ static func add_project_to_current_user(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/users/%s/projects.json?auth=%s" % \
-			[Firebase.project_db_url, Session.uid, Session.id_token]
+	var url = "%s/users/%s/projects.json?auth=" % \
+			[Firebase.project_db_url, Session.uid]
+	
 	var body = { uid: role }
 	
 	var _on_success = func(response):
@@ -67,8 +67,8 @@ static func get_project(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/projects/%s.json?auth=%s" % \
-			[Firebase.project_db_url, pid, Session.id_token]
+	var url = "%s/projects/%s.json?auth=" % \
+			[Firebase.project_db_url, pid]
 	
 	var _on_success = func(response):
 		if not response is Dictionary:
@@ -94,8 +94,7 @@ static func remove_member(
 	payload["projects/%s/members/%s" % [project_id, user_id]] = null
 	payload["users/%s/projects/%s" % [user_id, project_id]] = null
 
-	var root_patch_url = "%s/.json?auth=%s" % \
-			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	var root_patch_url = "%s/.json?auth=" % [Firebase.project_db_url]
 
 	return Firebase.send_request(
 			root_patch_url, 
@@ -113,11 +112,7 @@ static func edit_project(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var path = "%s/projects/%s.json?auth=%s" % [
-		Firebase.project_db_url.trim_suffix("/"),
-		project_id,
-		Session.id_token
-	]
+	var path = "%s/projects/%s.json?auth=" % [ Firebase.project_db_url, project_id ]
 
 	var payload = {
 		"name": project_name,
@@ -146,8 +141,7 @@ static func delete_project(
 
 	updates["projects/%s" % project_id] = null
 
-	var patch_url = "%s/.json?auth=%s" % \
-			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	var patch_url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
 	return Firebase.send_request(
 			patch_url, 
@@ -169,8 +163,7 @@ static func set_role(
 	payload["projects/%s/members/%s" % [project_id, user_id]] = role
 	payload["users/%s/projects/%s" % [user_id, project_id]] = role
 
-	var url = "%s/.json?auth=%s" % \
-			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	var url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
 	return Firebase.send_request(
 			url, 
@@ -198,8 +191,7 @@ static func transfer_ownership(
 	updates["users/%s/projects/%s" % [to_uid, project_id]] = "owner"
 	updates["users/%s/projects/%s" % [from_uid, project_id]] = "member"
 
-	var url = "%s/.json?auth=%s" % \
-			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	var url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
 	return Firebase.send_request(
 			url, 

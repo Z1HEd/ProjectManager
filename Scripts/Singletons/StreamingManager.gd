@@ -126,7 +126,6 @@ func _listener_thread(listener_id: int) -> void:
 	if _listeners.has(listener_id):
 		_listeners.erase(listener_id)
 
-
 func _process_sse_block(listener_id: int, block: String) -> void:
 	var lines = block.split("\n", true)
 	var event_type := ""
@@ -138,17 +137,16 @@ func _process_sse_block(listener_id: int, block: String) -> void:
 		elif l.begins_with("data:"):
 			var tmp2 = l.substr(5)
 			data_lines.append(tmp2)
-
+	
 	var data_text = ""
 	if data_lines.size() > 0:
 		data_text = "\n".join(data_lines).strip_edges()
-
+	
 	var parsed = null
 	if data_text != "":
 		parsed = FirebaseManager._parse_response_body(data_text)
-
+	
 	call_deferred("_deliver_sse_event", listener_id, event_type, parsed)
-
 
 func _deliver_sse_event(listener_id: int, event_type: String, parsed) -> void:
 	if not _listeners.has(listener_id):
@@ -165,7 +163,6 @@ func _deliver_sse_event(listener_id: int, event_type: String, parsed) -> void:
 	
 	var m = "sse_event_" + event_type
 	on_error.call(m)
-
 
 func _call_error(listener_id: int, message: String) -> void:
 	if not _listeners.has(listener_id):

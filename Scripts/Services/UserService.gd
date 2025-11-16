@@ -18,7 +18,13 @@ static func register(
 		on_fail := func(_err):pass) -> int:
 	
 	var url = SIGNUP_ENDPOINT + Firebase.api_key
-	var body = {"email": email, "displayName":user_name, "password": password, "returnSecureToken": true}
+	
+	var body = {
+		"email": email, 
+		"displayName":user_name, 
+		"password": password, 
+		"returnSecureToken": true
+	}
 
 	var _profile_write_success = func(_parsed):
 			on_success.call(Session)
@@ -40,8 +46,8 @@ static func register(
 			"createdAt": int(Time.get_unix_time_from_system())
 		}
 		
-		var profile_url = "%s/users/%s.json?auth=%s" % \
-				[Firebase.project_db_url.trim_suffix("/"), Session.uid, Session.id_token]
+		var profile_url = "%s/users/%s.json" % \
+				[Firebase.project_db_url, Session.uid]
 		
 		Firebase.send_request(
 				profile_url,
@@ -148,29 +154,20 @@ static func delete_user(
 	updates["users/%s" % uid] = null
 	updates["invites/%s" % uid] = null
 
-	var patch_url = "%s/.json?auth=%s" % \
-			[Firebase.project_db_url.trim_suffix("/"), Session.id_token]
+	var patch_url = "%s/.json?auth=" % [Firebase.project_db_url]
 
 	var _on_patch_success = func(_patch_resp):
 		var auth_delete_url =  DELETE_ACCOUNT_ENDPOINT + Firebase.api_key
 		var auth_delete_body = {"idToken": Session.id_token}
-		
-		var _on_success = func(_res):
-			on_success.call("user_deleted")
-		var _on_fail = func(err_msg:String):
-			on_fail.call("db_cleaned_but_auth_delete_failed: %s" % err_msg)
 		
 		return Firebase.send_request(
 				auth_delete_url, 
 				HTTPClient.METHOD_POST, 
 				auth_delete_body, 
 				["Content-Type: application/json"], 
-				_on_success, 
-				_on_fail
+				on_success, 
+				on_fail
 		)
-
-	var _on_patch_fail = func(err):
-		on_fail.call("db_cleanup_failed: %s" % str(err))
 
 	return Firebase.send_request(
 			patch_url, 
@@ -178,7 +175,7 @@ static func delete_user(
 			updates, 
 			["Content-Type: application/json"], 
 			_on_patch_success, 
-			_on_patch_fail
+			on_fail
 	)
 
 static func get_user_projects(
@@ -186,8 +183,7 @@ static func get_user_projects(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/users/%s/projects.json?auth=%s" % \
-			[Firebase.project_db_url, Session.uid, Session.id_token]
+	var url = "%s/users/%s/projects.json?auth=" % [Firebase.project_db_url, Session.uid]
 	
 	var _on_success = func(result):
 		if result == null:
@@ -209,8 +205,7 @@ static func get_display_name(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/users/%s/displayName.json?auth=%s" % \
-			[Firebase.project_db_url, uid, Session.id_token]
+	var url = "%s/users/%s/displayName.json?auth=" % [Firebase.project_db_url, uid]
 	
 	return Firebase.send_request(
 			url, 
@@ -226,11 +221,9 @@ static func get_user_by_email(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var query_url = '%s/users.json?orderBy="email"&equalTo="%s"&auth=%s' % [
-		Firebase.project_db_url.trim_suffix("/"),
-		user_email,
-		Session.id_token
-	]
+	var query_url = '%s/users.json?orderBy="email"&equalTo="%s&auth="' % \
+			[ Firebase.project_db_url, user_email ]
+	
 	return Firebase.send_request(
 			query_url,
 			HTTPClient.METHOD_GET,
@@ -245,11 +238,7 @@ static func get_user(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/users/%s.json?auth=%s" % [
-		Firebase.project_db_url.trim_suffix("/"),
-		uid,
-		Session.id_token
-	]
+	var url = "%s/users/%s.json?auth=" % [ Firebase.project_db_url, uid ]
 	
 	return Firebase.send_request(
 			url, 
@@ -266,11 +255,7 @@ static func change_name(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var url = "%s/users/%s.json?auth=%s" % [
-		Firebase.project_db_url.trim_suffix("/"),
-		uid,
-		Session.id_token
-	]
+	var url = "%s/users/%s.json?auth=" % [ Firebase.project_db_url, uid ]
 	
 	var payload = { "displayName": new_name }
 	
@@ -304,11 +289,7 @@ static func change_email(
 
 		Session.update_from_response(resp)
 
-		var user_url = "%s/users/%s.json?auth=%s" % [
-			Firebase.project_db_url.trim_suffix("/"),
-			uid,
-			Session.id_token
-		]
+		var user_url = "%s/users/%s.json?auth=" % [ Firebase.project_db_url, uid ]
 		
 		var patch_body = { "email": new_email }
 

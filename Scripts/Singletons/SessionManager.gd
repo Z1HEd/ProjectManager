@@ -65,7 +65,7 @@ func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> in
 		return -1
 	
 	var refresh_url = "https://securetoken.googleapis.com/v1/token?key=%s" % Firebase.api_key
-	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % str(refresh_token)
+	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % refresh_token
 	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
 
 	var _on_refresh_success = func(parsed):
@@ -118,9 +118,9 @@ func update_from_response(response: Dictionary) -> void:
 	elif response.has("expires_in"):
 		var secs2 = int(response["expires_in"])
 		expires_at = int(Time.get_unix_time_from_system()) + secs2
-
+	
 	_save_to_config()
-
+	
 	if uid != "" and id_token != "":
 		emit_signal("on_authenticated")
 

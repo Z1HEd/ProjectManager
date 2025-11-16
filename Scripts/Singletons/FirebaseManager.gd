@@ -6,7 +6,7 @@ signal request_success(request_id: int, data)
 signal request_fail(request_id: int, error_msg)
 
 @export var api_key: String = "AIzaSyAYDWyOf_ctpewELcbabKZnQ191V5BYg5Y"
-@export var project_db_url: String = "https://projectmanager-39d37-default-rtdb.europe-west1.firebasedatabase.app/"
+@export var project_db_url: String = "https://projectmanager-39d37-default-rtdb.europe-west1.firebasedatabase.app"
 
 var http: HTTPRequest
 var is_busy: bool = false
@@ -69,14 +69,17 @@ func _process_next() -> void:
 # Starts the HTTP request for the _current_request
 func _send_current_request() -> void:
 	var url = _current_request.url
-	var method = _current_request.method
-	var headers = _current_request.headers.duplicate()
+	if _current_request.tag != "auth": url+= Session.id_token
+	
 	var payload = ""
 	if _current_request.body is Dictionary:
 		payload = JSON.stringify(_current_request.body)
 	elif _current_request.body is String:
 		payload = _current_request.body
-
+	
+	var method = _current_request.method
+	var headers = _current_request.headers.duplicate()
+	
 	var err = http.request(url, headers, method, payload)
 	if err != OK:
 		
