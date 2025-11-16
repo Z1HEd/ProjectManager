@@ -72,12 +72,11 @@ func _accept_invite():
 		decline_button.disabled = false
 	
 	InviteService.accept_invite(
-				Notifications.list[selected_id]["project_id"],
-				Session.uid,
-				Notifications.list[selected_id]["role"],
-				_on_success,
-				_on_fail
-				)
+			Notifications.list[selected_id]["project_id"],
+			Session.uid,
+			Notifications.list[selected_id]["role"],
+			_on_success,
+			_on_fail)
 
 func _decline_invite():
 	accept_button.disabled = true
@@ -102,8 +101,7 @@ func _decline_invite():
 				Notifications.list[selected_id]["project_id"],
 				Session.uid,
 				_on_success,
-				_on_fail
-				)
+				_on_fail)
 
 func _reset_notification_details():
 	accept_button.disabled = false

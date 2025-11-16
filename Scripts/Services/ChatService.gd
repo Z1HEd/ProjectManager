@@ -19,13 +19,12 @@ static func send_message(
 	}
 
 	return Firebase.send_request(
-		url,
-		HTTPClient.METHOD_POST,
-		body,
-		["Content-Type: application/json"],
-		on_success,
-		on_fail
-	)
+			url,
+			HTTPClient.METHOD_POST,
+			body,
+			["Content-Type: application/json"],
+			on_success,
+			on_fail)
 
 static func fetch_recent(
 		pid: String,
@@ -51,9 +50,7 @@ static func fetch_recent(
 			{},
 			[],
 			_on_success,
-			on_fail,
-			"chat"
-	)
+			on_fail)
 
 static func fetch_before(
 		pid: String,
@@ -83,9 +80,7 @@ static func fetch_before(
 		{},
 		[],
 		_on_success,
-		on_fail,
-		"chat"
-	)
+		on_fail)
 
 static func start_listening(
 	pid: String,
@@ -99,7 +94,7 @@ static func start_listening(
 	var full_url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&startAfter=%%22%s%%22&auth=" % \
 		[ Firebase.project_db_url, pid, last_known_key]
 
-	var _on_new_messages = _on_raw_stream_event.bind(on_new_messages)
+	var _on_new_messages = _on_update.bind(on_new_messages)
 	
 	var _on_error = func(err:String):
 		_listeners.erase(pid)
@@ -116,7 +111,7 @@ static func stop_listening(pid: String) -> void:
 	Streaming.stop_listener(id)
 	_listeners.erase(pid)
 
-static func _on_raw_stream_event(
+static func _on_update(
 		parsed,
 		on_new_messages: Callable) -> void:
 

@@ -1,7 +1,6 @@
 extends Tab
 class_name TeamChatController
 
-@onready var title :Label = %Title
 @onready var no_messages_text : Label = %NoMessagesLabel
 @onready var messages_container : VBoxContainer = %MessagesContainer
 @onready var scroll : ScrollContainer = %ScrollContainer
@@ -18,8 +17,7 @@ var message_ids := []
 const SCROLL_TOLERANCE := 10
 
 func open():
-	title.text = "Loading messages..."
-	no_messages_text.text = "No messages here yet..."
+	no_messages_text.text = "Loading..."
 
 	for child in messages_container.get_children():
 		child.queue_free()
@@ -32,9 +30,9 @@ func open():
 	var on_success = func(res:Dictionary):
 		if res.size() == 0:
 			no_messages_text.visible = true
-			title.text = "Team Chat"
+			no_messages_text.text = "No messages here yet..."
 			return
-
+		
 		no_messages_text.visible = false
 		var arr := to_sorted_array(res)
 		
@@ -45,12 +43,13 @@ func open():
 			arr[-1]["id"],
 			append_messages,
 			on_error)
-		
-		title.text = "Team Chat"
 	
 	Project.update_member_names()
 	
 	ChatService.fetch_recent(Project.pid, 25, on_success, on_error)
+
+func close():
+	ChatService.stop_listening(Project.pid)
 
 func append_messages(arr:Array, from_top := false):
 	var sb = scroll.get_v_scroll_bar()
@@ -102,8 +101,7 @@ func send_message(msg: String) -> void:
 		Project.pid,
 		msg,
 		func(_res):pass,
-		on_fail
-	)
+		on_fail)
 
 func add_date_label(date:String,from_top = false):
 	var label : Label = date_label_prefab.instantiate()
@@ -164,4 +162,3 @@ func _sort_by_ts_server(a, b) -> bool:
 func on_error(err:String):
 		no_messages_text.visible = true
 		no_messages_text.text = "Error: %s" % err
-		title.text = "Team Chat"

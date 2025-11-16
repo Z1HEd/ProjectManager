@@ -43,8 +43,7 @@ func _on_submit_button_pressed() -> void:
 			project_name, 
 			description, 
 			_on_success, 
-			_on_fail
-	)
+			_on_fail)
 
 
 func _on_cancel_button_pressed() -> void:

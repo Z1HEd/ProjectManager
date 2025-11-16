@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://br1sagcs4olx7" path="res://Scenes/Tabs/NoProjectSelected.tscn" id="2_f35bi"]
 [ext_resource type="PackedScene" uid="uid://btknm6kha8sv5" path="res://Scenes/Tabs/Dashboard.tscn" id="3_441x2"]
 [ext_resource type="PackedScene" uid="uid://y3i7vgo6fv3f" path="res://Scenes/Tabs/ProjectsList.tscn" id="4_f35bi"]
-[ext_resource type="PackedScene" uid="uid://snsi3livmyh" path="res://Scenes/Tabs/TaskBoard.tscn" id="5_441x2"]
+[ext_resource type="PackedScene" uid="uid://snsi3livmyh" path="res://Scenes/Tabs/Kanban.tscn" id="5_441x2"]
 [ext_resource type="PackedScene" uid="uid://cv2yd8hwdj8jj" path="res://Scenes/Tabs/TeamChat.tscn" id="6_0xkci"]
 [ext_resource type="PackedScene" uid="uid://bvp4cflag0k2x" path="res://Scenes/Tabs/Timeline.tscn" id="7_lvwqe"]
 [ext_resource type="PackedScene" uid="uid://2ekwb5hb6y03" path="res://Scenes/Tabs/UserProfile.tscn" id="8_lvwqe"]

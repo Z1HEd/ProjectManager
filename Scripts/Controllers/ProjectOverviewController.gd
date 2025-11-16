@@ -66,17 +66,14 @@ func update_project_data():
 		member_control.call_deferred(
 				"set_member",
 				member_uid,
-				Project.members[member_uid]
-		)
+				Project.members[member_uid])
 		member_control.call_deferred(
-			"set_more_button_visible",
-			Project.user_role == "owner" && member_uid != Session.uid
-		)
+				"set_more_button_visible",
+				Project.user_role == "owner" && member_uid != Session.uid)
 		member_control.connect_signals(
 			_on_change_role_pressed,
 			_on_kick_pressed,
-			_on_transfer_ownership_pressed
-		)
+			_on_transfer_ownership_pressed)
 		members_list.add_child(member_control)
 	
 	call_deferred("_sort_member_list")

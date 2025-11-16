@@ -47,8 +47,7 @@ static func accept_invite(
 			payload, 
 			[], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func decline_invite(
 		project_id: String, 
@@ -64,8 +63,7 @@ static func decline_invite(
 			{}, 
 			[], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 
 static func get_user_invites(
@@ -92,5 +90,4 @@ static func get_user_invites(
 			{}, 
 			[], 
 			_on_success, 
-			on_fail
-	)
+			on_fail)

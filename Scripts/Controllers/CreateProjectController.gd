@@ -30,5 +30,4 @@ func _on_create_project_button_pressed() -> void:
 	ProjectService.create_project(project_name, 
 			description, 
 			_on_create_success, 
-			_on_create_fail
-	)
+			_on_create_fail)

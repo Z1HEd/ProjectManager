@@ -30,8 +30,7 @@ func _on_user_found(data):
 				role_picker.text,
 				invite_text.text,
 				_on_success,
-				_on_fail
-		)
+				_on_fail)
 
 func _on_button_pressed() -> void:
 	send_button.disabled = true

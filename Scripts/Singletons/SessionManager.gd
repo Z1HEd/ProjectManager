@@ -87,8 +87,7 @@ func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> in
 			refresh_headers, 
 			_on_refresh_success, 
 			_on_refresh_fail,
-			"auth"
-	)
+			"auth")
 
 func update_from_response(response: Dictionary) -> void:
 	if response == null:

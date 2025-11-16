@@ -56,8 +56,7 @@ static func register(
 				["Content-Type: application/json"], 
 				_profile_write_success,
 				_profile_write_fail,
-				"auth"
-		)
+				"auth")
 
 	var _signup_fail = func(err_msg):
 			on_fail.call(str(err_msg))
@@ -69,8 +68,7 @@ static func register(
 			["Content-Type: application/json"], 
 			_signup_success, 
 			_signup_fail,
-			"auth"
-	)
+			"auth")
 
 static func _attempt_delete_auth_then_report(
 		original_error: String, 
@@ -101,8 +99,7 @@ static func _attempt_delete_auth_then_report(
 			["Content-Type: application/json"],
 			_on_delete_success,
 			_on_delete_fail,
-			"auth"
-	)
+			"auth")
 
 static func login(
 		email: String, 
@@ -132,8 +129,7 @@ static func login(
 			["Content-Type: application/json"],
 			_on_success,
 			on_fail,
-			"auth"
-	)
+			"auth")
 
 static func delete_user(
 		uid: String, 
@@ -166,8 +162,7 @@ static func delete_user(
 				auth_delete_body, 
 				["Content-Type: application/json"], 
 				on_success, 
-				on_fail
-		)
+				on_fail)
 
 	return Firebase.send_request(
 			patch_url, 
@@ -175,8 +170,7 @@ static func delete_user(
 			updates, 
 			["Content-Type: application/json"], 
 			_on_patch_success, 
-			on_fail
-	)
+			on_fail)
 
 static func get_user_projects(
 		uid, 
@@ -197,8 +191,7 @@ static func get_user_projects(
 			{}, 
 			[], 
 			_on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func get_display_name(
 		uid: String,
@@ -213,8 +206,7 @@ static func get_display_name(
 			{}, 
 			[], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func get_user_by_email(
 		user_email:String,
@@ -230,8 +222,7 @@ static func get_user_by_email(
 			{},
 			[],
 			on_success,
-			on_fail
-	)
+			on_fail)
 
 static func get_user(
 		uid: String, 
@@ -246,8 +237,7 @@ static func get_user(
 			{}, 
 			[], 
 			on_success,
-			on_fail
-	)
+			on_fail)
 
 static func change_name(
 		uid: String, 
@@ -265,8 +255,7 @@ static func change_name(
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func change_email(
 		uid: String, 
@@ -299,8 +288,7 @@ static func change_email(
 				patch_body, 
 				["Content-Type: application/json"], 
 				on_success, 
-				on_fail
-		)
+				on_fail)
 
 	return Firebase.send_request(
 			url, 
@@ -308,8 +296,7 @@ static func change_email(
 			auth_body, 
 			["Content-Type: application/json"], 
 			_on_auth_success, 
-			on_fail
-	)
+			on_fail)
 
 static func change_password(
 		new_password: String, 
@@ -335,5 +322,4 @@ static func change_password(
 			body, 
 			["Content-Type: application/json"], 
 			_on_success, 
-			on_fail
-	)
+			on_fail)

@@ -34,8 +34,7 @@ static func create_project(
 			body, 
 			["Content-Type: application/json"], 
 			_on_project_created, 
-			on_fail
-	)
+			on_fail)
 
 static func add_project_to_current_user(
 		uid : String,
@@ -59,8 +58,7 @@ static func add_project_to_current_user(
 			body, 
 			["Content-Type: application/json"], 
 			_on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func get_project(
 		pid: String,
@@ -81,8 +79,7 @@ static func get_project(
 			{}, 
 			[], 
 			_on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func remove_member(
 		project_id: String, 
@@ -102,8 +99,7 @@ static func remove_member(
 			payload, 
 			[], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func edit_project(
 		project_id: String, 
@@ -125,8 +121,7 @@ static func edit_project(
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func delete_project(
 		project_id: String, 
@@ -149,8 +144,7 @@ static func delete_project(
 			updates, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func set_role(
 		project_id: String, 
@@ -171,8 +165,7 @@ static func set_role(
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail
-	)
+			on_fail)
 
 static func transfer_ownership(
 		project_id: String, 
@@ -199,5 +192,4 @@ static func transfer_ownership(
 			updates, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail
-	)
+			on_fail)

@@ -76,8 +76,7 @@ func _on_delete_account_button_pressed() -> void:
 	confirm_critical_popup.set_info("Delete your account?",
 		"Account %s will be deleted irreversibly. "%current_name+
 		"Delete or transfer ownership of your projects before deleting.\n"+
-		'Enter your password to confirm:'
-		)
+		'Enter your password to confirm:')
 	confirm_critical_popup.set_callbacks(_on_confirm)
 	confirm_critical_popup.visible = true
 	confirm_critical_popup.input.secret = true
@@ -148,8 +147,7 @@ func change_email(new_email: String):
 				Session.uid, 
 				new_email,
 				_on_success,
-				_on_fail
-		)
+				_on_fail)
 	
 	var _on_confirm = func(password):
 		UserService.login(Session.email,password,_on_relogin_success,_on_fail)
@@ -187,8 +185,7 @@ func change_name(new_name:String):
 			Session.uid, 
 			new_name,
 			_on_success, 
-			_on_fail
-	)
+			_on_fail)
 
 func _on_revert_button_pressed() -> void:
 	name_edit.text = current_name
