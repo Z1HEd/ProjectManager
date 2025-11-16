@@ -22,7 +22,6 @@ func set_project(uid: String):
 	pid = uid
 	is_open = true
 	project_opened.emit()
-	
 
 func set_data(dict : Dictionary):
 	project_name = dict.get("name")
@@ -55,3 +54,6 @@ func update_member_names():
 			members_names[uid] = _name
 		
 		UserService.get_display_name(uid,on_success,func(err):print(err))
+
+func get_member_name(uid:String)->String:
+	return members_names.get(uid,"Unknown user")

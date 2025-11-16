@@ -15,6 +15,10 @@ func initialize(initial_status: int):
 	name_input.text = ""
 	description_input.text = ""
 	status_input.select(initial_status)
+	assignee_input.clear()
+	assignee_input.add_item("")
+	for member_name in Project.members_names.values():
+		assignee_input.add_item(member_name)
 
 func _on_submit_success(_res):
 	visible = false
@@ -39,7 +43,7 @@ func _on_submit_button_pressed() -> void:
 	var assignee_uid := _get_assignee_uid()
 	
 	create_button.disabled = true
-	TaskService.add_task(
+	TaskService.create_task(
 			Project.pid, 
 			title, 
 			description, 
