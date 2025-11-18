@@ -2,6 +2,7 @@ extends Tab
 
 @onready var create_task_popup : CreateTaskPopup = %CreateTaskPopup
 @onready var confirm_critical_popup : ConfirmCriticalPopup = %ConfirmCriticalPopup
+@onready var view_edit_task_popup :ViewEditTaskPopup= %ViewEditTaskPopup
 
 @onready var to_do_container : VBoxContainer = %ToDoContainer
 @onready var in_progress_container : VBoxContainer = %InProgressContainer
@@ -13,6 +14,7 @@ extends Tab
 
 var tasks_data := {}
 var tasks_controls := {}
+var latest_updated_at :=0
 
 func open():
 	error_label.visible = false
@@ -27,53 +29,80 @@ func open():
 	for child in cancelled_container.get_children():
 		child.queue_free()
 	tasks_controls = {}
-
-	var _on_success = func(tasks: Dictionary):
-		tasks_data = tasks
-		for id in tasks_data.keys():
-			update_task(id)
-
+	latest_updated_at = 0
+	
 	var _on_fail = func(err):
+		print(err)
 		error_label.text = err
 		error_label.visible = true
 	
+	var _on_success = func(tasks: Dictionary):
+		update_task_data(tasks)
+		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data,_on_fail)
+	
 	Project.update_member_names()
 	TaskService.get_all(Project.pid, _on_success, _on_fail)
-	
 
-func update_task(id:String):
+func update_task_data(updated: Dictionary):
+	for task_id in updated.keys():
+		var patch = updated[task_id]
+		if patch == null:
+			tasks_data.erase(task_id)
+		else:
+			if tasks_data.has(task_id):
+				tasks_data[task_id].merge(patch, true)
+			else:
+				tasks_data[task_id] = patch.duplicate(true)
+
+		if tasks_data.has(task_id) and tasks_data[task_id].has("updatedAt"):
+			var task_updated_at = tasks_data[task_id]["updatedAt"]
+			if task_updated_at > latest_updated_at:
+				latest_updated_at = task_updated_at
+
+		update_task_control(task_id)
+
+
+func update_task_control(id:String):
+	
+	if !tasks_data.has(id) and tasks_controls.has(id):
+		tasks_controls[id].queue_free()
+		return
+		
 	var task = tasks_data[id]
-
-	var task_ctrl = tasks_controls.get(id,task_control_prefab.instantiate())
-	tasks_controls[id] = task_ctrl
-	
 	var title = task["title"]
 	var assignee_uid = task.get("assignedTo","")
+	
+	var task_ctrl = tasks_controls.get(id,task_control_prefab.instantiate())
 	
 	task_ctrl.call_deferred("set_info",title, assignee_uid, id)
 	task_ctrl.set_callbacks(
 			on_edit_task_pressed,
-			on_more_task_pressed,
 			on_delete_task_pressed)
 	
 	var status = task["status"]
+	var container: VBoxContainer
 	
 	match status:
 		"to_do":
-			to_do_container.add_child(task_ctrl)
+			container = to_do_container
 		"in_progress":
-			in_progress_container.add_child(task_ctrl)
+			container = in_progress_container
 		"done":
-			done_container.add_child(task_ctrl)
+			container = done_container
 		"cancelled":
-			cancelled_container.add_child(task_ctrl)
-		_: push_error("INVALID TASK STATUS: "+status)
+			container = cancelled_container
+	
+	if (tasks_controls.has(id)):
+		task_ctrl.reparent(container)
+	else:
+		container.add_child(task_ctrl)
+	
+	tasks_controls[id] = task_ctrl
 
+#region Task actions callbacks
 func on_edit_task_pressed(_task_id: String):
-	pass
-
-func on_more_task_pressed(_task_id: String):
-	pass
+	view_edit_task_popup.visible = true
+	view_edit_task_popup.initialize(_task_id,tasks_data[_task_id],Project.user_role)
 
 func on_delete_task_pressed(task_id: String):
 	confirm_critical_popup.visible = true
@@ -86,7 +115,9 @@ func on_delete_task_pressed(task_id: String):
 	
 	confirm_critical_popup.set_callbacks(func(_res):
 			TaskService.delete_task(Project.pid,task_id))
+#endregion
 
+#region Create task callbacks
 func _on_create_to_do_button_pressed() -> void:
 	create_task_popup.initialize(0)
 	create_task_popup.visible = true
@@ -102,3 +133,4 @@ func _on_create_done_button_pressed() -> void:
 func _on_create_cancelled_button_pressed() -> void:
 	create_task_popup.initialize(3)
 	create_task_popup.visible = true
+#endregion

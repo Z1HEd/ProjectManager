@@ -10,20 +10,34 @@ func start_listener(
 		on_error:= func(_res):pass) -> int:
 
 	var id = _next_id
-	_next_id +=1
+	_next_id += 1
 	var thread = Thread.new()
 	var info = {
 		"thread": thread,
 		"stop_flag": false,
 		"on_event": on_event,
 		"on_error": on_error,
-		"url": full_url
+		"url": full_url,
+		"started": false
 	}
 	_listeners[id] = info
-	var err = thread.start(_listener_thread.bind(id))
-	if err != OK:
+
+	# start only after token refresh
+	var _on_token_ok = func():
+		var err = thread.start(_listener_thread.bind(id))
+		if err != OK:
+			_listeners.erase(id)
+			on_error.call("Failed to start listener thread: %s" % err)
+			return
+		info["started"] = true
+
+	var _on_token_fail = func(err):
 		_listeners.erase(id)
-		return -1
+		on_error.call(err)
+
+	# ensure id_token is fresh before starting listener thread
+	Session.ensure_fresh_token(_on_token_ok, _on_token_fail)
+
 	return id
 
 func stop_listener(listener_id: int) -> void:
@@ -42,7 +56,7 @@ func _listener_thread(listener_id: int) -> void:
 	if not _listeners.has(listener_id):
 		return
 	var info = _listeners[listener_id]
-	var url: String = info.url
+	var url: String = info.url + Session.id_token
 
 	var trimmed = url.replace("https://", "")
 

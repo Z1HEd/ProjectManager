@@ -81,7 +81,7 @@ func append_messages(arr:Array, from_top := false):
 			add_date_label(oldest_date)
 		
 		var sender_id = str(m.get("authorId", ""))
-		var sender_name = Project.members_names.get(sender_id,"Unknown user")
+		var sender_name = Project.get_member_name(sender_id)
 		var ts = int(m.get("ts_server", 0))
 		var body = str(m.get("text", ""))
 		item.set_data(sender_name, ts, body)
@@ -160,5 +160,5 @@ func _sort_by_ts_server(a, b) -> bool:
 	return at < bt
 
 func on_error(err:String):
-		no_messages_text.visible = true
-		no_messages_text.text = "Error: %s" % err
+	no_messages_text.visible = true
+	no_messages_text.text = "Error: %s" % err

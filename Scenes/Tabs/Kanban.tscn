@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://snsi3livmyh"]
+[gd_scene load_steps=8 format=3 uid="uid://snsi3livmyh"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5petj"]
 [ext_resource type="Script" uid="uid://dq0o1u2tq2u4x" path="res://Scripts/Controllers/KanbanController.gd" id="2_q6m4a"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="3_q6m4a"]
 [ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="4_nos48"]
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="6_yd2ep"]
+[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="7_t7g2d"]
 
 [node name="Kanban" type="Control"]
 layout_mode = 3
@@ -218,6 +219,11 @@ visible = false
 layout_mode = 1
 
 [node name="ConfirmCriticalPopup" parent="." instance=ExtResource("6_yd2ep")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="ViewEditTaskPopup" parent="." instance=ExtResource("7_t7g2d")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1

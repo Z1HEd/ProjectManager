@@ -8,6 +8,7 @@ class_name CreateTaskPopup
 @onready var assignee_input : OptionButton = %AssigneeOptionButton
 
 @onready var create_button : Button = %SubmitButton
+@onready var cancel_button : Button = %CancelButton
 
 @onready var error_label := %ErrorLabel
 
@@ -17,16 +18,21 @@ func initialize(initial_status: int):
 	status_input.select(initial_status)
 	assignee_input.clear()
 	assignee_input.add_item("")
-	for member_name in Project.members_names.values():
-		assignee_input.add_item(member_name)
+	for member_id in Project.members_names.keys():
+		if Project.members[member_id] == "viewer": continue
+		assignee_input.add_item(Project.get_member_name(member_id))
 
 func _on_submit_success(_res):
+	create_button.disabled = false
+	cancel_button.disabled = false
+	
 	visible = false
 
 func _on_submit_fail(err_msg: String):
 	error_label.text = err_msg
 	error_label.visible = true
 	create_button.disabled = false
+	cancel_button.disabled = false
 
 func _on_submit_button_pressed() -> void:
 	error_label.visible = false
@@ -43,6 +49,7 @@ func _on_submit_button_pressed() -> void:
 	var assignee_uid := _get_assignee_uid()
 	
 	create_button.disabled = true
+	cancel_button.disabled = true
 	TaskService.create_task(
 			Project.pid, 
 			title, 

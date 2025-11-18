@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://drwhiyy0wwfvm"]
+[gd_scene load_steps=5 format=3 uid="uid://dm48oknbmvw57"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_fseh0"]
-[ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://Scripts/UIElements/CreateTaskPopup.gd" id="2_fseh0"]
-[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_x0krg"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_16hbh"]
+[ext_resource type="Script" uid="uid://cxwq0v8tkq6c4" path="res://Scripts/UIElements/ViewEditTaskPopup.gd" id="2_j6hhm"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_8pgh5"]
+[ext_resource type="Texture2D" uid="uid://yq73gphr501l" path="res://Assets/Icons/Copy.png" id="3_j6hhm"]
 
-[node name="CreateTaskPopup" type="Control"]
+[node name="ViewEditTaskPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,9 +14,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("1_fseh0")
+theme = ExtResource("1_16hbh")
 theme_type_variation = &"TransparentPanel"
-script = ExtResource("2_fseh0")
+script = ExtResource("2_j6hhm")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -36,7 +37,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(350, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
@@ -48,12 +49,38 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("1_fseh0")
-text = "Create new task"
+
+[node name="Title" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_16hbh")
+text = "Task <TaskID>"
+
+[node name="Button" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("3_j6hhm")
+expand_icon = true
+
+[node name="CreatedLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Created by: <name> at <Datetime>"
+
+[node name="LastModifiedLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Last updated by: <name> at <Datetime>"
 
 [node name="NameEdit" type="LineEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -63,12 +90,12 @@ max_length = 50
 
 [node name="DescriptionEdit" type="TextEdit" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 size_flags_vertical = 3
 placeholder_text = "Description"
 wrap_mode = 1
-script = ExtResource("3_x0krg")
+script = ExtResource("3_8pgh5")
 max_length = 1000
 
 [node name="VBoxContainer4" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
@@ -81,7 +108,7 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer4/VBoxContainer3"]
 layout_mode = 2
 theme_type_variation = &"SmallLabel"
-text = "Initial status:"
+text = "Status:"
 
 [node name="StatusOptionButton" type="OptionButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/VBoxContainer4/VBoxContainer3"]
 unique_name_in_owner = true
