@@ -13,13 +13,12 @@ extends Tab
 @export var task_control_prefab := preload("res://Scenes/Elements/KanbanTask.tscn")
 
 var tasks_data := {}
-var tasks_controls := {}
+var tasks_controls := {}  # map id -> Control
 var latest_updated_at :=0
 
 func open():
 	error_label.visible = false
 	
-	# clear containers
 	for child in to_do_container.get_children():
 		child.queue_free()
 	for child in in_progress_container.get_children():
@@ -32,7 +31,6 @@ func open():
 	latest_updated_at = 0
 	
 	var _on_fail = func(err):
-		print(err)
 		error_label.text = err
 		error_label.visible = true
 	
@@ -46,13 +44,13 @@ func open():
 func update_task_data(updated: Dictionary):
 	for task_id in updated.keys():
 		var patch = updated[task_id]
+		
 		if patch == null:
 			tasks_data.erase(task_id)
+		elif tasks_data.has(task_id):
+			tasks_data[task_id].merge(patch, true)
 		else:
-			if tasks_data.has(task_id):
-				tasks_data[task_id].merge(patch, true)
-			else:
-				tasks_data[task_id] = patch.duplicate(true)
+			tasks_data[task_id] = patch.duplicate(true)
 
 		if tasks_data.has(task_id) and tasks_data[task_id].has("updatedAt"):
 			var task_updated_at = tasks_data[task_id]["updatedAt"]
