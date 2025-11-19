@@ -21,6 +21,7 @@ Session="*res://Scripts/Singletons/SessionManager.gd"
 Project="*res://Scripts/Singletons/ProjectManager.gd"
 Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
 Streaming="*res://Scripts/Singletons/StreamingManager.gd"
+DragManager="*res://Scripts/Singletons/DragManager.gd"
 
 [file_customization]
 

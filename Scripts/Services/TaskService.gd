@@ -59,6 +59,15 @@ static func modify_task(
 			on_success, 
 			on_fail)
 
+static func update_status(pid: String, task_id: String, status: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
+	var url = "%s/tasks/%s/%s.json?auth=" % [Firebase.project_db_url, pid, task_id]
+	var body = {
+		"status": status,
+		"updatedAt": { ".sv": "timestamp" },
+		"lastModifiedBy": Session.uid
+	}
+	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, body, ["Content-Type: application/json"], on_success, on_fail)
+
 static func delete_task(
 		pid: String, 
 		task_id: String, 

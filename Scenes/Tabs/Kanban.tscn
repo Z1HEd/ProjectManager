@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://snsi3livmyh"]
+[gd_scene load_steps=9 format=3 uid="uid://snsi3livmyh"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5petj"]
 [ext_resource type="Script" uid="uid://dq0o1u2tq2u4x" path="res://Scripts/Controllers/KanbanController.gd" id="2_q6m4a"]
 [ext_resource type="PackedScene" uid="uid://bhmuqgfgobpm" path="res://Scenes/Elements/KanbanTask.tscn" id="3_e22d8"]
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="3_q6m4a"]
+[ext_resource type="Script" uid="uid://dpkea18pqyg61" path="res://Scripts/UIElements/KanbanColumn.gd" id="3_tqx3u"]
 [ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="4_nos48"]
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="6_yd2ep"]
 [ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="7_t7g2d"]
@@ -85,6 +86,7 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("3_tqx3u")
 
 [node name="ToDoContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -125,6 +127,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("3_tqx3u")
+status = "in_progress"
 
 [node name="InProgressContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -162,6 +166,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("3_tqx3u")
+status = "done"
 
 [node name="DoneContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -199,6 +205,8 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("3_tqx3u")
+status = "cancelled"
 
 [node name="CancelledContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true

@@ -48,11 +48,11 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 	for member_id in Project.members_names.keys():
 		if Project.members[member_id] == "viewer": continue
 		assignee_input.add_item(Project.get_member_name(member_id))
-		if member_id == task_data["assignedTo"]:
+		if member_id == task_data.get("assignedTo",""):
 			assignee_input.select(assignee_input.item_count-1)
 	
 	var is_manager := user_role == "owner" or user_role == "manager"
-	var is_assignee = Session.uid == task_data["assignedTo"]
+	var is_assignee = Session.uid == task_data.get("assignedTo","")
 	name_input.editable = is_manager
 	description_input.editable = is_manager
 	assignee_input.disabled = !is_manager
@@ -90,7 +90,8 @@ func _on_submit_button_pressed() -> void:
 	var priority = _get_priority()
 	if priority !=data["priority"]: new_data["priority"] = priority
 	var assignee_uid := _get_assignee_uid()
-	if assignee_uid !=data["assignedTo"]: new_data["assignedTo"] = assignee_uid
+	if assignee_uid != data.get("assignedTo",""):
+		new_data["assignedTo"] = assignee_uid
 	
 	if new_data == {}: return
 	

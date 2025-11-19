@@ -73,12 +73,11 @@ func update_task_control(id:String):
 	var assignee_uid = task.get("assignedTo","")
 	
 	var task_ctrl = tasks_controls.get(id,task_control_prefab.instantiate())
-	
-	task_ctrl.call_deferred("set_info",title, assignee_uid, id)
+	task_ctrl.set_info(id,task["status"])
+	task_ctrl.call_deferred("set_displayed_info",title, assignee_uid)
 	task_ctrl.set_callbacks(
 			on_edit_task_pressed,
 			on_delete_task_pressed)
-	
 	var status = task["status"]
 	var container: VBoxContainer
 	
@@ -98,6 +97,23 @@ func update_task_control(id:String):
 		container.add_child(task_ctrl)
 	
 	tasks_controls[id] = task_ctrl
+	sort_container(container)
+
+func sort_container(container:VBoxContainer):
+	var children := container.get_children()
+	
+	children.sort_custom(
+		# For descending order use > 0
+		func(a: KanbanTask, b: KanbanTask): 
+			return tasks_data[a.task_id]["updatedAt"]>\
+					tasks_data[b.task_id]["updatedAt"]
+	)
+	
+	for node in container.get_children():
+		container.remove_child(node)
+
+	for node in children:
+		container.add_child(node)
 
 #region Task actions callbacks
 func on_edit_task_pressed(_task_id: String):
