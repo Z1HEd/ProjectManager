@@ -7,6 +7,8 @@ class_name KanbanTask
 @onready var edit_button := %EditButton
 @onready var delete_button := %DeleteButton
 
+@export var icon_details := preload("res://Assets/Icons/More.png")
+
 var task_id := ""
 var task_status :="to-do"
 
@@ -27,10 +29,9 @@ func set_displayed_info(task_name:String, assignee_uid:String):
 		assignee_label.text ="Assigned: %s" % Project.get_member_name(assignee_uid)
 	
 	if Project.user_role == "owner" or Project.user_role =="manager":
-		edit_button.visible=true
 		delete_button.visible=true
-	else:
-		edit_button.visible = true
+	elif assignee_uid != Session.uid:
+		edit_button.icon = icon_details
 
 #region dragging
 func _gui_input(event: InputEvent) -> void:

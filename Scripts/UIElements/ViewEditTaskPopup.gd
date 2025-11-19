@@ -53,12 +53,14 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 	
 	var is_manager := user_role == "owner" or user_role == "manager"
 	var is_assignee = Session.uid == task_data.get("assignedTo","")
-	name_input.editable = is_manager
-	description_input.editable = is_manager
+	var can_edit = is_manager or is_assignee
+	
+	name_input.editable = can_edit
+	description_input.editable = can_edit
 	assignee_input.disabled = !is_manager
-	priority_input.disabled = !is_manager
-	status_input.disabled = !is_manager and !is_assignee
-	submit_button.disabled = !is_manager and !is_assignee
+	priority_input.disabled = !can_edit
+	status_input.disabled = !can_edit
+	submit_button.disabled = !can_edit
 
 func _on_submit_success(_res):
 	submit_button.disabled = false
