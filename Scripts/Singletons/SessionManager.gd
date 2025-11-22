@@ -63,31 +63,13 @@ func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> in
 	if refresh_token == "":
 		on_fail.call("no_refresh_token")
 		return -1
-	
-	var refresh_url = "https://securetoken.googleapis.com/v1/token?key=%s" % Firebase.api_key
-	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % refresh_token
-	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
 
 	var _on_refresh_success = func(parsed):
-		if parsed == null or not parsed is Dictionary:
-			on_fail.call("invalid_refresh_response")
-			return
-			
 		update_from_response(parsed)
-
+		AppNotifications.push("Authomatically signed in as:\n%s" % Session.email)
 		on_success.call(parsed)
-
-	var _on_refresh_fail = func(err):
-		on_fail.call(err)
-
-	return Firebase.send_request(
-			refresh_url, 
-			HTTPClient.METHOD_POST, 
-			refresh_body, 
-			refresh_headers, 
-			_on_refresh_success, 
-			_on_refresh_fail,
-			"auth")
+	
+	return UserService.refresh(refresh_token,_on_refresh_success)
 
 func update_from_response(response: Dictionary) -> void:
 	if response == null:

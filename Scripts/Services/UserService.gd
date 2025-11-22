@@ -120,6 +120,7 @@ static func login(
 			return
 		
 		Session.update_from_response(user_data)
+		AppNotifications.push("Signed in as %s" % Session.email)
 		on_success.call(Session.uid)
 	
 	return Firebase.send_request(
@@ -128,6 +129,30 @@ static func login(
 			body,
 			["Content-Type: application/json"],
 			_on_success,
+			on_fail,
+			"auth")
+
+static func refresh(refresh_token:String,
+		on_success:=func(_res):pass, 
+		on_fail:=func(_err):pass) -> int:
+	
+	var refresh_url = "https://securetoken.googleapis.com/v1/token?key=%s" % Firebase.api_key
+	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % refresh_token
+	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
+
+	var _on_refresh_success = func(parsed):
+		if parsed == null or not parsed is Dictionary:
+			on_fail.call("invalid_refresh_response")
+			return
+		
+		on_success.call(parsed)
+
+	return Firebase.send_request(
+			refresh_url, 
+			HTTPClient.METHOD_POST, 
+			refresh_body, 
+			refresh_headers, 
+			_on_refresh_success, 
 			on_fail,
 			"auth")
 

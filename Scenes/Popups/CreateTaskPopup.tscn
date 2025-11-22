@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://drwhiyy0wwfvm"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_fseh0"]
-[ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://Scripts/UIElements/CreateTaskPopup.gd" id="2_fseh0"]
+[ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://Scripts/Popups/CreateTaskPopup.gd" id="2_fseh0"]
 [ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_x0krg"]
 
 [node name="CreateTaskPopup" type="Control"]

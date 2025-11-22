@@ -22,6 +22,7 @@ Project="*res://Scripts/Singletons/ProjectManager.gd"
 Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
 Streaming="*res://Scripts/Singletons/StreamingManager.gd"
 DragManager="*res://Scripts/Singletons/DragManager.gd"
+AppNotifications="*res://Scripts/Singletons/AppNotificationsManager.gd"
 
 [editor_plugins]
 

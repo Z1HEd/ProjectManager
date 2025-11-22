@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cuym1dcv4ctl2"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_653ao"]
-[ext_resource type="Script" uid="uid://b0sefecguqbqy" path="res://Scripts/UIElements/OptionPopup.gd" id="2_42h13"]
+[ext_resource type="Script" uid="uid://b0sefecguqbqy" path="res://Scripts/Popups/OptionPopup.gd" id="2_42h13"]
 
 [node name="OptionPopup" type="Control"]
 layout_mode = 3
