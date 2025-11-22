@@ -73,13 +73,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="MessageInputPanel" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel"]
 layout_mode = 2
 
-[node name="MessageEdit" type="TextEdit" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel"]
+layout_mode = 2
+
+[node name="MessageEdit" type="TextEdit" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -90,7 +94,7 @@ max_lines = 10
 max_length = 1000
 metadata/_custom_type_script = "uid://m4oghr4wgu7g"
 
-[node name="Button" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_vertical = 0
@@ -98,5 +102,5 @@ icon = ExtResource("3_y1xpl")
 vertical_icon_alignment = 0
 expand_icon = true
 
-[connection signal="sent_message" from="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/MessageEdit" to="." method="send_message"]
-[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/Button" to="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer/MessageEdit" method="message_send"]
+[connection signal="sent_message" from="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel/HBoxContainer/MessageEdit" to="." method="send_message"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel/HBoxContainer/Button" to="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/VBoxContainer/MessageInputPanel/HBoxContainer/MessageEdit" method="message_send"]

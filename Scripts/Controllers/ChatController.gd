@@ -4,6 +4,7 @@ class_name TeamChatController
 @onready var no_messages_text : Label = %NoMessagesLabel
 @onready var messages_container : VBoxContainer = %MessagesContainer
 @onready var scroll : ScrollContainer = %ScrollContainer
+@onready var message_input_panel = %MessageInputPanel
 
 @export var message_prefab := preload("res://Scenes/Elements/ChatMessage.tscn")
 @export var date_label_prefab := preload("res://Scenes/Elements/DateLabel.tscn")
@@ -18,7 +19,8 @@ const SCROLL_TOLERANCE := 10
 
 func open():
 	no_messages_text.text = "Loading..."
-
+	message_input_panel.visible = Project.user_role != "viewer"
+	
 	for child in messages_container.get_children():
 		child.queue_free()
 	
