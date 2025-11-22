@@ -26,11 +26,8 @@ static func register(
 		"returnSecureToken": true
 	}
 
-	var _profile_write_success = func(_parsed):
-			on_success.call(Session)
-
-	var _profile_write_fail = func(err_msg):
-		_attempt_delete_auth_then_report(str(err_msg), on_fail)
+	var _profile_write_fail = func(err_msg:String):
+		_attempt_delete_auth_then_report(err_msg, on_fail)
 	
 	# This lambda is ugly but i dont want to pass callbacks into callbacks 
 	# so i will leave it as is
@@ -54,12 +51,13 @@ static func register(
 				HTTPClient.METHOD_PUT,
 				profile,
 				["Content-Type: application/json"], 
-				_profile_write_success,
+				on_success,
 				_profile_write_fail,
 				"auth")
 
-	var _signup_fail = func(err_msg):
-			on_fail.call(str(err_msg))
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to register a new user:\n%s" % err_msg)
+		on_fail.call(err_msg)
 
 	return Firebase.send_request(
 			url, 
@@ -67,7 +65,7 @@ static func register(
 			body, 
 			["Content-Type: application/json"], 
 			_signup_success, 
-			_signup_fail,
+			_on_fail,
 			"auth")
 
 static func _attempt_delete_auth_then_report(
@@ -75,20 +73,15 @@ static func _attempt_delete_auth_then_report(
 		on_complete: Callable) -> void:
 	
 	# Auth rolled back
-	var _on_delete_success = func():
-		var msg = "Profile write failed; created auth account was deleted. Original error: %s" % \
-				original_error
-		on_complete.call(msg)
+	var _on_success = func():
+		AppNotifications.push("Profile write failed; created auth account was deleted. "+
+				"Original error: %s" % original_error)
+		on_complete.call()
 	
-	# Rollback failed
-	var _on_delete_fail = func(err_msg):
-		var msg = "Profile write failed; rollback failed: %s. Original error: %s" % \
-				[err_msg, original_error]
-		on_complete.call(msg)
-
-	if Session.id_token == "":
-		_on_delete_fail.call("Missing id_token for delete")
-		return
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Profile write failed; rollback failed: %s. 
+				Original error: %s" % [err_msg, original_error])
+		on_complete.call(err_msg)
 	
 	var url = DELETE_ACCOUNT_ENDPOINT + Firebase.api_key
 	var body = {"idToken": Session.id_token}
@@ -97,8 +90,8 @@ static func _attempt_delete_auth_then_report(
 			HTTPClient.METHOD_POST,
 			body,
 			["Content-Type: application/json"],
-			_on_delete_success,
-			_on_delete_fail,
+			_on_success,
+			_on_fail,
 			"auth")
 
 static func login(
@@ -123,13 +116,17 @@ static func login(
 		AppNotifications.push("Signed in as %s" % Session.email)
 		on_success.call(Session.uid)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to sign in:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url,
 			HTTPClient.METHOD_POST,
 			body,
 			["Content-Type: application/json"],
 			_on_success,
-			on_fail,
+			_on_fail,
 			"auth")
 
 static func refresh(refresh_token:String,
@@ -140,20 +137,23 @@ static func refresh(refresh_token:String,
 	var refresh_body = "grant_type=refresh_token&refresh_token=%s" % refresh_token
 	var refresh_headers = ["Content-Type: application/x-www-form-urlencoded"]
 
-	var _on_refresh_success = func(parsed):
+	var _on_success = func(parsed):
 		if parsed == null or not parsed is Dictionary:
 			on_fail.call("invalid_refresh_response")
 			return
-		
 		on_success.call(parsed)
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to refresh session:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			refresh_url, 
 			HTTPClient.METHOD_POST, 
 			refresh_body, 
 			refresh_headers, 
-			_on_refresh_success, 
-			on_fail,
+			_on_success, 
+			_on_fail,
 			"auth")
 
 static func delete_user(
@@ -162,12 +162,15 @@ static func delete_user(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to delete a user:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	for pid in projects_dict.keys():
 		if projects_dict[pid] == "owner":
-			on_fail.call("Cannot delete owner of any project!")
+			_on_fail.call("Cannot delete owner of any project!")
 			return -1
 	
-
 	var updates := {}
 	for pid in projects_dict.keys():
 		updates["projects/%s/members/%s" % [pid, uid]] = null
@@ -187,7 +190,7 @@ static func delete_user(
 				auth_delete_body, 
 				["Content-Type: application/json"], 
 				on_success, 
-				on_fail)
+				_on_fail)
 
 	return Firebase.send_request(
 			patch_url, 
@@ -195,7 +198,7 @@ static func delete_user(
 			updates, 
 			["Content-Type: application/json"], 
 			_on_patch_success, 
-			on_fail)
+			_on_fail)
 
 static func get_user_projects(
 		uid, 
@@ -210,13 +213,17 @@ static func get_user_projects(
 		else:
 			on_success.call(result)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch user projects:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			_on_success, 
-			on_fail)
+			_on_fail)
 
 static func get_display_name(
 		uid: String,
@@ -225,13 +232,17 @@ static func get_display_name(
 	
 	var url = "%s/users/%s/displayName.json?auth=" % [Firebase.project_db_url, uid]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch user name:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func get_user_by_email(
 		user_email:String,
@@ -241,13 +252,17 @@ static func get_user_by_email(
 	var query_url = '%s/users.json?orderBy="email"&equalTo="%s&auth="' % \
 			[ Firebase.project_db_url, user_email ]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch a user by email:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			query_url,
 			HTTPClient.METHOD_GET,
 			{},
 			[],
 			on_success,
-			on_fail)
+			_on_fail)
 
 static func get_user(
 		uid: String, 
@@ -256,13 +271,17 @@ static func get_user(
 	
 	var url = "%s/users/%s.json?auth=" % [ Firebase.project_db_url, uid ]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch a user:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			on_success,
-			on_fail)
+			_on_fail)
 
 static func change_name(
 		uid: String, 
@@ -274,13 +293,17 @@ static func change_name(
 	
 	var payload = { "displayName": new_name }
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to change user name:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_PATCH, 
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func change_email(
 		uid: String, 
@@ -295,10 +318,14 @@ static func change_email(
 		"email": new_email,
 		"returnSecureToken": true
 	}
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to change email:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	var _on_auth_success = func(resp):
 		if resp == null or not resp is Dictionary:
-			on_fail.call("invalid_auth_response")
+			_on_fail.call("invalid_auth_response")
 			return
 
 		Session.update_from_response(resp)
@@ -313,7 +340,7 @@ static func change_email(
 				patch_body, 
 				["Content-Type: application/json"], 
 				on_success, 
-				on_fail)
+				_on_fail)
 
 	return Firebase.send_request(
 			url, 
@@ -321,7 +348,7 @@ static func change_email(
 			auth_body, 
 			["Content-Type: application/json"], 
 			_on_auth_success, 
-			on_fail)
+			_on_fail)
 
 static func change_password(
 		new_password: String, 
@@ -341,10 +368,14 @@ static func change_password(
 			Session.update_from_response(resp)
 		on_success.call(resp)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to change password:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_POST, 
 			body, 
 			["Content-Type: application/json"], 
 			_on_success, 
-			on_fail)
+			_on_fail)

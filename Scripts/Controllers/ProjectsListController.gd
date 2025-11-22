@@ -28,7 +28,10 @@ func refresh_projects():
 		projects = projects_dict
 		repopulate_project_list()
 	
-	UserService.get_user_projects(Session.uid,_on_success)
+	var _on_fail = func(_err_msg : String):
+		refresh_button.disabled = false
+	
+	UserService.get_user_projects(Session.uid,_on_success,_on_fail)
 
 var projects_to_read : int
 func repopulate_project_list():

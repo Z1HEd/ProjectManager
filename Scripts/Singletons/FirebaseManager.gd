@@ -149,7 +149,7 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 	var body_text = body.get_string_from_utf8()
 
 	var parsed = _parse_response_body(body_text)
-
+	
 	var success_cb = _current_request["on_success"]
 	var fail_cb = _current_request["on_fail"]
 
@@ -162,7 +162,9 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 		_process_next()
 	else:
 		var err_msg = _extract_error_message(parsed)
-		var is_perm_error = (response_code == 401) or (err_msg is String and err_msg.findn("Permission denied") != -1)
+		if err_msg == "": err_msg = _get_error_message_from_result_code(_result)
+		var is_perm_error = (response_code == 401) or \
+				(err_msg is String and err_msg.findn("Permission denied") != -1)
 		var already_retried = _current_request.get("retried", false)
 
 		if !is_perm_error or already_retried:
@@ -190,3 +192,23 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 
 		Session.ensure_fresh_token(_on_refresh_success, _on_refresh_fail)
 		return
+
+func _get_error_message_from_result_code(result:HTTPRequest.Result):
+	match result:
+		HTTPRequest.RESULT_CANT_CONNECT:
+			return "Cannot connect to server."
+		HTTPRequest.RESULT_CANT_RESOLVE:
+			return "Cannot resolve host."
+		HTTPRequest.RESULT_CONNECTION_ERROR:
+			return "Connection error."
+		HTTPRequest.RESULT_TLS_HANDSHAKE_ERROR:
+			return "TLS handshake failed."
+		HTTPRequest.RESULT_TIMEOUT:
+			return "Request timed out."
+		HTTPRequest.RESULT_NO_RESPONSE:
+			return "No response from server."
+		HTTPRequest.RESULT_CHUNKED_BODY_SIZE_MISMATCH:
+			return "Invalid chunked response."
+		HTTPRequest.RESULT_BODY_DECOMPRESS_FAILED:
+			return "Response decompression failed."
+	return ""

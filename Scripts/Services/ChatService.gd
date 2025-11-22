@@ -17,14 +17,18 @@ static func send_message(
 		"text": message,
 		"ts_server": { ".sv": "timestamp" }
 	}
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to send a message:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url,
 			HTTPClient.METHOD_POST,
 			body,
 			["Content-Type: application/json"],
 			on_success,
-			on_fail)
+			_on_fail)
 
 static func fetch_recent(
 		pid: String,
@@ -43,14 +47,18 @@ static func fetch_recent(
 			on_fail.call("Invalid response: %s" % response)
 			return
 		on_success.call(response)
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch recent messages:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url,
 			HTTPClient.METHOD_GET,
 			{},
 			[],
 			_on_success,
-			on_fail)
+			_on_fail)
 
 static func fetch_before(
 		pid: String,
@@ -61,7 +69,7 @@ static func fetch_before(
 
 	var url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&endAt=%%22%s%%22&limitToLast=%d&auth=" % \
 		[Firebase.project_db_url, pid, before_key, limit]
-
+	
 	var _on_success = func(response):
 		if response == null:
 			on_success.call({})
@@ -69,18 +77,19 @@ static func fetch_before(
 		if not response is Dictionary:
 			on_fail.call("Invalid response: %s" % response)
 			return
-
-		response.erase(before_key)
-
 		on_success.call(response)
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch old messages:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 		url,
 		HTTPClient.METHOD_GET,
 		{},
 		[],
 		_on_success,
-		on_fail)
+		_on_fail)
 
 static func start_listening(
 	pid: String,
@@ -96,11 +105,12 @@ static func start_listening(
 
 	var _on_new_messages = _on_update.bind(on_new_messages)
 	
-	var _on_error = func(err:String):
+	var _on_fail = func(err_msg:String):
 		_listeners.erase(pid)
-		on_fail.call(err)
+		AppNotifications.push("Failed to start message listener:\n%s"%err_msg)
+		on_fail.call(err_msg)
 	
-	var listener_id = Streaming.start_listener(full_url, _on_new_messages, _on_error)
+	var listener_id = Streaming.start_listener(full_url, _on_new_messages, _on_fail)
 	
 	_listeners[pid] = listener_id
 

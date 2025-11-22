@@ -18,13 +18,17 @@ static func create_invite(
 		"inviteMessage": invite_message
 	}
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to create an invite:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			path, 
 			HTTPClient.METHOD_PUT, 
 			payload, 
 			[], 
 			on_success, 
-			on_fail
+			_on_fail
 	)
 
 static func accept_invite(
@@ -40,14 +44,18 @@ static func accept_invite(
 	payload["invites/%s/%s" % [invitee_uid, project_id]] = null
 
 	var root_patch_url = "%s/.json?auth=" % [ Firebase.project_db_url ]
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to accept an invite:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			root_patch_url, 
 			HTTPClient.METHOD_PATCH, 
 			payload, 
 			[], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func decline_invite(
 		project_id: String, 
@@ -58,12 +66,16 @@ static func decline_invite(
 	var url = "%s/invites/%s/%s.json?auth=" % \
 			[ Firebase.project_db_url, invitee_uid, project_id ]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to decline an invite:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(url, 
 			HTTPClient.METHOD_DELETE, 
 			{}, 
 			[], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 
 static func get_user_invites(
@@ -83,11 +95,15 @@ static func get_user_invites(
 			on_fail.call("Invalid response: %s" % str(result))
 			return
 		on_success.call(result)
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch invites:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			_on_success, 
-			on_fail)
+			_on_fail)

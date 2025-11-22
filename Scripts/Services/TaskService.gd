@@ -30,13 +30,17 @@ static func create_task(
 	if assigned_to != "":
 		body["assignedTo"] = assigned_to
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to create a task:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_POST, 
 			body, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func modify_task(
 		pid: String, 
@@ -51,22 +55,38 @@ static func modify_task(
 	data["updatedAt"] = { ".sv": "timestamp" }
 	data["lastModifiedBy"] =  Session.uid
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to modify a task:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_PATCH, 
 			data, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func update_status(pid: String, task_id: String, status: String, on_success := func(_res):pass, on_fail := func(_err):pass) -> int:
 	var url = "%s/tasks/%s/%s.json?auth=" % [Firebase.project_db_url, pid, task_id]
+	
 	var body = {
 		"status": status,
 		"updatedAt": { ".sv": "timestamp" },
 		"lastModifiedBy": Session.uid
 	}
-	return Firebase.send_request(url, HTTPClient.METHOD_PATCH, body, ["Content-Type: application/json"], on_success, on_fail)
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to update task status:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
+	return Firebase.send_request(
+			url, 
+			HTTPClient.METHOD_PATCH, 
+			body, 
+			["Content-Type: application/json"], 
+			on_success, 
+			_on_fail)
 
 static func delete_task(
 		pid: String, 
@@ -77,13 +97,17 @@ static func delete_task(
 	var url = "%s/tasks/%s/%s.json?auth=" % \
 			[Firebase.project_db_url, pid, task_id]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to delete a task:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_DELETE, 
 			null, 
 			[], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func get_all(
 		pid: String, 
@@ -98,13 +122,17 @@ static func get_all(
 			return
 		on_success.call(response)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch tasks data:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			_on_success, 
-			on_fail)
+			_on_fail)
 
 static func start_listening(pid: String, last_known_updated_at: int, on_task_updates := func(_res):pass, on_fail := func(_err):pass) -> void:
 	if _listeners.has(pid):
@@ -114,11 +142,12 @@ static func start_listening(pid: String, last_known_updated_at: int, on_task_upd
 
 	var _on_new = _on_update.bind(on_task_updates)
 
-	var _on_error = func(err:String):
+	var _on_fail = func(err_msg:String):
 		_listeners.erase(pid)
-		on_fail.call(err)
+		AppNotifications.push("Failed to start a task listener:\n%s" % err_msg)
+		on_fail.call(err_msg)
 
-	var listener_id = Streaming.start_listener(full_url, _on_new, _on_error)
+	var listener_id = Streaming.start_listener(full_url, _on_new, _on_fail)
 
 	_listeners[pid] = listener_id
 

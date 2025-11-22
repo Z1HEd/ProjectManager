@@ -23,18 +23,22 @@ static func create_project(
 		}
 	}
 	
-	var _on_project_created = func(response):
+	var _on_success = func(response):
 		if !response is Dictionary:
 			on_fail.call("Invalid response from Firebase: %s" % response)
 		var uid = response.get("name","")
 		add_project_to_current_user(uid,"owner",on_success,on_fail)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to create a project:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(url, 
 			HTTPClient.METHOD_POST, 
 			body, 
 			["Content-Type: application/json"], 
-			_on_project_created, 
-			on_fail)
+			_on_success, 
+			_on_fail)
 
 static func add_project_to_current_user(
 		uid : String,
@@ -52,13 +56,17 @@ static func add_project_to_current_user(
 			on_fail.call("Invalid response: %s" % response)
 		on_success.call(uid)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to add project to user:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_PATCH, 
 			body, 
 			["Content-Type: application/json"], 
 			_on_success, 
-			on_fail)
+			_on_fail)
 
 static func get_project(
 		pid: String,
@@ -73,13 +81,17 @@ static func get_project(
 			on_fail.call("Invalid response: %s" % response)
 		on_success.call(response)
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch project data:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_GET, 
 			{}, 
 			[], 
 			_on_success, 
-			on_fail)
+			_on_fail)
 
 static func remove_member(
 		project_id: String, 
@@ -92,14 +104,18 @@ static func remove_member(
 	payload["users/%s/projects/%s" % [user_id, project_id]] = null
 
 	var root_patch_url = "%s/.json?auth=" % [Firebase.project_db_url]
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to remove a project member:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			root_patch_url, 
 			HTTPClient.METHOD_PATCH, 
 			payload, 
 			[], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func edit_project(
 		project_id: String, 
@@ -114,14 +130,18 @@ static func edit_project(
 		"name": project_name,
 		"description": project_description,
 	}
-
+	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to update a project:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			path, 
 			HTTPClient.METHOD_PATCH, 
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func delete_project(
 		project_id: String, 
@@ -138,13 +158,17 @@ static func delete_project(
 
 	var patch_url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to delete a project:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			patch_url, 
 			HTTPClient.METHOD_PATCH, 
 			updates, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func set_role(
 		project_id: String, 
@@ -159,13 +183,17 @@ static func set_role(
 
 	var url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to set member's role:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_PATCH, 
 			payload, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
 
 static func transfer_ownership(
 		project_id: String, 
@@ -186,10 +214,14 @@ static func transfer_ownership(
 
 	var url = "%s/.json?auth=" % [Firebase.project_db_url]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to transfer ownership:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	return Firebase.send_request(
 			url, 
 			HTTPClient.METHOD_PATCH, 
 			updates, 
 			["Content-Type: application/json"], 
 			on_success, 
-			on_fail)
+			_on_fail)
