@@ -41,6 +41,9 @@ func open():
 	Project.update_member_names()
 	TaskService.get_all(Project.pid, _on_success, _on_fail)
 
+func close():
+	TaskService.stop_listening(Project.pid)
+
 func update_task_data(updated: Dictionary):
 	for task_id in updated.keys():
 		var patch = updated[task_id]
@@ -124,7 +127,7 @@ func on_delete_task_pressed(task_id: String):
 	confirm_critical_popup.set_info("Delete task?",
 			'All data related to "%s" will be deleted irreversibly.'%\
 					tasks_data[task_id]["title"]+
-			'Enter "DELTE" to confirm',
+			' Enter "DELETE" to confirm',
 			"DELETE")
 	
 	confirm_critical_popup.set_callbacks(func(_res):

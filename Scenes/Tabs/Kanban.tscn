@@ -240,3 +240,4 @@ layout_mode = 1
 [connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer/VBoxContainer/CreateInProgressButton" to="." method="_on_create_in_progress_button_pressed"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer/VBoxContainer/CreateDoneButton" to="." method="_on_create_done_button_pressed"]
 [connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer/VBoxContainer/CreateCancelledButton" to="." method="_on_create_cancelled_button_pressed"]
+[connection signal="delete_pressed" from="ViewEditTaskPopup" to="." method="on_delete_task_pressed"]

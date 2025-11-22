@@ -56,4 +56,5 @@ func update_member_names():
 		UserService.get_display_name(uid,on_success,func(err):print(err))
 
 func get_member_name(uid:String)->String:
+	if uid == "": return ""
 	return members_names.get(uid,"Unknown user")

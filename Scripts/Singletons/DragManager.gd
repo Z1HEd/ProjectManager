@@ -9,7 +9,6 @@ signal drag_started(data)
 signal drag_ended()
 
 func start_drag(data: Dictionary) -> void:
-	print("dragging")
 	dragging = true
 	drag_data = data
 	drag_started.emit(data)

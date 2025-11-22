@@ -9,7 +9,7 @@ static func create_task(
 		title: String, 
 		description := "", 
 		assigned_to := "", 
-		priority := "medium", 
+		priority := 0, 
 		status := "todo", 
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:

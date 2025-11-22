@@ -23,6 +23,10 @@ Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
 Streaming="*res://Scripts/Singletons/StreamingManager.gd"
 DragManager="*res://Scripts/Singletons/DragManager.gd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dynamic_table/plugin.cfg")
+
 [file_customization]
 
 folder_colors={

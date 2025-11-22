@@ -11,6 +11,7 @@ class_name KanbanTask
 
 var task_id := ""
 var task_status :="to-do"
+var assignee_uid :=""
 
 var on_edit : Callable
 var on_delete : Callable
@@ -21,8 +22,9 @@ func set_info(_task_id:String,_task_status:String):
 	task_id = _task_id
 	task_status = _task_status
 
-func set_displayed_info(task_name:String, assignee_uid:String):
+func set_displayed_info(task_name:String, _assignee_uid:String):
 	name_label.text = task_name
+	assignee_uid = _assignee_uid
 	if assignee_uid =="":
 		assignee_label.text = "Assigned: None"
 	else:
@@ -32,6 +34,9 @@ func set_displayed_info(task_name:String, assignee_uid:String):
 		delete_button.visible=true
 	elif assignee_uid != Session.uid:
 		edit_button.icon = icon_details
+
+func _can_edit() -> bool:
+	return Project.user_role in ["owner","manager"] or Session.uid == assignee_uid
 
 #region dragging
 func _gui_input(event: InputEvent) -> void:
@@ -43,6 +48,9 @@ func _gui_input(event: InputEvent) -> void:
 
 # Godot calls this automatically when a drag starts over this Control
 func _get_drag_data(_at_position: Vector2) -> Variant:
+	if not _can_edit():
+		return null
+	
 	var data := {"task_id": task_id, "status": task_status}
 	var preview := _make_drag_preview()
 	set_drag_preview(preview)

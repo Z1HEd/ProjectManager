@@ -12,10 +12,12 @@ class_name ViewEditTaskPopup
 @onready var assignee_input : OptionButton = %AssigneeOptionButton
 
 @onready var submit_button : Button = %SubmitButton
+@onready var delete_button : Button = %DeleteButton
 @onready var cancel_button : Button = %CancelButton
 
 @onready var error_label := %ErrorLabel
 
+signal delete_pressed(id:String)
 var current_id :String
 var data :Dictionary
 
@@ -42,6 +44,7 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 	name_input.text = task_data["title"]
 	description_input.text = task_data["description"]
 	_set_status(task_data["status"])
+	priority_input.select(task_data["priority"])
 	
 	assignee_input.clear()
 	assignee_input.add_item("")
@@ -58,6 +61,7 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 	name_input.editable = can_edit
 	description_input.editable = can_edit
 	assignee_input.disabled = !is_manager
+	delete_button.disabled = !is_manager
 	priority_input.disabled = !can_edit
 	status_input.disabled = !can_edit
 	submit_button.disabled = !can_edit
@@ -83,14 +87,16 @@ func _on_submit_button_pressed() -> void:
 		error_label.text = "Task must have a title!"
 		error_label.visible = true
 		return
+	
 	if task_name !=data["title"]: new_data["title"] = task_name
 	var description = description_input.text.strip_edges()
 	if description !=data["description"]: new_data["description"] = description
-
-	var status = _get_status()
-	if status !=data["status"]: new_data["status"] = status
-	var priority = _get_priority()
+	var priority = priority_input.selected
 	if priority !=data["priority"]: new_data["priority"] = priority
+	
+	var status = _get_status()
+	if status !=data["status"]: 
+		new_data["status"] = status
 	var assignee_uid := _get_assignee_uid()
 	if assignee_uid != data.get("assignedTo",""):
 		new_data["assignedTo"] = assignee_uid
@@ -111,6 +117,10 @@ func _on_submit_button_pressed() -> void:
 func _on_cancel_button_pressed() -> void:
 	visible = false
 
+func _on_delete_button_pressed() -> void:
+	visible = false
+	delete_pressed.emit(current_id)
+
 func _get_status()->String:
 	match status_input.get_selected():
 		0: return "to_do"
@@ -125,14 +135,6 @@ func _set_status(status:String):
 		"in_progress": status_input.select(1)
 		"done": status_input.select(2)
 		"cancelled": status_input.select(3)
-
-func _get_priority()->String:
-	match priority_input.get_selected():
-		0: return "low"
-		1: return "medium"
-		2: return "high"
-		3: return "critical"
-	return ""
 
 func _get_assignee_uid()->String:
 	if assignee_input.get_selected() == -1 :

@@ -45,7 +45,7 @@ func _on_submit_button_pressed() -> void:
 		return
 
 	var status = _get_status()
-	var priority = _get_priority()
+	var priority = priority_input.selected
 	var assignee_uid := _get_assignee_uid()
 	
 	create_button.disabled = true
