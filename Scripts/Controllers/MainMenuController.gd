@@ -12,7 +12,6 @@ func _ready():
 	var _on_project_opened = func():
 		open_tab(summary_tab)
 		dashboard.set_project_buttons_enabled(true)
-		
 	
 	var _on_project_closed = func():
 		dashboard.set_project_buttons_enabled(false)

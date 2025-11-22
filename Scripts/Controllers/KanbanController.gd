@@ -8,7 +8,6 @@ extends Tab
 @onready var in_progress_container : VBoxContainer = %InProgressContainer
 @onready var done_container : VBoxContainer = %DoneContainer
 @onready var cancelled_container : VBoxContainer = %CancelledContainer
-@onready var error_label : Label = %ErrorLabel
 
 @export var task_control_prefab := preload("res://Scenes/Elements/KanbanTask.tscn")
 
@@ -17,7 +16,6 @@ var tasks_controls := {}  # map id -> Control
 var latest_updated_at :=0
 
 func open():
-	error_label.visible = false
 	
 	for child in to_do_container.get_children():
 		child.queue_free()
@@ -30,16 +28,12 @@ func open():
 	tasks_controls = {}
 	latest_updated_at = 0
 	
-	var _on_fail = func(err):
-		error_label.text = err
-		error_label.visible = true
-	
 	var _on_success = func(tasks: Dictionary):
 		update_task_data(tasks)
-		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data,_on_fail)
+		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data)
 	
 	Project.update_member_names()
-	TaskService.get_all(Project.pid, _on_success, _on_fail)
+	TaskService.get_all(Project.pid, _on_success)
 
 func close():
 	TaskService.stop_listening(Project.pid)

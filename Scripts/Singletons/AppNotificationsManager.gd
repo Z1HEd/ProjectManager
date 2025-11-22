@@ -15,13 +15,13 @@ func _ensure_root() -> void:
 	_container = VBoxContainer.new()
 	_layer.add_child(_container)
 
-	# anchor top-right with a 16px inset
 	_container.set_anchors_and_offsets_preset(
-		Control.LayoutPreset.PRESET_TOP_RIGHT,
+		Control.LayoutPreset.PRESET_BOTTOM_RIGHT,
 		Control.LayoutPresetMode.PRESET_MODE_KEEP_WIDTH,
 		16
 	)
 	_container.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_container.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	# set vertical gap between children
 	_container.add_theme_constant_override("separation", _spacing)
 

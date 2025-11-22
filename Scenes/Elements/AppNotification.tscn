@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dypyktb4dbtgl"]
+[gd_scene load_steps=4 format=3 uid="uid://dypyktb4dbtgl"]
 
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_0jfd5"]
 [ext_resource type="Script" uid="uid://v24sj0lwjwuv" path="res://Scripts/UIElements/AppNotificationControl.gd" id="1_nv6qy"]
+[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="3_hkw3e"]
 
 [node name="AppNotification" type="PanelContainer"]
 process_mode = 4
@@ -8,26 +10,41 @@ custom_minimum_size = Vector2(150, 50)
 offset_right = 179.0
 offset_bottom = 67.0
 size_flags_horizontal = 0
+theme = ExtResource("1_0jfd5")
 script = ExtResource("1_nv6qy")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"SmallLabel"
 text = "Notification text
 something something"
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"TransparentButton"
+icon = ExtResource("3_hkw3e")
+expand_icon = true
 
 [node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 step = 0.0
 show_percentage = false
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button" to="." method="_close"]

@@ -3,7 +3,6 @@ extends Tab
 @onready var members_list = %MembersContainer
 @onready var project_name = %ProjectName
 @onready var project_description = %ProjectDescription
-@onready var error_message = %ErrorMessage
 
 @onready var refresh_button = %RefreshButton
 @onready var leave_project_button = %LeaveButton
@@ -32,7 +31,7 @@ func refresh_project():
 	add_member_button.visible = false
 	project_name.text = "Loading..."
 	project_description.text = ""
-	error_message.text = ""
+	
 	for old_member in members_list.get_children():
 		old_member.queue_free()
 	
@@ -43,8 +42,7 @@ func refresh_project():
 		update_project_data()
 		refresh_button.disabled = false
 	
-	var _on_fail = func(err_msg):
-		error_message.text = err_msg
+	var _on_fail = func(_err_msg):
 		refresh_button.disabled = false
 	
 	ProjectService.get_project(pid,_on_success,_on_fail)

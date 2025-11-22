@@ -115,10 +115,6 @@ layout_mode = 2
 size_flags_vertical = 3
 fit_content = true
 
-[node name="ErrorMessage" type="RichTextLabel" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 

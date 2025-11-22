@@ -15,8 +15,6 @@ class_name ViewEditTaskPopup
 @onready var delete_button : Button = %DeleteButton
 @onready var cancel_button : Button = %CancelButton
 
-@onready var error_label := %ErrorLabel
-
 signal delete_pressed(id:String)
 var current_id :String
 var data :Dictionary
@@ -72,20 +70,16 @@ func _on_submit_success(_res):
 	
 	visible = false
 
-func _on_submit_fail(err_msg: String):
-	error_label.text = err_msg
-	error_label.visible = true
+func _on_submit_fail(_err_msg: String):
 	submit_button.disabled = false
 	cancel_button.disabled = false
 
 func _on_submit_button_pressed() -> void:
-	error_label.visible = false
 	
 	var new_data = {}
 	var task_name = name_input.text.strip_edges()
 	if task_name == "":
-		error_label.text = "Task must have a title!"
-		error_label.visible = true
+		AppNotifications.push("Task must have a title!")
 		return
 	
 	if task_name !=data["title"]: new_data["title"] = task_name

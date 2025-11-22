@@ -7,9 +7,6 @@ extends Tab
 @onready var tasks_table : CustomDynamicTable = %TasksTable
 @onready var create_task_button : Button = %CreateTaskButton
 
-@onready var error_label : Label = %ErrorLabel
-
-
 var columns_texts := ["Title","Assignee","Status","Priority","Last updated","ID"]
 var columns_data := ["title","assignedTo","status","priority","updatedAt","id"]
 
@@ -56,20 +53,15 @@ func _ready():
 
 func open():
 	
-	error_label.visible = false
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 	
-	var _on_fail = func(err):
-		error_label.text = err
-		error_label.visible = true
-	
 	var _on_success = func(tasks: Dictionary):
 		update_task_data(tasks)
-		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data,_on_fail)
+		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data)
 	
 	Project.update_member_names()
-	TaskService.get_all(Project.pid, _on_success, _on_fail)
+	TaskService.get_all(Project.pid, _on_success)
 
 func close():
 	tasks_table.set_data([])

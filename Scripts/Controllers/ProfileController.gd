@@ -13,14 +13,12 @@ extends Tab
 
 
 @onready var account_view = %AccountView
-@onready var error_message = %ErrorMessage
 
 var current_name : String
 var current_email : String
 var projects : Dictionary
 
 func open():
-	error_message.visible = false
 	account_view.visible = false
 	
 	title.text = "Loading..."
@@ -42,11 +40,7 @@ func open():
 		
 		session_persist_toggle.button_pressed = Session.session_persist
 	
-	var on_fail = func(err_msg):
-		error_message.visible = true
-		error_message.text = "Error: %s" % err_msg
-	
-	UserService.get_user(Session.uid,on_success,on_fail)
+	UserService.get_user(Session.uid,on_success)
 
 func _on_sign_out_button_pressed() -> void:
 	
@@ -61,17 +55,12 @@ func _on_sign_out_button_pressed() -> void:
 
 
 func _on_delete_account_button_pressed() -> void:
-	error_message.visible = false
 	
 	var _on_relogin_success = func(_uid:String):
 		delete_account()
 	
-	var _on_relogin_fail = func(err_msg:String):
-		error_message.visible = true
-		error_message.text = err_msg
-	
 	var _on_confirm = func(password):
-		UserService.login(Session.email,password,_on_relogin_success,_on_relogin_fail)
+		UserService.login(Session.email,password,_on_relogin_success)
 	
 	confirm_critical_popup.set_info("Delete your account?",
 		"Account %s will be deleted irreversibly. "%current_name+
@@ -86,11 +75,7 @@ func delete_account():
 		Session.clear()
 		get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")
 	
-	var on_fail = func(err_msg):
-		error_message.visible = true
-		error_message.text = "Error: %s" % err_msg
-	
-	UserService.delete_user(Session.uid, projects, on_success,on_fail)
+	UserService.delete_user(Session.uid, projects, on_success)
 		
 
 func _on_email_edit_text_changed(new_text: String) -> void:
@@ -107,7 +92,6 @@ func _on_name_edit_text_changed(new_text: String) -> void:
 	email_edit.editable = new_text == current_name
 
 func _on_save_button_pressed() -> void:
-	error_message.visible = false
 
 	var new_name = name_edit.text
 	var new_email = email_edit.text
@@ -122,14 +106,6 @@ func _on_save_button_pressed() -> void:
 		change_name(new_name)
 
 func change_email(new_email: String):
-	var _on_fail = func(err_msg):
-		error_message.visible = true
-		error_message.text = "Error: %s" % err_msg
-		
-		save_button.text = "Save changes"
-		save_button.disabled = false
-		revert_button.disabled = false
-	
 	var _on_success = func(_res):
 		Session.email = new_email
 		current_email = new_email
@@ -163,14 +139,6 @@ func change_email(new_email: String):
 
 func change_name(new_name:String):
 	
-	var _on_fail = func(err_msg):
-		error_message.visible = true
-		error_message.text = "Error: %s" % err_msg
-		
-		save_button.text = "Save changes"
-		save_button.disabled = false
-		revert_button.disabled = false
-	
 	var _on_success = func(_res):
 		save_button.text = "Save changes"
 		email_edit.editable = true
@@ -203,3 +171,8 @@ func _on_session_persist_toggle_toggled(toggled_on: bool) -> void:
 
 func _on_change_password_button_pressed() -> void:
 	change_password_popup.visible = true
+
+func _on_fail(_err_msg):
+	save_button.text = "Save changes"
+	save_button.disabled = false
+	revert_button.disabled = false

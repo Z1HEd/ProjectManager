@@ -1,7 +1,6 @@
 extends Tab
 
 @onready var refresh_button = %RefreshButton
-@onready var error_message = %ErrorMessage
 @onready var item_list = %ItemList
 
 @onready var project_name = %Name
@@ -17,7 +16,6 @@ func open():
 	refresh_projects()
 
 func refresh_projects():
-	error_message.text = ""
 	item_list.clear()
 	selected_id = -1
 	refresh_button.disabled = true
@@ -30,10 +28,7 @@ func refresh_projects():
 		projects = projects_dict
 		repopulate_project_list()
 	
-	var _on_fail = func(err_msg):
-		error_message.text ="Failed to refresh project list: %s" % err_msg
-	
-	UserService.get_user_projects(Session.uid,_on_success,_on_fail)
+	UserService.get_user_projects(Session.uid,_on_success)
 
 var projects_to_read : int
 func repopulate_project_list():
@@ -52,9 +47,8 @@ func repopulate_project_list():
 			refresh_button.disabled = false
 			open_project_button.disabled = false
 	
-	var _on_fail = func(err_msg : String):
+	var _on_fail = func(_err_msg : String):
 		refresh_button.disabled = false
-		error_message.text ="Failed to retrieve project details: %s" % err_msg
 	
 	for project in projects:
 		ProjectService.get_project(project, _on_success, _on_fail)

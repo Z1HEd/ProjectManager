@@ -10,8 +10,6 @@ class_name CreateTaskPopup
 @onready var create_button : Button = %SubmitButton
 @onready var cancel_button : Button = %CancelButton
 
-@onready var error_label := %ErrorLabel
-
 func initialize(initial_status: int):
 	name_input.text = ""
 	description_input.text = ""
@@ -28,20 +26,16 @@ func _on_submit_success(_res):
 	
 	visible = false
 
-func _on_submit_fail(err_msg: String):
-	error_label.text = err_msg
-	error_label.visible = true
+func _on_submit_fail(_err_msg: String):
 	create_button.disabled = false
 	cancel_button.disabled = false
 
 func _on_submit_button_pressed() -> void:
-	error_label.visible = false
 	
 	var title = name_input.text.strip_edges()
 	var description = description_input.text.strip_edges()
 	if title == "":
-		error_label.text = "Task must have a title!"
-		error_label.visible = true
+		AppNotifications.push("Task must have a title!")
 		return
 
 	var status = _get_status()

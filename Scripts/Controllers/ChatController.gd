@@ -43,12 +43,11 @@ func open():
 		ChatService.start_listening(
 			Project.pid,
 			arr[-1]["id"],
-			append_messages,
-			on_error)
+			append_messages)
 	
 	Project.update_member_names()
 	
-	ChatService.fetch_recent(Project.pid, 25, on_success, on_error)
+	ChatService.fetch_recent(Project.pid, 25, on_success)
 
 func close():
 	ChatService.stop_listening(Project.pid)
@@ -122,7 +121,7 @@ func _on_scrolled_to_top() -> void:
 			arr.reverse()
 			append_messages(arr,true)
 	
-	ChatService.fetch_before(Project.pid,oldest,25,on_success,on_error)
+	ChatService.fetch_before(Project.pid,oldest,25,on_success)
 
 func _ensure_vscroll_connected() -> void:
 	var vb = scroll.get_v_scroll_bar()
@@ -161,7 +160,3 @@ func _sort_by_ts_server(a, b) -> bool:
 	var at := int(a.get("ts_server", 0))
 	var bt := int(b.get("ts_server", 0))
 	return at < bt
-
-func on_error(err:String):
-	no_messages_text.visible = true
-	no_messages_text.text = "Error: %s" % err

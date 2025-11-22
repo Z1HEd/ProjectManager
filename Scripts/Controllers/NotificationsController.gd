@@ -5,7 +5,6 @@ extends Tab
 @onready var notification_description = %Description
 @onready var accept_button = %AcceptButton
 @onready var decline_button = %DeclineButton
-@onready var error_message = %ErrorMessage
 
 var selected_id := -1
 
@@ -16,7 +15,6 @@ func close():
 	pass
 
 func refresh_notification_list():
-	
 	
 	item_list.clear()
 	selected_id = -1
@@ -66,8 +64,7 @@ func _accept_invite():
 		_reset_notification_details()
 		
 	
-	var _on_fail = func(err_msg):
-		error_message.text = err_msg
+	var _on_fail = func(_err_msg):
 		accept_button.disabled = false
 		decline_button.disabled = false
 	
@@ -81,7 +78,6 @@ func _accept_invite():
 func _decline_invite():
 	accept_button.disabled = true
 	decline_button.disabled = true
-	error_message.text = ""
 	
 	var _on_success = func(_result):
 		accept_button.disabled = false
@@ -92,8 +88,7 @@ func _decline_invite():
 		_reset_notification_details()
 		
 	
-	var _on_fail = func(err_msg):
-		error_message.text = err_msg
+	var _on_fail = func(_err_msg):
 		accept_button.disabled = false
 		decline_button.disabled = false
 	
@@ -108,6 +103,5 @@ func _reset_notification_details():
 	decline_button.disabled = false
 	notification_title.text = ""
 	notification_description.text = ""
-	error_message.text = ""
 	decline_button.visible = false
 	accept_button.visible = false

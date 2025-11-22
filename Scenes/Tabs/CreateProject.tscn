@@ -104,10 +104,4 @@ size_flags_horizontal = 3
 text = "Create
 "
 
-[node name="ErrorText" type="RichTextLabel" parent="CenterContainer/Control/MarginContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-fit_content = true
-
 [connection signal="pressed" from="CenterContainer/Control/MarginContainer/VBoxContainer/HBoxContainer/CreateButton" to="." method="_on_create_project_button_pressed"]
