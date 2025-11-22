@@ -80,7 +80,8 @@ func append_messages(arr:Array, from_top := false):
 			messages_container.move_child(item,1)
 		elif current_date > newest_date:
 			newest_date = current_date
-			add_date_label(oldest_date)
+			add_date_label(newest_date)
+			messages_container.move_child(item,messages_container.get_child_count()-1)
 		
 		var sender_id = str(m.get("authorId", ""))
 		var sender_name = Project.get_member_name(sender_id)
