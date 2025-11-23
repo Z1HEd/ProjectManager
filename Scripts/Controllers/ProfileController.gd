@@ -107,6 +107,7 @@ func _on_save_button_pressed() -> void:
 
 func change_email(new_email: String):
 	var _on_success = func(_res):
+		AppNotifications.push("Changes have been saved")
 		Session.email = new_email
 		current_email = new_email
 		
@@ -140,6 +141,7 @@ func change_email(new_email: String):
 func change_name(new_name:String):
 	
 	var _on_success = func(_res):
+		AppNotifications.push("Changes have been saved")
 		save_button.text = "Save changes"
 		email_edit.editable = true
 		current_name = new_name

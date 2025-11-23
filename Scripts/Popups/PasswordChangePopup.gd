@@ -19,6 +19,7 @@ func _on_confirm_button_pressed() -> void:
 			visible = false
 			input_current.text = ""
 			input_new.text = ""
+			AppNotifications.push("Password has been changed")
 
 		UserService.change_password(
 				new_pw, 

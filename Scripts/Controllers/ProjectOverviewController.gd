@@ -75,7 +75,6 @@ func update_project_data():
 		members_list.add_child(member_control)
 	
 	call_deferred("_sort_member_list")
-	
 
 func _on_add_member_button_pressed() -> void:
 	add_member_popup.visible = true

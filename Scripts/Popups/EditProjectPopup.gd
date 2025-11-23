@@ -27,6 +27,7 @@ func _on_submit_button_pressed() -> void:
 		cancel_button.disabled = false
 		visible = false
 		on_project_edited.emit()
+		AppNotifications.push("Changes have been saved")
 	
 	var _on_fail = func(_err_msg: String):
 		submit_button.disabled = false

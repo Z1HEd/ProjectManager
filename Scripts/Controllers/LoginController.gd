@@ -17,6 +17,7 @@ func _on_login_button_pressed() -> void:
 	
 	var _on_success = func(_session):
 		login_button.disabled = false
+		AppNotifications.push("Signed in as %s" % Session.email)
 		get_tree().change_scene_to_file("res://Scenes/Screens/MainMenu.tscn")
 	
 	var _on_register_fail = func(_err_msg: String):

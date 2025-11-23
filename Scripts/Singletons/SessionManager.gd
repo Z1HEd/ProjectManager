@@ -66,7 +66,6 @@ func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> in
 
 	var _on_refresh_success = func(parsed):
 		update_from_response(parsed)
-		AppNotifications.push("Authomatically signed in as:\n%s" % Session.email)
 		on_success.call(parsed)
 	
 	return UserService.refresh(refresh_token,_on_refresh_success)
@@ -138,6 +137,7 @@ func _load_from_config() -> bool:
 		refresh_token = str(cfg.get_value("auth", "refresh_token", ""))
 		uid = str(cfg.get_value("auth", "uid", ""))
 		email = str(cfg.get_value("auth", "email", ""))
-		refresh_tokens()
+		refresh_tokens(func(_parsed):
+			AppNotifications.push("Authomatically signed in as:\n%s" % email))
 		return true
 	return false

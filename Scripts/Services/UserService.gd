@@ -113,7 +113,6 @@ static func login(
 			return
 		
 		Session.update_from_response(user_data)
-		AppNotifications.push("Signed in as %s" % Session.email)
 		on_success.call(Session.uid)
 	
 	var _on_fail = func(err_msg:String):
@@ -249,7 +248,7 @@ static func get_user_by_email(
 		on_success := func(_res):pass, 
 		on_fail := func(_err):pass) -> int:
 	
-	var query_url = '%s/users.json?orderBy="email"&equalTo="%s&auth="' % \
+	var query_url = '%s/users.json?orderBy="email"&equalTo="%s"&auth=' % \
 			[ Firebase.project_db_url, user_email ]
 	
 	var _on_fail = func(err_msg:String):
@@ -348,7 +347,8 @@ static func change_email(
 			auth_body, 
 			["Content-Type: application/json"], 
 			_on_auth_success, 
-			_on_fail)
+			_on_fail,
+			"auth")
 
 static func change_password(
 		new_password: String, 
@@ -378,4 +378,5 @@ static func change_password(
 			body, 
 			["Content-Type: application/json"], 
 			_on_success, 
-			_on_fail)
+			_on_fail,
+			"auth")

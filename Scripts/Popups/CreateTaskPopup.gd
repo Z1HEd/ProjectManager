@@ -25,6 +25,8 @@ func _on_submit_success(_res):
 	cancel_button.disabled = false
 	
 	visible = false
+	
+	AppNotifications.push("New task has been created")
 
 func _on_submit_fail(_err_msg: String):
 	create_button.disabled = false

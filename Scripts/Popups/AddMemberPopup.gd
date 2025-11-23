@@ -6,20 +6,23 @@ class_name AddMemberPopup
 @onready var invite_text = %InviteText
 @onready var send_button = %SendButton
 
-func _on_fail(_err_msg:String):
+func _on_fail(err_msg:String):
+	AppNotifications.push("Failed to send an invite:\n%s"%err_msg)
 	send_button.disabled = false
 
 func _on_user_found(data):
 	if data.size() ==0:
-		return _on_fail("No user found!")
+		return _on_fail("User not found!")
 	if data.size() > 1:
 		return _on_fail("Found multiple users!") # Shouldnt happen
-		
 	var uid = data.keys()[0]
+	if Project.members.has(uid):
+		return _on_fail("User is already a member!")
 	
 	var _on_success = func(_ret):
 		send_button.disabled = false
 		visible = false
+		AppNotifications.push("Invite has been sent")
 	
 	InviteService.create_invite(
 			Project.pid,

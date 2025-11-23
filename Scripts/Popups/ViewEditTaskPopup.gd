@@ -69,6 +69,8 @@ func _on_submit_success(_res):
 	cancel_button.disabled = false
 	
 	visible = false
+	
+	AppNotifications.push("Changes have been saved")
 
 func _on_submit_fail(_err_msg: String):
 	submit_button.disabled = false
