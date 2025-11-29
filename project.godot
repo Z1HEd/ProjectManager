@@ -26,7 +26,7 @@ AppNotifications="*res://Scripts/Singletons/AppNotificationsManager.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dynamic_table/plugin.cfg")
+enabled=PackedStringArray("res://addons/calendar_button/plugin.cfg", "res://addons/dynamic_table/plugin.cfg")
 
 [file_customization]
 

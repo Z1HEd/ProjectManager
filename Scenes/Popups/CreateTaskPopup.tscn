@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://drwhiyy0wwfvm"]
+[gd_scene load_steps=6 format=3 uid="uid://drwhiyy0wwfvm"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_fseh0"]
 [ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://Scripts/Popups/CreateTaskPopup.gd" id="2_fseh0"]
 [ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_x0krg"]
+[ext_resource type="Script" uid="uid://bty3rid1xj8yd" path="res://addons/calendar_button/assets/calendar_button.gd" id="4_6tcng"]
+[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="5_x0krg"]
 
 [node name="CreateTaskPopup" type="Control"]
 layout_mode = 3
@@ -141,6 +143,69 @@ popup/item_1/id = 0
 popup/item_2/text = "Assignee 2"
 popup/item_2/id = 1
 
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "Begins at:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="StartDatePicker" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("custom_parent")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Set start date"
+script = ExtResource("4_6tcng")
+anchor_and_offset = 15
+custom_parent = NodePath("../../../../../../../..")
+metadata/_custom_type_script = "uid://bty3rid1xj8yd"
+
+[node name="ClearStartDateButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("5_x0krg")
+expand_icon = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "Due date:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+
+[node name="DueDatePicker" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" node_paths=PackedStringArray("custom_parent")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Set due date"
+script = ExtResource("4_6tcng")
+anchor_and_offset = 15
+custom_parent = NodePath("../../../../../../../..")
+metadata/_custom_type_script = "uid://bty3rid1xj8yd"
+
+[node name="ClearDueDateButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+icon = ExtResource("5_x0krg")
+expand_icon = true
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -156,5 +221,9 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
+[connection signal="calendar_confirmed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/StartDatePicker" to="." method="_on_start_date_picker_calendar_confirmed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/ClearStartDateButton" to="." method="_on_clear_start_date_button_pressed"]
+[connection signal="calendar_confirmed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/DueDatePicker" to="." method="_on_due_date_picker_calendar_confirmed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/ClearDueDateButton" to="." method="_on_clear_due_date_button_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

@@ -5,41 +5,28 @@ class_name TaskService
 static var _listeners := {}
 
 static func create_task(
-		pid: String, 
-		title: String, 
-		description := "", 
-		assigned_to := "", 
-		priority := 0, 
-		status := "todo", 
-		on_success := func(_res):pass, 
+		pid: String,
+		data: Dictionary,
+		on_success := func(_res):pass,
 		on_fail := func(_err):pass) -> int:
-	
+
 	var url = "%s/tasks/%s.json?auth=" % [Firebase.project_db_url, pid]
-	
-	var body = {
-		"title": title,
-		"description": description,
-		"creatorId": Session.uid,
-		"createdAt": { ".sv": "timestamp" },
-		"updatedAt": { ".sv": "timestamp" },
-		"lastModifiedBy": Session.uid,
-		"status": status,
-		"priority": priority
-	}
-	
-	if assigned_to != "":
-		body["assignedTo"] = assigned_to
-	
+
+	data["createdAt"] = { ".sv": "timestamp" }
+	data["updatedAt"] = { ".sv": "timestamp" }
+	data["lastModifiedBy"] = Session.uid
+	data["creatorId"] = Session.uid
+
 	var _on_fail = func(err_msg:String):
 		AppNotifications.push("Failed to create a task:\n%s" % err_msg)
 		on_fail.call(err_msg)
-	
+
 	return Firebase.send_request(
-			url, 
-			HTTPClient.METHOD_POST, 
-			body, 
-			["Content-Type: application/json"], 
-			on_success, 
+			url,
+			HTTPClient.METHOD_POST,
+			data,
+			["Content-Type: application/json"],
+			on_success,
 			_on_fail)
 
 static func modify_task(

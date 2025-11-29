@@ -15,6 +15,14 @@ class_name ViewEditTaskPopup
 @onready var delete_button : Button = %DeleteButton
 @onready var cancel_button : Button = %CancelButton
 
+@onready var start_date_button : CalendarButton = %StartDatePicker
+@onready var due_date_button : CalendarButton = %DueDatePicker
+@onready var clear_start_date_button : Button = %ClearStartDateButton
+@onready var clear_due_date_button : Button = %ClearDueDateButton
+
+var start_date_unix := -1
+var due_date_unix := -1
+
 signal delete_pressed(id:String)
 var current_id :String
 var data :Dictionary
@@ -23,6 +31,9 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 	current_id = task_id
 	data = task_data
 	title.text = "Task %s" % task_id
+	
+	start_date_unix = task_data.get("startDate",-1)
+	due_date_unix = task_data.get("dueDate",-1)
 	
 	@warning_ignore("integer_division")
 	var creation_time = Time.get_datetime_string_from_unix_time(
@@ -51,6 +62,22 @@ func initialize(task_id:String, task_data: Dictionary,user_role:String):
 		assignee_input.add_item(Project.get_member_name(member_id))
 		if member_id == task_data.get("assignedTo",""):
 			assignee_input.select(assignee_input.item_count-1)
+	
+	if start_date_unix >=0:
+		@warning_ignore("integer_division")
+		start_date_button.set_unix_date(start_date_unix/1000)
+		clear_start_date_button.visible = true
+	else:
+		start_date_button.clear()
+		clear_start_date_button.visible = false
+	
+	if due_date_unix >=0:
+		@warning_ignore("integer_division")
+		due_date_button.set_unix_date(due_date_unix/1000)
+		clear_due_date_button.visible = true
+	else:
+		due_date_button.clear()
+		clear_due_date_button.visible = false
 	
 	var is_manager := user_role == "owner" or user_role == "manager"
 	var is_assignee = Session.uid == task_data.get("assignedTo","")
@@ -97,11 +124,15 @@ func _on_submit_button_pressed() -> void:
 	if assignee_uid != data.get("assignedTo",""):
 		new_data["assignedTo"] = assignee_uid
 	
+	if start_date_unix != data.get("startDate",-1):
+		new_data["startDate"] = start_date_unix
+	if due_date_unix != data.get("dueDate",-1):
+		new_data["dueDate"] = due_date_unix
+	
 	if new_data == {}: return
 	
 	submit_button.disabled = true
 	cancel_button.disabled = true
-	
 	
 	TaskService.modify_task(
 			Project.pid, 
@@ -116,6 +147,25 @@ func _on_cancel_button_pressed() -> void:
 func _on_delete_button_pressed() -> void:
 	visible = false
 	delete_pressed.emit(current_id)
+
+func _on_clear_start_date_button_pressed() -> void:
+	start_date_unix = -1
+	start_date_button.clear()
+	clear_start_date_button.visible = false
+
+func _on_clear_due_date_button_pressed() -> void:
+	due_date_unix = -1
+	due_date_button.clear()
+	clear_due_date_button.visible = false
+
+# Other timestamps are in milliseconds, so i will make these ones too 
+func _on_start_date_picker_calendar_confirmed(date: Dictionary, _time: Dictionary) -> void:
+	start_date_unix = Time.get_unix_time_from_datetime_dict(date) * 1000
+	clear_start_date_button.visible = true
+
+func _on_due_date_picker_calendar_confirmed(date: Dictionary, _time: Dictionary) -> void:
+	due_date_unix = Time.get_unix_time_from_datetime_dict(date) * 1000
+	clear_due_date_button.visible = true
 
 func _get_status()->String:
 	match status_input.get_selected():
