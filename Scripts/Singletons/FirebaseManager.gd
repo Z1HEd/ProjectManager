@@ -127,7 +127,6 @@ static func _parse_response_body(body_text: String) :
 
 	if body_text == "null":
 		return null
-	
 	var raw = JSON.parse_string(body_text)
 
 	if raw is Dictionary:

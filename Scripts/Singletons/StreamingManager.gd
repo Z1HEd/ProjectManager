@@ -131,6 +131,7 @@ func _listener_thread(listener_id: int) -> void:
 					_process_sse_block(listener_id, block)
 
 		if client.get_status() == HTTPClient.STATUS_DISCONNECTED:
+			print("disconnected")
 			call_deferred("_call_error", listener_id, "disconnected")
 			break
 
@@ -152,6 +153,11 @@ func _process_sse_block(listener_id: int, block: String) -> void:
 			var tmp2 = l.substr(5)
 			data_lines.append(tmp2)
 	
+	if event_type=="cancel":
+		print("cancelled")
+		_call_error(listener_id, "cancel")
+		return
+	
 	var data_text = ""
 	if data_lines.size() > 0:
 		data_text = "\n".join(data_lines).strip_edges()
@@ -163,8 +169,6 @@ func _process_sse_block(listener_id: int, block: String) -> void:
 	call_deferred("_deliver_sse_event", listener_id, event_type, parsed)
 
 func _deliver_sse_event(listener_id: int, event_type: String, parsed) -> void:
-	if not _listeners.has(listener_id):
-		return
 	var info = _listeners[listener_id]
 	var on_event: Callable = info.on_event
 	var on_error: Callable = info.on_error
@@ -182,5 +186,5 @@ func _call_error(listener_id: int, message: String) -> void:
 	if not _listeners.has(listener_id):
 		return
 	var on_error: Callable = _listeners[listener_id].on_error
-	on_error.call(message)
+	on_error.call_deferred(message)
 	_listeners[listener_id].stop_flag = true

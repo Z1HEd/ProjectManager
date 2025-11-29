@@ -7,13 +7,8 @@ extends Tab
 
 @export var summary_tab : Tab
 
-func _on_create_success(project_id : String):
-	create_button.disabled = false
-	Project.pid = project_id
-	cancel_button.menu.open_tab(summary_tab)
-
-func _on_create_fail(_err_msg: String):
-	create_button.disabled = false
+func open():pass
+func close():pass
 
 func _on_create_project_button_pressed() -> void:
 	var project_name = name_input.text.strip_edges()
@@ -23,6 +18,13 @@ func _on_create_project_button_pressed() -> void:
 		return
 	
 	create_button.disabled = true
+	
+	var _on_create_success = func(project_id : String):
+		create_button.disabled = false
+		Project.set_project(project_id)
+
+	var _on_create_fail = func(_err_msg: String):
+		create_button.disabled = false
 	
 	ProjectService.create_project(project_name, 
 			description, 

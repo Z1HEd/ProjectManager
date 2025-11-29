@@ -15,6 +15,8 @@ var selected_id := -1
 func open():
 	refresh_projects()
 
+func close(): pass
+
 func refresh_projects():
 	item_list.clear()
 	selected_id = -1

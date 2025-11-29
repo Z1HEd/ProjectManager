@@ -67,6 +67,10 @@ func close():
 	tasks_table.set_data([])
 	TaskService.stop_listening(Project.pid)
 
+func on_project_updated():
+	create_task_button.visible = Project.user_role == "owner" ||\
+			Project.user_role == "manager"
+
 func update_task_data(updated: Dictionary):
 	for task_id in updated.keys():
 		var patch = updated[task_id]

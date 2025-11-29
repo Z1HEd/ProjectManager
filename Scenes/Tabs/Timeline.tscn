@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bvp4cflag0k2x"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_l3tej"]
-[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="2_3igi8"]
+[ext_resource type="Script" uid="uid://caxno34rcrq24" path="res://Scripts/Controllers/TimelineController.gd" id="2_3igi8"]
 
 [node name="Timeline" type="Control"]
 layout_mode = 3
@@ -12,7 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_l3tej")
 script = ExtResource("2_3igi8")
-metadata/_custom_type_script = "uid://jjgyrpflaa31"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

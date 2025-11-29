@@ -20,7 +20,7 @@ func refresh_notification_list():
 	selected_id = -1
 	_reset_notification_details()
 	
-	for _notification in Notifications.list: #underscore to make warning go away
+	for _notification in Notifications.list: 
 		item_list.add_item(_notification["title"])
 
 func _on_notifications_list_item_selected(index: int) -> void:
@@ -31,25 +31,13 @@ func _on_notifications_list_item_selected(index: int) -> void:
 	decline_button.visible = Notifications.list[index]["type"] == "project_invite"
 	accept_button.visible = true
 
-
 func _on_accept_button_pressed() -> void:
-	if selected_id == -1:
-		push_error("Shouldnt have been able to press decline button!")
-		return
-	
 	if Notifications.list[selected_id]["type"] == "project_invite":
 		_accept_invite()
-	
 
 func _on_decline_button_pressed() -> void:
-	if selected_id == -1 or \
-			Notifications.list[selected_id]["type"] != "project_invite":
-		push_error("Shouldnt have been able to press decline button!")
-		return
-	
 	if Notifications.list[selected_id]["type"] == "project_invite":
 		_decline_invite()
-
 
 func _accept_invite():
 	accept_button.disabled = true

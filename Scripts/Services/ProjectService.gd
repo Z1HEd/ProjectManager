@@ -3,7 +3,10 @@ class_name ProjectService
 
 # Note: users have a list of ids and roles of projects they are in
 # to speed up project list lookup. 
-# no project delete if failed to write to users- this is not crucial.
+# no project delete if failed to write to users - this is not critical.
+
+# pid -> listener_id mapping
+static var _listeners := {}
 
 static func create_project(
 		project_name: String, 
@@ -225,3 +228,59 @@ static func transfer_ownership(
 			["Content-Type: application/json"], 
 			on_success, 
 			_on_fail)
+
+static func start_listening(
+	pid: String,
+	on_update := func(_res):pass,
+	on_fail := func(_err):pass) -> void:
+
+	if _listeners.has(pid):
+		return
+
+	var full_url = "%s/projects/%s.json?auth=" % \
+		[ Firebase.project_db_url, pid]
+
+	var _on_project_update = _on_update.bind(on_update)
+	
+	var _on_fail = func(err_msg:String):
+		_listeners.erase(pid)
+		on_fail.call(err_msg)
+	
+	var listener_id = Streaming.start_listener(full_url, _on_project_update, _on_fail)
+	
+	_listeners[pid] = listener_id
+
+static func stop_listening(pid: String) -> void:
+	if not _listeners.has(pid):
+		return
+	var id = _listeners[pid]
+	Streaming.stop_listener(id)
+	_listeners.erase(pid)
+
+static func _on_update(parsed, on_project_update: Callable) -> void:
+	var path : String = parsed["path"]
+	var payload = parsed["data"]
+
+	var out := {}
+
+	if path == "/":
+		if payload == null:
+			out = {}
+		elif payload is Dictionary:
+			out = payload
+	else:
+		var child_path = path.lstrip("/")
+		var parts = child_path.split("/")
+		var nested := {}
+		var cur = nested
+		for i in range(parts.size()):
+			var p = parts[i]
+			if i == parts.size() - 1:
+				cur[p] = payload
+			else:
+				cur[p] = {}
+				cur = cur[p]
+		out = nested
+
+	if out.size() > 0:
+		on_project_update.call(out)

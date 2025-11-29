@@ -4,7 +4,6 @@ extends Tab
 @onready var project_name = %ProjectName
 @onready var project_description = %ProjectDescription
 
-@onready var refresh_button = %RefreshButton
 @onready var leave_project_button = %LeaveButton
 @onready var edit_project_button = %EditButton
 @onready var delete_project_button = %DeleteButton
@@ -19,35 +18,16 @@ extends Tab
 @export var member_control_prefab = \
 		preload("res://Scenes/Elements/ProjectMember.tscn")
 
-func open():
-	refresh_project()
+func open(): pass
 
-var pid 
-func refresh_project():
-	refresh_button.disabled = true
-	leave_project_button.visible = false
-	edit_project_button.visible = false
-	delete_project_button.visible = false
-	add_member_button.visible = false
-	project_name.text = "Loading..."
-	project_description.text = ""
-	
-	for old_member in members_list.get_children():
-		old_member.queue_free()
-	
-	pid = Project.pid
-	
-	var _on_success = func(project_dict : Dictionary):
-		Project.set_data(project_dict)
-		update_project_data()
-		refresh_button.disabled = false
-	
-	var _on_fail = func(_err_msg):
-		refresh_button.disabled = false
-	
-	ProjectService.get_project(pid,_on_success,_on_fail)
+func close(): pass
+
+func on_project_updated():
+	update_project_data()
 
 func update_project_data():
+	for member in members_list.get_children():
+		member.queue_free()
 	
 	project_name.text = Project.project_name
 	project_description.text = Project.project_description
@@ -115,7 +95,6 @@ func _on_change_role_pressed(uid:String,_name:String,current_role:String):
 		if role == current_role:
 			return
 		ProjectService.set_role(Project.pid,uid,role,func(_res):pass,func(err):print(err))
-		refresh_project()
 	
 	option_popup.set_info("Change role for %s?"%_name, 
 		(
@@ -135,7 +114,6 @@ func _on_kick_pressed(uid:String, _name:String):
 	var _on_confirm = func():
 		ProjectService.remove_member(Project.pid,uid)
 		Project.members.erase(uid)
-		refresh_project()
 	
 	confirm_action_popup.set_info("Kick %s?"%_name, 
 		"This action will remove them from project.\n"+
@@ -146,7 +124,6 @@ func _on_kick_pressed(uid:String, _name:String):
 func _on_transfer_ownership_pressed(uid:String,_name:String):
 	var _on_confirm = func():
 		ProjectService.transfer_ownership(Project.pid,Session.uid,uid)
-		refresh_project()
 	
 	confirm_critical_popup.set_info("Transfering ownership", 
 			"This will make %s a new owner of the project.\n"%_name+

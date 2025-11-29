@@ -14,8 +14,10 @@ extends Tab
 var tasks_data := {}
 var tasks_controls := {}  # map id -> Control
 var latest_updated_at :=0
+var user_role := ""
 
 func open():
+	user_role = Project.user_role
 	
 	for child in to_do_container.get_children():
 		child.queue_free()
@@ -38,6 +40,10 @@ func open():
 func close():
 	TaskService.stop_listening(Project.pid)
 
+func on_project_updated():
+	if Project.user_role != user_role:
+		open()
+
 func update_task_data(updated: Dictionary):
 	for task_id in updated.keys():
 		var patch = updated[task_id]
@@ -55,7 +61,6 @@ func update_task_data(updated: Dictionary):
 				latest_updated_at = task_updated_at
 
 		update_task_control(task_id)
-
 
 func update_task_control(id:String):
 	

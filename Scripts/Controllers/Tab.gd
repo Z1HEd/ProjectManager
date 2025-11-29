@@ -1,8 +1,12 @@
+@abstract
 extends Control
 class_name Tab
 
-func open():
-	pass
+@abstract
+func open()
 
-func close():
+@abstract
+func close()
+
+func on_project_updated():
 	pass

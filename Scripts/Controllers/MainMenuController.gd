@@ -5,7 +5,7 @@ class_name MainMenuController
 @onready var active_tab = %ActiveTab
 @onready var unactive_tabs = %UnactiveTabs
 @onready var summary_tab : Tab = %Summary
-@onready var projects_list_tab : Tab = %ProjectsList
+@onready var no_projects_selected_tab : Tab = %NoProjectSelected
 
 func _ready():
 	
@@ -15,10 +15,15 @@ func _ready():
 	
 	var _on_project_closed = func():
 		dashboard.set_project_buttons_enabled(false)
-		open_tab(projects_list_tab)
+		open_tab(no_projects_selected_tab)
+	
+	var _on_project_updated = func():
+		
+		active_tab.get_child(0).on_project_updated()
 	
 	Project.project_opened.connect(_on_project_opened)
 	Project.project_closed.connect(_on_project_closed)
+	Project.project_updated.connect(_on_project_updated)
 
 func open_tab(tab:Tab)->void:
 	if active_tab.get_child_count() ==0:

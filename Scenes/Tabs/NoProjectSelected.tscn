@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://br1sagcs4olx7"]
 
-[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="1_ftv3i"]
+[ext_resource type="Script" uid="uid://l0u7ucfcaevm" path="res://Scripts/Controllers/NoProjectSelectedController.gd" id="1_ftv3i"]
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_opnq4"]
 [ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="2_b3lh5"]
 
@@ -14,7 +14,6 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_ftv3i")
-metadata/_custom_type_script = "uid://jjgyrpflaa31"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

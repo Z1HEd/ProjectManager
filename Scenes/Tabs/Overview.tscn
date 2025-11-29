@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://be2eddut3my3o"]
+[gd_scene load_steps=13 format=3 uid="uid://be2eddut3my3o"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ldptw"]
 [ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectOverviewController.gd" id="2_jc0vq"]
-[ext_resource type="Texture2D" uid="uid://djjvnfdhjc7hh" path="res://Assets/Icons/Refresh.png" id="3_jc0vq"]
 [ext_resource type="PackedScene" uid="uid://dpfndmvh84h6s" path="res://Scenes/Elements/ProjectMember.tscn" id="4_fbbme"]
 [ext_resource type="Texture2D" uid="uid://c6dwxp5ds04we" path="res://Assets/Icons/Leave.png" id="5_kvoca"]
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="5_lrxk1"]
@@ -82,15 +81,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_ldptw")
 text = "Project Name"
-
-[node name="RefreshButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_vertical = 4
-theme_type_variation = &"TransparentButton"
-icon = ExtResource("3_jc0vq")
-expand_icon = true
 
 [node name="LeaveButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -194,7 +184,6 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/RefreshButton" to="." method="refresh_project"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_leave_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]

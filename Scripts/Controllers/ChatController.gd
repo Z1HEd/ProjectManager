@@ -14,12 +14,14 @@ var oldest_date: String
 var newest_date: String
 var _connected_vb : VScrollBar = null
 var message_ids := []
+var user_role := ""
 
 const SCROLL_TOLERANCE := 10
 
 func open():
 	no_messages_text.text = "Loading..."
 	message_input_panel.visible = Project.user_role != "viewer"
+	user_role = Project.user_role
 	
 	for child in messages_container.get_children():
 		child.queue_free()
@@ -51,6 +53,10 @@ func open():
 
 func close():
 	ChatService.stop_listening(Project.pid)
+
+func on_project_updated():
+	if Project.user_role != user_role:
+		open()
 
 func append_messages(arr:Array, from_top := false):
 	var sb = scroll.get_v_scroll_bar()

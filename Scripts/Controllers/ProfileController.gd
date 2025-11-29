@@ -42,9 +42,12 @@ func open():
 	
 	UserService.get_user(Session.uid,on_success)
 
+func close(): pass
+
 func _on_sign_out_button_pressed() -> void:
 	
 	var _on_confirm = func():
+		Project.clear()
 		Session.clear()
 		get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")
 	
