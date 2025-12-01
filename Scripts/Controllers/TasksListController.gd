@@ -7,8 +7,10 @@ extends Tab
 @onready var tasks_table : CustomDynamicTable = %TasksTable
 @onready var create_task_button : Button = %CreateTaskButton
 
-var columns_texts := ["Title","Assignee","Status","Priority","Last updated","ID"]
-var columns_data := ["title","assignedTo","status","priority","updatedAt","id"]
+var columns_texts := \
+		["Title","Assignee","Status","Priority","Last updated","Start date","Due date", "ID"]
+var columns_data := \
+		["title","assignedTo","status","priority","updatedAt", "startDate", "dueDate", "id"]
 
 
 var tasks_data := {}
@@ -50,6 +52,20 @@ func _ready():
 				var time_secs := float(time)/1000
 				var time_string := Time.get_datetime_string_from_unix_time(int(time_secs), true)
 				return time_string.left(time_string.length()-3)
+	
+	tasks_table.column_mappers[columns_data.find("startDate")] = \
+			func(time:String)->String:
+				if time == "": return "_"
+				var time_secs := float(time)/1000
+				var time_string := Time.get_datetime_string_from_unix_time(int(time_secs), true)
+				return time_string.left(time_string.length()-9)
+	
+	tasks_table.column_mappers[columns_data.find("dueDate")] = \
+			func(time:String)->String:
+				if time == "": return "_"
+				var time_secs := float(time)/1000
+				var time_string := Time.get_datetime_string_from_unix_time(int(time_secs), true)
+				return time_string.left(time_string.length()-9)
 
 func open():
 	
