@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://cy7slw3y4u08p"]
+
+[ext_resource type="Script" uid="uid://chdre6r1j0s0o" path="res://Scripts/UIElements/TimelineTask.gd" id="1_m5muf"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_p2qf4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2axk"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_p2qf4")
+script = ExtResource("1_m5muf")
+
+[node name="Panel" type="Panel" parent="."]
+clip_children = 1
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b2axk")
+
+[node name="Button" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(25, 30)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"TimelineTaskDueOnly"
+theme_override_font_sizes/font_size = 12
+
+[connection signal="pressed" from="Panel/Button" to="." method="_on_button_pressed"]

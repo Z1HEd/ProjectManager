@@ -59,7 +59,8 @@ menu = NodePath("../../../../..")
 tab = NodePath("../../../../TabArea/UnactiveTabs/TaskList")
 menu = NodePath("../../../../..")
 
-[node name="Timeline" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer7" index="0" node_paths=PackedStringArray("menu")]
+[node name="Timeline" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer7" index="0" node_paths=PackedStringArray("tab", "menu")]
+tab = NodePath("../../../../TabArea/UnactiveTabs/Timeline")
 menu = NodePath("../../../../..")
 
 [node name="Chat" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer8" index="0" node_paths=PackedStringArray("tab", "menu")]
@@ -115,10 +116,6 @@ layout_mode = 1
 [node name="TeamChat" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("6_0xkci")]
 layout_mode = 1
 
-[node name="Timeline" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("7_lvwqe")]
-layout_mode = 1
-script = null
-
 [node name="UserProfile" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("8_lvwqe")]
 layout_mode = 1
 
@@ -138,6 +135,9 @@ tab = NodePath("../../../../../../../ProjectsList")
 menu = NodePath("../../../../../../../../../..")
 
 [node name="Notifications" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("13_cc4ve")]
+layout_mode = 1
+
+[node name="Timeline" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("7_lvwqe")]
 layout_mode = 1
 
 [editable path="HBoxContainer/Dashboard"]

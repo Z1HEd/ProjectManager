@@ -18,7 +18,7 @@ class_name CreateTaskPopup
 var start_date_unix := -1
 var due_date_unix := -1
 
-func initialize(initial_status: int):
+func initialize(initial_status: int = 0):
 	name_input.text = ""
 	description_input.text = ""
 	status_input.select(initial_status)

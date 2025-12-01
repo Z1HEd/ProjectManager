@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bvp4cflag0k2x"]
+[gd_scene load_steps=9 format=3 uid="uid://bvp4cflag0k2x"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_l3tej"]
 [ext_resource type="Script" uid="uid://caxno34rcrq24" path="res://Scripts/Controllers/TimelineController.gd" id="2_3igi8"]
+[ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="4_4tn3u"]
+[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="6_num6x"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_3igi8"]
 
@@ -12,6 +14,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35s3j"]
 bg_color = Color(0.6, 0.6, 0.6, 0.05490196)
 border_width_left = 1
+border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.8, 0.8, 0.8, 0.20784314)
@@ -57,11 +60,32 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+placeholder_text = "Search tasks"
+
+[node name="Control" type="Control" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreateTaskButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create new task"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -72,84 +96,54 @@ theme_override_icons/h_grabber = SubResource("ImageTexture_sgtoi")
 theme_override_icons/v_grabber = SubResource("ImageTexture_4tn3u")
 split_offset = 200
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"MediumLabel"
 theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
 text = "Tasks"
 horizontal_alignment = 1
 
-[node name="TasksTitlesContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer/VBoxContainer"]
+[node name="TasksTitlesContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer"]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2"]
+[node name="TasksScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 vertical_scroll_mode = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer2/TasksScrollContainer"]
 layout_mode = 2
 
-[node name="MonthsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2"]
+[node name="MonthsContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer2/TasksScrollContainer/VBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 34)
+custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2/MonthsContainer"]
-custom_minimum_size = Vector2(200, 34)
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
-text = "June"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2/MonthsContainer"]
-custom_minimum_size = Vector2(200, 34)
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
-text = "July"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label3" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2/MonthsContainer"]
-custom_minimum_size = Vector2(200, 34)
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
-text = "August"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label4" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2/MonthsContainer"]
-custom_minimum_size = Vector2(200, 34)
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
-text = "August"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Label5" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2/MonthsContainer"]
-custom_minimum_size = Vector2(200, 34)
-layout_mode = 2
-theme_type_variation = &"SmallLabel"
-theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
-text = "August"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TasksRows" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/ScrollContainer/HSplitContainer/PanelContainer2/ScrollContainer/VBoxContainer2"]
+[node name="TasksRows" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/HSplitContainer/PanelContainer2/TasksScrollContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="ViewEditTaskPopup" parent="." instance=ExtResource("6_num6x")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="CreateTaskPopup" parent="." instance=ExtResource("4_4tn3u")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[connection signal="text_changed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/CreateTaskButton" to="." method="_on_create_task_button_pressed"]

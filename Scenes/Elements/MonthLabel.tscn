@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://csvblfpui0jtu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35s3j"]
+bg_color = Color(0.6, 0.6, 0.6, 0.05490196)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0.20784314)
+
+[node name="MonthLabel" type="Label"]
+custom_minimum_size = Vector2(200, 34)
+size_flags_vertical = 1
+theme_type_variation = &"SmallLabel"
+theme_override_styles/normal = SubResource("StyleBoxFlat_35s3j")
+text = "June"
+horizontal_alignment = 1
+vertical_alignment = 1

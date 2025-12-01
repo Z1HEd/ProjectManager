@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=16 format=3 uid="uid://b5c65h2sk3h6q"]
+[gd_resource type="Theme" load_steps=38 format=3 uid="uid://b5c65h2sk3h6q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fg72"]
 content_margin_left = 4.0
@@ -49,6 +49,94 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.13814387, 0.15290153, 0.17257908, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7lle4"]
+bg_color = Color(0.65069216, 0.21691579, 0.8526081, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iis7l"]
+bg_color = Color(0.5066705, 0.12055742, 0.6758808, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2c135"]
+bg_color = Color(0.51585543, 0.12598819, 0.6891909, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqwbk"]
+bg_color = Color(0.3967269, 0.078513645, 0.5344471, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Gradient" id="Gradient_rlvek"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.7300985, 0.3415498, 0.927294, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2kn0t"]
+gradient = SubResource("Gradient_rlvek")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_a2yai"]
+texture = SubResource("GradientTexture2D_2kn0t")
+
+[sub_resource type="Gradient" id="Gradient_573nk"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.5176471, 0.1254902, 0.6901961, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_byiw1"]
+gradient = SubResource("Gradient_573nk")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vj3c2"]
+texture = SubResource("GradientTexture2D_byiw1")
+
+[sub_resource type="Gradient" id="Gradient_ecwjl"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.41667095, 0.08525338, 0.5603244, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8fg72"]
+gradient = SubResource("Gradient_ecwjl")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ieqs5"]
+texture = SubResource("GradientTexture2D_8fg72")
+
+[sub_resource type="Gradient" id="Gradient_2kn0t"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.7300985, 0.3415498, 0.927294, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a2yai"]
+gradient = SubResource("Gradient_2kn0t")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ecwjl"]
+texture = SubResource("GradientTexture2D_a2yai")
+
+[sub_resource type="Gradient" id="Gradient_8fg72"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.5176471, 0.1254902, 0.6901961, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ieqs5"]
+gradient = SubResource("Gradient_8fg72")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ln5p0"]
+texture = SubResource("GradientTexture2D_ieqs5")
+
+[sub_resource type="Gradient" id="Gradient_ubuol"]
+colors = PackedColorArray(0.5176471, 0.1254902, 0.6901961, 0, 0.41667095, 0.08525338, 0.5603244, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_636ej"]
+gradient = SubResource("Gradient_ubuol")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_80efh"]
+texture = SubResource("GradientTexture2D_636ej")
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a2yai"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2kn0t"]
@@ -97,6 +185,21 @@ SmallLabel/base_type = &"Label"
 SmallLabel/font_sizes/font_size = 16
 TableHeader/base_type = &"LineEdit"
 TableHeader/styles/normal = SubResource("StyleBoxFlat_636ej")
+TimelineTask/base_type = &"Button"
+TimelineTask/styles/hover = SubResource("StyleBoxFlat_7lle4")
+TimelineTask/styles/hover_pressed = SubResource("StyleBoxFlat_iis7l")
+TimelineTask/styles/normal = SubResource("StyleBoxFlat_2c135")
+TimelineTask/styles/pressed = SubResource("StyleBoxFlat_dqwbk")
+TimelineTaskDueOnly/base_type = &"Button"
+TimelineTaskDueOnly/styles/hover = SubResource("StyleBoxTexture_a2yai")
+TimelineTaskDueOnly/styles/hover_pressed = SubResource("StyleBoxTexture_vj3c2")
+TimelineTaskDueOnly/styles/normal = SubResource("StyleBoxTexture_vj3c2")
+TimelineTaskDueOnly/styles/pressed = SubResource("StyleBoxTexture_ieqs5")
+TimelineTaskStartOnly/base_type = &"Button"
+TimelineTaskStartOnly/styles/hover = SubResource("StyleBoxTexture_ecwjl")
+TimelineTaskStartOnly/styles/hover_pressed = SubResource("StyleBoxTexture_ln5p0")
+TimelineTaskStartOnly/styles/normal = SubResource("StyleBoxTexture_ln5p0")
+TimelineTaskStartOnly/styles/pressed = SubResource("StyleBoxTexture_80efh")
 TransparentButton/base_type = &"Button"
 TransparentButton/styles/disabled = SubResource("StyleBoxEmpty_a2yai")
 TransparentButton/styles/focus = SubResource("StyleBoxEmpty_2kn0t")

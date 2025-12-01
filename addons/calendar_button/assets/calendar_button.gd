@@ -56,12 +56,16 @@ func clear() -> void:
 		original_text = ""
 
 func _on_calendar_confirmed(date: Dictionary, time: Dictionary) -> void:
-	original_text = text
+	if original_text == "": 
+		original_text = text
+	
 	text = date_to_iso(date)
 	calendar_confirmed.emit(date, time)
 
 func set_unix_date(unix:int):
-	original_text = text
+	if original_text == "": 
+		original_text = text
+	
 	text = date_to_iso(Time.get_date_dict_from_unix_time(unix))
 
 func date_to_iso(d: Dictionary) -> String:
