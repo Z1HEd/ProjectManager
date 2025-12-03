@@ -15,8 +15,7 @@ var newest_date: String
 var _connected_vb : VScrollBar = null
 var message_ids := []
 var user_role := ""
-
-const SCROLL_TOLERANCE := 10
+var is_busy := false
 
 func open():
 	no_messages_text.text = "Loading..."
@@ -32,6 +31,7 @@ func open():
 	message_ids = []
 	
 	var on_success = func(res:Dictionary):
+		is_busy = false
 		if res.size() == 0:
 			no_messages_text.visible = true
 			no_messages_text.text = "No messages here yet..."
@@ -48,7 +48,7 @@ func open():
 			append_messages)
 	
 	Project.update_member_names()
-	
+	is_busy = true
 	ChatService.fetch_recent(Project.pid, 25, on_success)
 
 func close():
@@ -60,11 +60,14 @@ func on_project_updated():
 
 func append_messages(arr:Array, from_top := false):
 	var sb = scroll.get_v_scroll_bar()
-	var was_at_bottom : bool = sb == null or \
-			sb.value >= sb.max_value - SCROLL_TOLERANCE - sb.page
 	
-	oldest = arr[0]["id"] if oldest == "" else \
-			(oldest if oldest<arr[0]["id"] else arr[0]["id"])
+	var was_at_bottom : bool = sb == null or \
+			sb.value >= sb.max_value - sb.page
+	
+	var candidate_id = arr[-1]["id"] if from_top else arr[0]["id"]
+	if oldest == "" or candidate_id < oldest:
+		oldest = candidate_id
+	
 	if oldest_date == "":
 		oldest_date = Time.get_date_string_from_unix_time(arr[0]["ts_server"]/1000)
 		newest_date = oldest_date
@@ -72,7 +75,7 @@ func append_messages(arr:Array, from_top := false):
 	
 	for m in arr:
 		if message_ids.count(m["id"])>0:
-			return
+			continue
 		message_ids.append(m["id"])
 		var item := message_prefab.instantiate()
 		messages_container.add_child(item)
@@ -119,14 +122,16 @@ func add_date_label(date:String,from_top = false):
 		messages_container.move_child(label,0)
 
 func _on_scrolled_to_top() -> void:
-	if oldest == "": return
+	if oldest == "" or is_busy: return
 	
 	var on_success = func(res:Dictionary):
+		is_busy = false
 		if res.size()>0:
 			var arr = to_sorted_array(res)
 			arr.reverse()
 			append_messages(arr,true)
 	
+	is_busy = true
 	ChatService.fetch_before(Project.pid,oldest,25,on_success)
 
 func _ensure_vscroll_connected() -> void:

@@ -70,18 +70,18 @@ static func fetch_before(
 	var url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&endAt=%%22%s%%22&limitToLast=%d&auth=" % \
 		[Firebase.project_db_url, pid, before_key, limit]
 	
+	var _on_fail = func(err_msg:String):
+		AppNotifications.push("Failed to fetch old messages:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
 	var _on_success = func(response):
 		if response == null:
 			on_success.call({})
 			return
 		if not response is Dictionary:
-			on_fail.call("Invalid response: %s" % response)
+			_on_fail.call("Invalid response: %s" % response)
 			return
 		on_success.call(response)
-	
-	var _on_fail = func(err_msg:String):
-		AppNotifications.push("Failed to fetch old messages:\n%s" % err_msg)
-		on_fail.call(err_msg)
 	
 	return Firebase.send_request(
 		url,
