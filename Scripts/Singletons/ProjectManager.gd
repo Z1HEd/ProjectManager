@@ -17,8 +17,6 @@ var members_names := {}
 @export var is_open := false
 
 func set_project(uid: String):
-	if uid=="":
-		push_error("Tried setting project with empty uid!")
 	if pid == uid:
 		return
 	if pid != "":
