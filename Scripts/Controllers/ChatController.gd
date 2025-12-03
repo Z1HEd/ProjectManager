@@ -134,6 +134,7 @@ func _on_scrolled_to_top() -> void:
 	is_busy = true
 	ChatService.fetch_before(Project.pid,oldest,25,on_success)
 
+# Needed to connect scroll callback for old messages loading
 func _ensure_vscroll_connected() -> void:
 	var vb = scroll.get_v_scroll_bar()
 	if vb == _connected_vb:
@@ -148,7 +149,7 @@ func _ensure_vscroll_connected() -> void:
 	_connected_vb = vb
 
 func _on_vscroll_changed(value: float) -> void:
-	if value <= 4.0:
+	if value <= 1.0:
 		_on_scrolled_to_top()
 
 func _notification(what: int) -> void:
