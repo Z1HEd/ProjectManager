@@ -13,6 +13,7 @@ config_version=5
 config/name="ProjectOrganizer"
 run/main_scene="uid://bl3p86d6o04a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/low_processor_mode=true
 
 [autoload]
 
