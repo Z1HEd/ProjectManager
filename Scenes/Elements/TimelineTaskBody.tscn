@@ -25,7 +25,7 @@ offset_bottom = 30.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_b2axk")
 
 [node name="Button" type="Button" parent="Panel"]
-custom_minimum_size = Vector2(25, 30)
+custom_minimum_size = Vector2(7, 30)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

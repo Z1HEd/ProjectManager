@@ -23,14 +23,15 @@ func set_project(uid: String):
 		ProjectService.stop_listening(pid)
 	pid = uid
 	is_open = true
+	
 	var on_error = func(msg):
 		if msg == "cancel":
 			AppNotifications.call_deferred("push",
 					"You have been removed from the current project")
 		else:
-			AppNotifications.call_deferred("push",
-					"Streaming error:\n%s"%msg)
+			AppNotifications.call_deferred("push", "Streaming error:\n%s"%msg)
 		clear()
+	
 	ProjectService.start_listening(pid,update_data,on_error)
 	project_opened.emit()
 
