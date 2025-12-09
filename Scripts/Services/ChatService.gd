@@ -93,15 +93,15 @@ static func fetch_before(
 
 static func start_listening(
 	pid: String,
-	last_known_key: String,
+	limit: int,
 	on_new_messages := func(_res):pass,
 	on_fail := func(_err):pass) -> void:
 
 	if _listeners.has(pid):
 		return
 
-	var full_url = "%s/chatMessages/%s.json?orderBy=%%22$key%%22&startAfter=%%22%s%%22&auth=" % \
-		[ Firebase.project_db_url, pid, last_known_key]
+	var full_url = "%s/chatMessages/%s.json?orderBy=%%22ts_server%%22&limitToLast=%d&auth=" % \
+			[Firebase.project_db_url, pid, limit]
 
 	var _on_new_messages = _on_update.bind(on_new_messages)
 	
@@ -128,6 +128,8 @@ static func _on_update(
 	var path : String = parsed["path"]
 	var payload = parsed["data"]
 
+	if payload == null:
+		return
 	var messages := []
 	if path == "/":
 		# Payload is dict of id -> message
@@ -141,6 +143,5 @@ static func _on_update(
 		var m = payload.duplicate(true)
 		m["id"] = msg_id
 		messages.append(m)
-
-	if messages.size() > 0:
-		on_new_messages.call(messages)
+	
+	on_new_messages.call(messages)

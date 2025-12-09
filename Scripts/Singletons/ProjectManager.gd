@@ -2,8 +2,11 @@ extends Node
 class_name ProjectManager
 
 signal project_opened
-signal project_updated
 signal project_closed
+
+signal project_updated
+signal tasks_updated(updated: Dictionary)
+signal chat_updated(new_messages: Array)
 
 @export var project_name := ""
 @export var project_description := ""
@@ -14,6 +17,9 @@ signal project_closed
 @export var user_role := ""
 var members_names := {}
 
+var tasks_data := {}
+var chat_messages := []
+
 @export var is_open := false
 
 func set_project(uid: String):
@@ -21,7 +27,14 @@ func set_project(uid: String):
 		return
 	if pid != "":
 		ProjectService.stop_listening(pid)
+		TaskService.stop_listening(pid)
+		ProjectService.stop_listening(pid)
+	
 	pid = uid
+	members ={}
+	members_names = {}
+	tasks_data = {}
+	chat_messages = []
 	is_open = true
 	
 	var on_error = func(msg):
@@ -33,6 +46,8 @@ func set_project(uid: String):
 		clear()
 	
 	ProjectService.start_listening(pid,update_data,on_error)
+	TaskService.start_listening(pid,update_tasks,on_error)
+	ChatService.start_listening(pid,25,update_messages,on_error)
 	project_opened.emit()
 
 func update_data(dict:Dictionary):
@@ -58,6 +73,22 @@ func update_data(dict:Dictionary):
 				Project.user_role)
 	
 	project_updated.emit()
+
+func update_tasks(updated:Dictionary):
+	for task_id in updated.keys():
+		var patch = updated[task_id]
+			
+		if patch == null:
+			tasks_data.erase(task_id)
+		elif tasks_data.has(task_id):
+			tasks_data[task_id].merge(patch, true)
+		else:
+			tasks_data[task_id] = patch.duplicate(true)
+	tasks_updated.emit(updated)
+
+func update_messages(update:Array):
+	chat_messages.append_array(update)
+	chat_updated.emit(update)
 
 func set_members_data(dict : Dictionary):
 	members = dict

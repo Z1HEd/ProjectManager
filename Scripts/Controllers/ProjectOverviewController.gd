@@ -23,9 +23,6 @@ func open(): pass
 func close(): pass
 
 func on_project_updated():
-	update_project_data()
-
-func update_project_data():
 	for member in members_list.get_children():
 		member.queue_free()
 	

@@ -12,17 +12,13 @@ var columns_texts := \
 var columns_data := \
 		["title","assignedTo","status","priority","updatedAt", "startDate", "dueDate", "id"]
 
-
-var tasks_data := {}
-# not needed for sorting here, but is required for starting a listener
-var latest_updated_at := 0
-
 var last_sort_col_index := columns_data.find("updatedAt")
 var last_sort_asc := false 
 
 func _ready():
 	tasks_table.edit_callback = on_edit_task_pressed
 	
+	tasks_table.set_data([])
 	tasks_table.set_headers(columns_texts)
 	
 	tasks_table.column_mappers[columns_data.find("assignedTo")] = \
@@ -72,39 +68,22 @@ func open():
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 	
-	var _on_success = func(tasks: Dictionary):
-		update_task_data(tasks)
-		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data)
-	
 	Project.update_member_names()
-	TaskService.get_all(Project.pid, _on_success)
+	Project.tasks_updated.connect(on_tasks_updated)
+	_refresh_table()
 
 func close():
 	tasks_table.set_data([])
-	TaskService.stop_listening(Project.pid)
+	Project.tasks_updated.disconnect(on_tasks_updated)
 
 func on_project_updated():
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 
-func update_task_data(updated: Dictionary):
-	for task_id in updated.keys():
-		var patch = updated[task_id]
-		
-		if patch == null:
-			tasks_data.erase(task_id)
-		elif tasks_data.has(task_id):
-			tasks_data[task_id].merge(patch, true)
-		else:
-			tasks_data[task_id] = patch.duplicate(true)
-
-		if tasks_data.has(task_id) and tasks_data[task_id].has("updatedAt"):
-			var task_updated_at = tasks_data[task_id]["updatedAt"]
-			if task_updated_at > latest_updated_at:
-				latest_updated_at = task_updated_at
+func on_tasks_updated(_update:Dictionary):
 	_refresh_table()
 
-func _get_tasks_array() -> Array:
+func _tasks_to_array(tasks_data:Dictionary) -> Array:
 	var rows: Array = []
 	for task_id in tasks_data.keys():
 		var t = tasks_data[task_id]
@@ -118,7 +97,7 @@ func _get_tasks_array() -> Array:
 	return rows
 
 func _refresh_table() -> void:
-	var rows = _get_tasks_array()
+	var rows = _tasks_to_array(Project.tasks_data)
 	
 	tasks_table.set_data(rows)
 	
@@ -137,7 +116,8 @@ func _on_table_header_clicked(col_index: int) -> void:
 func on_edit_task_pressed(row_index: int):
 	var task_id = tasks_table.get_cell_value(row_index,columns_data.find("id"))
 	view_edit_task_popup.visible = true
-	view_edit_task_popup.initialize(task_id,tasks_data[task_id],Project.user_role)
+	view_edit_task_popup.initialize(task_id,
+			Project.tasks_data[task_id],Project.user_role)
 
 func _on_create_task_button_pressed() -> void:
 	create_task_popup.visible = true
@@ -148,7 +128,7 @@ func _on_delete_task_pressed(id: String) -> void:
 	
 	confirm_critical_popup.set_info("Delete task?",
 			'All data related to "%s" will be deleted irreversibly.'%\
-					tasks_data[id]["title"]+
+					Project.tasks_data[id]["title"]+
 			' Enter "DELETE" to confirm',
 			"DELETE")
 	

@@ -38,7 +38,10 @@ func set_data(new_data: Array):
 	_data = _full_data.duplicate(false) 
 	
 	_total_rows = _data.size()
-	_visible_rows_range = [0, min(_total_rows, floor(self.size.y / row_height) if row_height > 0 else 0)]
+	# NOTE: idk why that was the way it was, but it stopped working for me 
+	# after i refactored project/task/chat data fetching, so i changed it too
+	#_visible_rows_range = [0, min(_total_rows, floor(self.size.y / row_height) if row_height > 0 else 0)]
+	_visible_rows_range = [0,_total_rows]
 	
 	_selected_rows.clear()
 	_anchor_row = -1
@@ -63,7 +66,7 @@ func set_data(new_data: Array):
 				data_s = Vector2(row_height, row_height)
 			else:
 				if r < _data.size() and col < _data[r].size():
-					# ONLY LINE I CHANGED HERE
+					# CHANGED LINE
 					data_s = font.get_string_size(str(_data[r][col]) if not column_mappers.has(col) else column_mappers[col].call(str(_data[r][col])), 
 					HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 			

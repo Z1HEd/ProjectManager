@@ -16,10 +16,6 @@ class_name TimelineController
 
 const MONTH_WIDTH_PX := 200
 
-var tasks_data := {}
-# not needed for sorting here, but is required for starting a listener
-var latest_updated_at := 0
-
 var MONTHS_BEFORE := 4
 var MONTHS_AFTER := 6
 var month_names := ["January","February","March","April","May","June","July","August","September","October","November","December"]
@@ -28,43 +24,30 @@ var start_index : int
 var end_index : int
 var filter := ""
 
+func _ready():
+	clear_timeline()
+
 func open():
 	
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 	
-	var _on_success = func(tasks: Dictionary):
-		update_task_data(tasks)
-		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data)
-	
 	Project.update_member_names()
-	TaskService.get_all(Project.pid, _on_success)
+	Project.tasks_updated.connect(on_tasks_updated)
+	_refresh_timeline()
 
 func close():
-	TaskService.stop_listening(Project.pid)
+	clear_timeline()
+	Project.tasks_updated.disconnect(on_tasks_updated)
 
-
-func update_task_data(updated: Dictionary):
-	for task_id in updated.keys():
-		var patch = updated[task_id]
-		
-		if patch == null:
-			tasks_data.erase(task_id)
-		elif tasks_data.has(task_id):
-			tasks_data[task_id].merge(patch, true)
-		else:
-			tasks_data[task_id] = patch.duplicate(true)
-
-		if tasks_data.has(task_id) and tasks_data[task_id].has("updatedAt"):
-			var task_updated_at = tasks_data[task_id]["updatedAt"]
-			if task_updated_at > latest_updated_at:
-				latest_updated_at = task_updated_at
+func on_tasks_updated(update:Dictionary):
 	_refresh_timeline()
 
 func _refresh_timeline():
 	
 	clear_timeline()
 	
+	var tasks_data = Project.tasks_data
 	var filtered := {}
 	for task in tasks_data.keys():
 		if (!tasks_data[task].has("startDate") and !tasks_data[task].has("dueDate"))\
@@ -143,7 +126,8 @@ func update_months(filtered: Dictionary) -> void:
 
 func on_task_pressed(task_id:String):
 	view_edit_task_popup.visible = true
-	view_edit_task_popup.initialize(task_id,tasks_data[task_id],Project.user_role)
+	view_edit_task_popup.initialize(task_id,
+			Project.tasks_data[task_id],Project.user_role)
 
 func set_scroll_to_current_date():
 	var sb = tasks_scroll.get_h_scroll_bar()

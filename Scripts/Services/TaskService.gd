@@ -121,11 +121,11 @@ static func get_all(
 			_on_success, 
 			_on_fail)
 
-static func start_listening(pid: String, last_known_updated_at: int, on_task_updates := func(_res):pass, on_fail := func(_err):pass) -> void:
+static func start_listening(pid: String, on_task_updates := func(_res):pass, on_fail := func(_err):pass) -> void:
 	if _listeners.has(pid):
 		return
 
-	var full_url = "%s/tasks/%s.json?orderBy=%%22updatedAt%%22&startAfter=%s&auth=" % [Firebase.project_db_url, pid, str(last_known_updated_at)]
+	var full_url = "%s/tasks/%s.json?orderBy=%%22updatedAt%%22&auth=" % [Firebase.project_db_url, pid]
 
 	var _on_new = _on_update.bind(on_task_updates)
 

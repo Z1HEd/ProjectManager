@@ -17,48 +17,38 @@ var message_ids := []
 var user_role := ""
 var is_busy := false
 
+func _ready():
+	_clear()
+
 func open():
-	no_messages_text.text = "Loading..."
 	message_input_panel.visible = Project.user_role != "viewer"
 	user_role = Project.user_role
-	
-	for child in messages_container.get_children():
-		child.queue_free()
 	
 	oldest = ""
 	oldest_date = ""
 	newest_date = ""
 	message_ids = []
 	
-	var on_success = func(res:Dictionary):
-		is_busy = false
-		if res.size() == 0:
-			no_messages_text.visible = true
-			no_messages_text.text = "No messages here yet..."
-			return
-		
-		no_messages_text.visible = false
-		var arr := to_sorted_array(res)
-		
-		append_messages(arr)
-		
-		ChatService.start_listening(
-			Project.pid,
-			arr[-1]["id"],
-			append_messages)
-	
 	Project.update_member_names()
-	is_busy = true
-	ChatService.fetch_recent(Project.pid, 25, on_success)
+	Project.chat_updated.connect(append_messages)
+	append_messages(Project.chat_messages)
 
 func close():
-	ChatService.stop_listening(Project.pid)
+	_clear()
+	Project.chat_updated.disconnect(append_messages)
+
+func _clear():
+	for child in messages_container.get_children():
+		child.queue_free()
+	no_messages_text.visible = true
 
 func on_project_updated():
 	if Project.user_role != user_role:
 		open()
 
 func append_messages(arr:Array, from_top := false):
+	if arr.size() == 0: return
+	no_messages_text.visible = false
 	var sb = scroll.get_v_scroll_bar()
 	
 	var was_at_bottom : bool = sb == null or \

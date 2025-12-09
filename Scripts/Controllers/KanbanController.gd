@@ -11,14 +11,24 @@ extends Tab
 
 @export var task_control_prefab := preload("res://Scenes/Elements/KanbanTask.tscn")
 
-var tasks_data := {}
 var tasks_controls := {}  # map id -> Control
-var latest_updated_at :=0
 var user_role := ""
+
+func _ready():
+	_clear()
 
 func open():
 	user_role = Project.user_role
 	
+	Project.update_member_names()
+	Project.tasks_updated.connect(update_task_data)
+	update_task_data(Project.tasks_data)
+
+func close():
+	_clear()
+	Project.tasks_updated.disconnect(update_task_data)
+
+func _clear():
 	for child in to_do_container.get_children():
 		child.queue_free()
 	for child in in_progress_container.get_children():
@@ -28,17 +38,6 @@ func open():
 	for child in cancelled_container.get_children():
 		child.queue_free()
 	tasks_controls = {}
-	latest_updated_at = 0
-	
-	var _on_success = func(tasks: Dictionary):
-		update_task_data(tasks)
-		TaskService.start_listening(Project.pid,latest_updated_at,update_task_data)
-	
-	Project.update_member_names()
-	TaskService.get_all(Project.pid, _on_success)
-
-func close():
-	TaskService.stop_listening(Project.pid)
 
 func on_project_updated():
 	if Project.user_role != user_role:
@@ -46,29 +45,15 @@ func on_project_updated():
 
 func update_task_data(updated: Dictionary):
 	for task_id in updated.keys():
-		var patch = updated[task_id]
-		
-		if patch == null:
-			tasks_data.erase(task_id)
-		elif tasks_data.has(task_id):
-			tasks_data[task_id].merge(patch, true)
-		else:
-			tasks_data[task_id] = patch.duplicate(true)
-
-		if tasks_data.has(task_id) and tasks_data[task_id].has("updatedAt"):
-			var task_updated_at = tasks_data[task_id]["updatedAt"]
-			if task_updated_at > latest_updated_at:
-				latest_updated_at = task_updated_at
-
 		update_task_control(task_id)
 
 func update_task_control(id:String):
 	
-	if !tasks_data.has(id) and tasks_controls.has(id):
+	if !Project.tasks_data.has(id) and tasks_controls.has(id):
 		tasks_controls[id].queue_free()
 		return
 		
-	var task = tasks_data[id]
+	var task = Project.tasks_data[id]
 	var title = task["title"]
 	var assignee_uid = task.get("assignedTo","")
 	
@@ -103,10 +88,9 @@ func sort_container(container:VBoxContainer):
 	var children := container.get_children()
 	
 	children.sort_custom(
-		# For descending order use > 0
 		func(a: KanbanTask, b: KanbanTask): 
-			return tasks_data[a.task_id]["updatedAt"]>\
-					tasks_data[b.task_id]["updatedAt"]
+			return Project.tasks_data[a.task_id]["updatedAt"]>\
+					Project.tasks_data[b.task_id]["updatedAt"]
 	)
 	
 	for node in container.get_children():
@@ -118,14 +102,15 @@ func sort_container(container:VBoxContainer):
 #region Task actions callbacks
 func on_edit_task_pressed(_task_id: String):
 	view_edit_task_popup.visible = true
-	view_edit_task_popup.initialize(_task_id,tasks_data[_task_id],Project.user_role)
+	view_edit_task_popup.initialize(_task_id,
+			Project.tasks_data[_task_id],Project.user_role)
 
 func on_delete_task_pressed(task_id: String):
 	confirm_critical_popup.visible = true
 	
 	confirm_critical_popup.set_info("Delete task?",
 			'All data related to "%s" will be deleted irreversibly.'%\
-					tasks_data[task_id]["title"]+
+					Project.tasks_data[task_id]["title"]+
 			' Enter "DELETE" to confirm',
 			"DELETE")
 	
