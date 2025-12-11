@@ -7,6 +7,3 @@ func open()
 
 @abstract
 func close()
-
-func on_project_updated():
-	pass

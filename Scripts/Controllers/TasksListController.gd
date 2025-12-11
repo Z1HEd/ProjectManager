@@ -65,18 +65,19 @@ func _ready():
 
 func open():
 	
-	create_task_button.visible = Project.user_role == "owner" ||\
-			Project.user_role == "manager"
+	set_create_task_button_visible()
 	
 	Project.update_member_names()
 	Project.tasks_updated.connect(on_tasks_updated)
+	Project.project_updated.connect(set_create_task_button_visible)
 	_refresh_table()
 
 func close():
 	tasks_table.set_data([])
 	Project.tasks_updated.disconnect(on_tasks_updated)
+	Project.project_updated.disconnect(set_create_task_button_visible)
 
-func on_project_updated():
+func set_create_task_button_visible():
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 

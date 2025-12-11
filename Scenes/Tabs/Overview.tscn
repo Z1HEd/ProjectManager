@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://be2eddut3my3o"]
+[gd_scene load_steps=14 format=3 uid="uid://be2eddut3my3o"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ldptw"]
 [ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectOverviewController.gd" id="2_jc0vq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bbbk6ytrbadwr" path="res://Assets/Icons/Edit.png" id="5_m38m3"]
 [ext_resource type="Texture2D" uid="uid://c6dcjsc5x4cij" path="res://Assets/Icons/Delete.png" id="6_uxoly"]
 [ext_resource type="PackedScene" uid="uid://cua184qg6p7w1" path="res://Scenes/Popups/AddMemberPopup.tscn" id="7_lrxk1"]
+[ext_resource type="Script" uid="uid://b82cu01sx7ibv" path="res://Scripts/UIElements/CustomDynamicTable.gd" id="8_uxoly"]
 [ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://Scenes/Popups/ConfirmActionPopup.tscn" id="9_ojhqf"]
 [ext_resource type="PackedScene" uid="uid://4aok4m6i3rcy" path="res://Scenes/Popups/EditProjectPopup.tscn" id="10_5rwxb"]
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="12_lh0xu"]
@@ -45,23 +46,25 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer/ScrollContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="ProjectInfo" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer"]
 custom_minimum_size = Vector2(425, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 10
@@ -69,20 +72,20 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ProjectName" type="Label" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ProjectName" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_ldptw")
 text = "Project Name"
 
-[node name="LeaveButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LeaveButton" type="Button" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(32, 0)
@@ -91,7 +94,7 @@ theme_type_variation = &"TransparentButton"
 icon = ExtResource("5_kvoca")
 expand_icon = true
 
-[node name="EditButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="EditButton" type="Button" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -99,7 +102,7 @@ theme_type_variation = &"TransparentButton"
 icon = ExtResource("5_m38m3")
 expand_icon = true
 
-[node name="DeleteButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="DeleteButton" type="Button" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
@@ -107,43 +110,49 @@ theme_type_variation = &"TransparentButton"
 icon = ExtResource("6_uxoly")
 expand_icon = true
 
-[node name="ProjectDescription" type="RichTextLabel" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ProjectDescription" type="RichTextLabel" parent="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Project description
 something something"
 fit_content = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/HFlowContainer"]
+[node name="MembersList" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MemberCountLabel" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+text = "(3)"
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_type_variation = &"MediumLabel"
-text = "Members: "
+theme_type_variation = &"SmallLabel"
+text = "Members:  "
 
-[node name="AddMemberButton" type="Button" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="AddMemberButton" type="Button" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -151,13 +160,146 @@ theme_type_variation = &"TransparentButton"
 icon = ExtResource("5_lrxk1")
 expand_icon = true
 
-[node name="MembersContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MembersContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 275)
+custom_minimum_size = Vector2(200, 260)
 layout_mode = 2
 
-[node name="ProjectMember" parent="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/MembersContainer" instance=ExtResource("4_fbbme")]
+[node name="ProjectMember" parent="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer/MembersContainer" instance=ExtResource("4_fbbme")]
 layout_mode = 2
+
+[node name="OverdueTasks2" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Closest deadlines:"
+
+[node name="NoDeadlinesLabel" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+theme_override_colors/font_color = Color(0, 0.8976866, 0, 1)
+text = "None!"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DeadlinesContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/DeadlinesContainer"]
+layout_mode = 2
+text = "(01-10-2022) Some Task"
+fit_content = true
+
+[node name="OverdueTasks" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Overdue tasks:"
+
+[node name="NoOverdueLabel" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"SmallLabel"
+theme_override_colors/font_color = Color(0, 0.8976866, 0, 1)
+text = "None!"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OverdueTasksContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/OverdueTasksContainer"]
+layout_mode = 2
+text = "(01-10-2022) Some Task"
+fit_content = true
+
+[node name="TasksSummary" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"SmallLabel"
+text = "Tasks:"
+
+[node name="TasksSummaryTable" type="Control" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(419, 200)
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 2
+script = ExtResource("8_uxoly")
+metadata/_custom_type_script = "uid://b82cu01sx7ibv"
 
 [node name="AddMemberPopup" parent="." instance=ExtResource("7_lrxk1")]
 unique_name_in_owner = true
@@ -184,8 +326,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_leave_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HFlowContainer/MarginContainer2/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/AddMemberButton" to="." method="_on_add_member_button_pressed"]
-[connection signal="on_project_edited" from="EditProjectPopup" to="." method="refresh_project"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/HFlowContainer/ProjectInfo/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/HFlowContainer/MembersList/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/AddMemberButton" to="." method="_on_add_member_button_pressed"]

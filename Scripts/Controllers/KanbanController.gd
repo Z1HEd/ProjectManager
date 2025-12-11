@@ -22,11 +22,13 @@ func open():
 	
 	Project.update_member_names()
 	Project.tasks_updated.connect(update_task_data)
+	Project.project_updated.connect(on_project_updated)
 	update_task_data(Project.tasks_data)
 
 func close():
 	_clear()
 	Project.tasks_updated.disconnect(update_task_data)
+	Project.project_updated.disconnect(on_project_updated)
 
 func _clear():
 	for child in to_do_container.get_children():

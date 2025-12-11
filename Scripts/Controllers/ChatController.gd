@@ -31,11 +31,13 @@ func open():
 	
 	Project.update_member_names()
 	Project.chat_updated.connect(append_messages)
+	Project.project_updated.connect(on_project_updated)
 	append_messages(Project.chat_messages)
 
 func close():
 	_clear()
 	Project.chat_updated.disconnect(append_messages)
+	Project.project_updated.disconnect(on_project_updated)
 
 func _clear():
 	for child in messages_container.get_children():

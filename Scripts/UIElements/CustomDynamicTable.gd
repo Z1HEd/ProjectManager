@@ -71,7 +71,7 @@ func set_data(new_data: Array):
 					HORIZONTAL_ALIGNMENT_LEFT, -1, font_size)
 			
 			if (_column_widths[col] < max(header_size.x, data_s.x)):
-				_column_widths[col] = max(header_size.x, data_s.x) + font_size * 4
+				_column_widths[col] = max(header_size.x, data_s.x) + font_size 
 				_min_column_widths[col] = _column_widths[col]
 			
 	_update_scrollbars()

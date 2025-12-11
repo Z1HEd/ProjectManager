@@ -6,8 +6,6 @@ class_name EditProjectPopup
 @onready var submit_button : Button = %SubmitButton
 @onready var cancel_button : NavigationButton = %CancelButton
 
-signal on_project_edited
-
 func set_current_info(current_name: String, current_description: String):
 	name_input.text = current_name
 	description_input.text = current_description
@@ -26,7 +24,6 @@ func _on_submit_button_pressed() -> void:
 		submit_button.disabled = false
 		cancel_button.disabled = false
 		visible = false
-		on_project_edited.emit()
 		AppNotifications.push("Changes have been saved")
 	
 	var _on_fail = func(_err_msg: String):

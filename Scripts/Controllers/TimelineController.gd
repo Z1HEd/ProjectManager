@@ -40,7 +40,7 @@ func close():
 	clear_timeline()
 	Project.tasks_updated.disconnect(on_tasks_updated)
 
-func on_tasks_updated(update:Dictionary):
+func on_tasks_updated(_update:Dictionary):
 	_refresh_timeline()
 
 func _refresh_timeline():
