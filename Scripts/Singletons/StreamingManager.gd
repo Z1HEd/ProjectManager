@@ -117,7 +117,6 @@ func _listener_thread(listener_id: int) -> void:
 
 		var headers = ["Accept: text/event-stream"]
 		var request_err = client.request(HTTPClient.METHOD_GET, path, headers)
-		print(path)
 		if request_err != OK:
 			call_deferred("_call_error", listener_id, "request_failed")
 			client.close()
