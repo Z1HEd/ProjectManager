@@ -15,6 +15,7 @@ var _refresh_waiters: Array = []
 const AUTH_CFG_PATH := "user://auth.cfg"
 
 signal on_authenticated
+signal refreshed
 
 func _ready() -> void:
 	if _load_from_config():
@@ -67,6 +68,7 @@ func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> in
 	var _on_refresh_success = func(parsed):
 		update_from_response(parsed)
 		on_success.call(parsed)
+		refreshed.emit()
 	
 	return UserService.refresh(refresh_token,_on_refresh_success)
 

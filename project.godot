@@ -14,6 +14,7 @@ config/name="ProjectOrganizer"
 run/main_scene="uid://bl3p86d6o04a"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 run/low_processor_mode=true
+config/icon="uid://dp740m82bcree"
 
 [autoload]
 
@@ -41,3 +42,4 @@ folder_colors={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

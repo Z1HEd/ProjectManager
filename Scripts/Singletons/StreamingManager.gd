@@ -18,24 +18,39 @@ func start_listener(
 		"on_event": on_event,
 		"on_error": on_error,
 		"url": full_url,
-		"started": false
+		"started": false,
+		"reconnect_requested": false,
+		"new_token": null,
+		"session_cb": null
 	}
 	_listeners[id] = info
 
-	# start only after token refresh
+	info.session_cb = func(new_token):
+		if _listeners.has(id):
+			var li = _listeners[id]
+			if not li.stop_flag:
+				li.reconnect_requested = true
+				li.new_token = new_token
+	Session.connect("refreshed", info.session_cb)
+
 	var _on_token_ok = func():
-		var err = thread.start(_listener_thread.bind(id))
+		var err = thread.start(Callable(self, "_listener_thread").bind(id))
 		if err != OK:
-			_listeners.erase(id)
+			if _listeners.has(id):
+				_listeners.erase(id)
 			on_error.call("Failed to start listener thread: %s" % err)
 			return
-		info["started"] = true
+		if _listeners.has(id):
+			_listeners[id].started = true
 
 	var _on_token_fail = func(err):
-		_listeners.erase(id)
+		if _listeners.has(id):
+			var li = _listeners[id]
+			if li.session_cb and Session.refreshed.is_connected(li.session_cb):
+				Session.disconnect("refreshed", li.session_cb)
+			_listeners.erase(id)
 		on_error.call(err)
 
-	# ensure id_token is fresh before starting listener thread
 	Session.ensure_fresh_token(_on_token_ok, _on_token_fail)
 
 	return id
@@ -45,7 +60,11 @@ func stop_listener(listener_id: int) -> void:
 		return
 	var info = _listeners[listener_id]
 	info.stop_flag = true
-	info.thread.wait_to_finish()
+	if info.session_cb and Session.refreshed.is_connected(info.session_cb):
+		Session.disconnect("refreshed", info.session_cb)
+	info.session_cb = null
+	if info.thread:
+		info.thread.wait_to_finish()
 	_listeners.erase(listener_id)
 
 func stop_all() -> void:
@@ -56,88 +75,118 @@ func _listener_thread(listener_id: int) -> void:
 	if not _listeners.has(listener_id):
 		return
 	var info = _listeners[listener_id]
-	var url: String = info.url + Session.id_token
+	var token := ""
+	token = Session.id_token
 
-	var trimmed = url.replace("https://", "")
+	while _listeners.has(listener_id) and not _listeners[listener_id].stop_flag:
+		info = _listeners[listener_id]
+		var url: String = info.url + token
+		var trimmed = url.replace("https://", "")
 
-	var slash_idx = trimmed.find("/")
-	var host = ""
-	var path = ""
-	if slash_idx == -1:
-		host = trimmed
-		path = "/"
-	else:
-		host = trimmed.substr(0, slash_idx)
-		path = "/" + trimmed.substr(slash_idx + 1)
+		var slash_idx = trimmed.find("/")
+		var host = ""
+		var path = ""
+		if slash_idx == -1:
+			host = trimmed
+			path = "/"
+		else:
+			host = trimmed.substr(0, slash_idx)
+			path = "/" + trimmed.substr(slash_idx + 1)
 
-	var port = 443
+		var port = 443
 
-	var client = HTTPClient.new()
-	var connect_err = client.connect_to_host(host, port, TLSOptions.client())
-	if connect_err != OK:
-		call_deferred("_call_error", listener_id, "connect_failed")
-		return
-	var start_time = Time.get_unix_time_from_system()
-	while client.get_status() != HTTPClient.STATUS_CONNECTED:
-		if not _listeners.has(listener_id):
-			client.close()
-			return
-		if _listeners[listener_id].stop_flag:
-			client.close()
-			return
-		var _poll_err = client.poll()
-		if Time.get_unix_time_from_system() - start_time > 10:
-			call_deferred("_call_error", listener_id, "connect_timeout")
-			client.close()
-			return
-		OS.delay_msec(10)
-
-	var headers = ["Accept: text/event-stream"]
-	var request_err = client.request(HTTPClient.METHOD_GET, path, headers)
-	if request_err != OK:
-		call_deferred("_call_error", listener_id, "request_failed")
-		client.close()
-		return
-	
-	var buffer := ""
-	while true:
-		if not _listeners.has(listener_id):
+		var client = HTTPClient.new()
+		var connect_err = client.connect_to_host(host, port, TLSOptions.client())
+		if connect_err != OK:
+			call_deferred("_call_error", listener_id, "connect_failed")
 			break
-		var listener_info = _listeners[listener_id]
-		if listener_info.stop_flag:
-			break
+		var start_time = Time.get_unix_time_from_system()
+		while client.get_status() != HTTPClient.STATUS_CONNECTED:
+			if not _listeners.has(listener_id):
+				client.close()
+				return
+			if _listeners[listener_id].stop_flag:
+				client.close()
+				return
+			client.poll()
+			if Time.get_unix_time_from_system() - start_time > 10:
+				call_deferred("_call_error", listener_id, "connect_timeout")
+				client.close()
+				return
+			OS.delay_msec(10)
 
-		var _poll_err = client.poll()
-		while client.get_status() == HTTPClient.STATUS_BODY:
-			var chunk: PackedByteArray = client.read_response_body_chunk()
-			if chunk.size() == 0:
+		var headers = ["Accept: text/event-stream"]
+		var request_err = client.request(HTTPClient.METHOD_GET, path, headers)
+		print(path)
+		if request_err != OK:
+			call_deferred("_call_error", listener_id, "request_failed")
+			client.close()
+			break
+		
+		var buffer := ""
+		while true:
+			if not _listeners.has(listener_id):
 				break
-			
-			var s = chunk.get_string_from_utf8()
-			if s != "":
-				buffer += s
-				buffer = buffer.replace("\r\n", "\n")
-				while true:
-					var sep_idx = buffer.find("\n\n")
-					if sep_idx == -1:
+			var listener_info = _listeners[listener_id]
+			if listener_info.stop_flag:
+				break
+
+			if listener_info.reconnect_requested:
+				client.close()
+				break
+
+			client.poll()
+			while client.get_status() == HTTPClient.STATUS_BODY:
+				var chunk: PackedByteArray = client.read_response_body_chunk()
+				if chunk.size() == 0:
+					break
+				
+				var s = chunk.get_string_from_utf8()
+				if s != "":
+					buffer += s
+					buffer = buffer.replace("\r\n", "\n")
+					while true:
+						var sep_idx = buffer.find("\n\n")
+						if sep_idx == -1:
+							break
+						var block = buffer.substr(0, sep_idx)
+						var remaining_start = sep_idx + 2
+						var remaining_len = buffer.length() - remaining_start
+						if remaining_len > 0:
+							buffer = buffer.substr(remaining_start, remaining_len)
+						else:
+							buffer = ""
+						_process_sse_block(listener_id, block)
+
+			if client.get_status() == HTTPClient.STATUS_DISCONNECTED:
+				if _listeners.has(listener_id):
+					var li2 = _listeners[listener_id]
+					if li2.reconnect_requested:
+						client.close()
 						break
-					var block = buffer.substr(0, sep_idx)
-					var remaining_start = sep_idx + 2
-					var remaining_len = buffer.length() - remaining_start
-					if remaining_len > 0:
-						buffer = buffer.substr(remaining_start, remaining_len)
-					else:
-						buffer = ""
-					_process_sse_block(listener_id, block)
+				call_deferred("_call_error", listener_id, "disconnected")
+				break
 
-		if client.get_status() == HTTPClient.STATUS_DISCONNECTED:
-			print("disconnected")
-			call_deferred("_call_error", listener_id, "disconnected")
+			OS.delay_msec(10)
+
+		client.close()
+		if not _listeners.has(listener_id):
 			break
+		info = _listeners[listener_id]
+		if info.stop_flag:
+			break
+		if info.reconnect_requested:
+			if info.new_token != null:
+				token = info.new_token
+				info.new_token = null
+			else:
+				token = Session.id_token
+			info.reconnect_requested = false
+			OS.delay_msec(200)
+			continue
 
-		OS.delay_msec(10)
+		OS.delay_msec(200)
 
-	client.close()
 	if _listeners.has(listener_id):
 		_listeners.erase(listener_id)
 
@@ -154,7 +203,6 @@ func _process_sse_block(listener_id: int, block: String) -> void:
 			data_lines.append(tmp2)
 	
 	if event_type=="cancel":
-		print("cancelled")
 		_call_error(listener_id, "cancel")
 		return
 	
