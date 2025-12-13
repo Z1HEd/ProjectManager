@@ -27,6 +27,7 @@ extends Tab
 		preload("res://Scenes/Elements/ProjectMember.tscn")
 
 func open():
+	
 	update_project_info()
 	update_members_info()
 	update_tasks_summary({})
@@ -120,6 +121,8 @@ func update_overdue_tasks(_update:Dictionary):
 	for child in overdue_tasks_container.get_children():
 		child.queue_free()
 	
+	await Engine.get_main_loop().process_frame
+	
 	for id in Project.tasks_data.keys():
 		var task :Dictionary= Project.tasks_data[id]
 		
@@ -130,7 +133,6 @@ func update_overdue_tasks(_update:Dictionary):
 		if task["dueDate"]/1000>= Time.get_unix_time_from_system():
 			continue
 		
-		
 		var date_string := Time.get_date_string_from_unix_time(task["dueDate"]/1000)
 		
 		var label = RichTextLabel.new()
@@ -140,18 +142,18 @@ func update_overdue_tasks(_update:Dictionary):
 		
 		overdue_tasks_container.add_child(label)
 	
-	await Engine.get_main_loop().process_frame
-	
 	no_overdue_label.visible = overdue_tasks_container.get_child_count()==0
 
 func update_deadlines(_update:Dictionary):
 	for child in deadlines_container.get_children():
 		child.queue_free()
 	
+	await Engine.get_main_loop().process_frame
+	
 	var deadlines_strings := []
 	
 	for id in Project.tasks_data.keys():
-		var task :Dictionary= Project.tasks_data[id]
+		var task : Dictionary = Project.tasks_data[id]
 		
 		if !task.has("dueDate"):
 			continue
@@ -175,8 +177,6 @@ func update_deadlines(_update:Dictionary):
 		label.text = deadline
 		
 		deadlines_container.add_child(label)
-	
-	await Engine.get_main_loop().process_frame
 	
 	no_deadlines_label.visible = deadlines_container.get_child_count()==0
 
