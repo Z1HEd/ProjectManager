@@ -179,6 +179,7 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks2/PanelContainer"]
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
@@ -228,6 +229,7 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/ScrollContainer/HFlowContainer/OverdueTasks/PanelContainer"]
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10

@@ -10,9 +10,11 @@ var selected_id := -1
 
 func open():
 	refresh_notification_list()
+	
+	Notifications.notifications_updated.connect(refresh_notification_list)
 
 func close():
-	pass
+	Notifications.notifications_updated.disconnect(refresh_notification_list)
 
 func refresh_notification_list():
 	
@@ -44,13 +46,9 @@ func _accept_invite():
 	decline_button.disabled = true
 	
 	var _on_success = func(_result):
-		Notifications.remove(selected_id)
-		item_list.deselect(selected_id)
-		item_list.remove_item(selected_id)
 		accept_button.disabled = false
 		decline_button.disabled = false
 		_reset_notification_details()
-		
 	
 	var _on_fail = func(_err_msg):
 		accept_button.disabled = false
@@ -70,9 +68,6 @@ func _decline_invite():
 	var _on_success = func(_result):
 		accept_button.disabled = false
 		decline_button.disabled = false
-		Notifications.remove(selected_id)
-		item_list.deselect(selected_id)
-		item_list.remove_item(selected_id)
 		_reset_notification_details()
 		
 	

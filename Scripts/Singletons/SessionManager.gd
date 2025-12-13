@@ -14,7 +14,7 @@ var _refresh_waiters: Array = []
 
 const AUTH_CFG_PATH := "user://auth.cfg"
 
-signal on_authenticated
+signal authenticated
 signal refreshed
 
 func _ready() -> void:
@@ -104,7 +104,7 @@ func update_from_response(response: Dictionary) -> void:
 	_save_to_config()
 	
 	if uid != "" and id_token != "":
-		emit_signal("on_authenticated")
+		authenticated.emit()
 
 func is_logged_in() -> bool:
 	return uid != "" and id_token != ""

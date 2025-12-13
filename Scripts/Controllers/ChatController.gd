@@ -29,7 +29,6 @@ func open():
 	newest_date = ""
 	message_ids = []
 	
-	Project.update_member_names()
 	Project.chat_updated.connect(append_messages)
 	Project.project_updated.connect(on_project_updated)
 	append_messages(Project.chat_messages)

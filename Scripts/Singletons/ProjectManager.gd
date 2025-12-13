@@ -8,6 +8,8 @@ signal project_updated
 signal tasks_updated(updated: Dictionary)
 signal chat_updated(new_messages: Array)
 
+var menu_controller :MainMenuController
+
 @export var project_name := ""
 @export var project_description := ""
 @export var pid := ""
@@ -48,6 +50,7 @@ func set_project(uid: String):
 	ProjectService.start_listening(pid,update_data,on_error)
 	TaskService.start_listening(pid,update_tasks,on_error)
 	ChatService.start_listening(pid,25,update_messages,on_error)
+	update_member_names()
 	project_opened.emit()
 
 func update_data(dict:Dictionary):
@@ -62,6 +65,8 @@ func update_data(dict:Dictionary):
 			members.erase(member)
 			return
 		members[member] = members_update[member]
+	if members_update != {}:
+		update_member_names()
 	
 	var prev_role = user_role
 	user_role = members.get(Session.uid,"")
@@ -89,10 +94,16 @@ func update_tasks(updated:Dictionary):
 func update_messages(update:Array):
 	chat_messages.append_array(update)
 	chat_updated.emit(update)
+	
+	if (update.size()>1 or menu_controller.is_chat_open()):
+		return
+	
+	AppNotifications.push("%s: %s"%\
+			[Project.get_member_name(update[0]["authorId"]),update[0]["text"]])
 
 func set_members_data(dict : Dictionary):
 	members = dict
-	
+	update_member_names()
 	project_updated.emit()
 
 func clear():

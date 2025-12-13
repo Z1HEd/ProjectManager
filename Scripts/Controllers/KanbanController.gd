@@ -20,7 +20,6 @@ func _ready():
 func open():
 	user_role = Project.user_role
 	
-	Project.update_member_names()
 	Project.tasks_updated.connect(update_task_data)
 	Project.project_updated.connect(on_project_updated)
 	update_task_data(Project.tasks_data)

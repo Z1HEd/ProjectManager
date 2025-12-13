@@ -32,7 +32,6 @@ func open():
 	create_task_button.visible = Project.user_role == "owner" ||\
 			Project.user_role == "manager"
 	
-	Project.update_member_names()
 	Project.tasks_updated.connect(on_tasks_updated)
 	_refresh_timeline()
 

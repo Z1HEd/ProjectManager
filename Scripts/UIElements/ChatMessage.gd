@@ -9,6 +9,7 @@ func set_data(sender_name: String, time_unix: int, message: String) -> void:
 	sender.text = sender_name
 	@warning_ignore("integer_division")
 	time.text = Time.get_time_string_from_unix_time(time_unix / 1000)
+	time.text = time.text.left(-3)
 	
 	var max_w := get_max_width(message)
 	body.custom_minimum_size.x = min(max_w, 500)

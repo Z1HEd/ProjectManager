@@ -244,6 +244,9 @@ static func start_listening(
 	
 	var _on_fail = func(err_msg:String):
 		_listeners.erase(pid)
+		if err_msg == "cancel":
+			return
+		AppNotifications.push("Failed to start project listener:\n%s"%err_msg)
 		on_fail.call(err_msg)
 	
 	var listener_id = Streaming.start_listener(full_url, _on_project_update, _on_fail)

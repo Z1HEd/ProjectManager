@@ -131,6 +131,8 @@ static func start_listening(pid: String, on_task_updates := func(_res):pass, on_
 
 	var _on_fail = func(err_msg:String):
 		_listeners.erase(pid)
+		if err_msg == "cancel":
+			return
 		AppNotifications.push("Failed to start a task listener:\n%s" % err_msg)
 		on_fail.call(err_msg)
 
@@ -150,7 +152,7 @@ static func _on_update(parsed, on_task_updates: Callable) -> void:
 	var payload = parsed["data"]
 
 	var tasks := {}
-	if path == "/":
+	if path == "/" and payload != null:
 		# payload is dict of id -> task
 		for key in payload.keys():
 			tasks[key] = payload[key]

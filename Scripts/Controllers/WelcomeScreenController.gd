@@ -4,7 +4,7 @@ func on_authenticated():
 	get_tree().change_scene_to_file("res://Scenes/Screens/MainMenu.tscn")
 
 func _ready() -> void:
-	Session.on_authenticated.connect(on_authenticated)
+	Session.authenticated.connect(on_authenticated)
 
 	if Session.is_logged_in():
 		call_deferred("on_authenticated")

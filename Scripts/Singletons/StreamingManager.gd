@@ -25,16 +25,16 @@ func start_listener(
 	}
 	_listeners[id] = info
 
-	info.session_cb = func(new_token):
+	info.session_cb = func():
 		if _listeners.has(id):
 			var li = _listeners[id]
 			if not li.stop_flag:
 				li.reconnect_requested = true
-				li.new_token = new_token
-	Session.connect("refreshed", info.session_cb)
+				li.new_token = Session.id_token
+	Session.refreshed.connect(info.session_cb)
 
 	var _on_token_ok = func():
-		var err = thread.start(Callable(self, "_listener_thread").bind(id))
+		var err = thread.start(_listener_thread.bind(id))
 		if err != OK:
 			if _listeners.has(id):
 				_listeners.erase(id)
@@ -47,7 +47,7 @@ func start_listener(
 		if _listeners.has(id):
 			var li = _listeners[id]
 			if li.session_cb and Session.refreshed.is_connected(li.session_cb):
-				Session.disconnect("refreshed", li.session_cb)
+				Session.refreshed.disconnect(li.session_cb)
 			_listeners.erase(id)
 		on_error.call(err)
 
@@ -61,7 +61,7 @@ func stop_listener(listener_id: int) -> void:
 	var info = _listeners[listener_id]
 	info.stop_flag = true
 	if info.session_cb and Session.refreshed.is_connected(info.session_cb):
-		Session.disconnect("refreshed", info.session_cb)
+		Session.refreshed.disconnect(info.session_cb)
 	info.session_cb = null
 	if info.thread:
 		info.thread.wait_to_finish()
@@ -212,7 +212,6 @@ func _process_sse_block(listener_id: int, block: String) -> void:
 	var parsed = null
 	if data_text != "":
 		parsed = FirebaseManager._parse_response_body(data_text)
-	
 	call_deferred("_deliver_sse_event", listener_id, event_type, parsed)
 
 func _deliver_sse_event(listener_id: int, event_type: String, parsed) -> void:

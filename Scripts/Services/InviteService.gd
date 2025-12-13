@@ -1,6 +1,8 @@
 extends Node
 class_name InviteService
 
+static var _listeners := {}
+
 static func create_invite(
 		project_id: String, 
 		invitee_uid: String, 
@@ -77,7 +79,6 @@ static func decline_invite(
 			on_success, 
 			_on_fail)
 
-
 static func get_user_invites(
 		invitee_uid: String, 
 		on_success := func(_res):pass, 
@@ -107,3 +108,52 @@ static func get_user_invites(
 			[], 
 			_on_success, 
 			_on_fail)
+
+static func start_listening(
+	invitee_uid: String,
+	on_invite_updates := func(_res):pass,
+	on_fail := func(_err):pass) -> void:
+	
+	if _listeners.has(invitee_uid):
+		return
+	var full_url = "%s/invites/%s.json?auth=" % [ Firebase.project_db_url, invitee_uid ]
+
+	var _on_new = _on_update.bind(on_invite_updates)
+
+	var _on_fail = func(err_msg:String):
+		_listeners.erase(invitee_uid)
+		AppNotifications.push("Failed to start an invites listener:\n%s" % err_msg)
+		on_fail.call(err_msg)
+	
+	var listener_id = Streaming.start_listener(full_url, _on_new, _on_fail)
+	_listeners[invitee_uid] = listener_id
+
+static func stop_listening_all()->void:
+	for id in _listeners.keys():
+		stop_listening(id)
+
+static func stop_listening(invitee_uid: String) -> void:
+	if not _listeners.has(invitee_uid):
+		return
+	var id = _listeners[invitee_uid]
+	Streaming.stop_listener(id)
+	_listeners.erase(invitee_uid)
+
+static func _on_update(parsed, on_invite_updates: Callable) -> void:
+	var path : String = parsed.get("path", "/")
+	var payload = parsed.get("data", null)
+	
+	var invites := {}
+	# initial snapshot contains map id -> invite
+	if path == "/":
+		if payload is Dictionary:
+			for key in payload.keys():
+				invites[key] = payload[key]
+	else:
+		# child changed/added or removed. path = "/invite_id"
+		var project_id = path.lstrip("/")
+		# payload may be null for deleted invite
+		invites[project_id] = payload.duplicate(true) if payload != null else null
+
+	if invites.size() > 0:
+		on_invite_updates.call(invites)

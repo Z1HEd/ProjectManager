@@ -5,6 +5,7 @@ class_name MainMenuController
 @onready var active_tab = %ActiveTab
 @onready var unactive_tabs = %UnactiveTabs
 @onready var summary_tab : Tab = %Summary
+@onready var chat_tab : Tab = %TeamChat
 @onready var no_projects_selected_tab : Tab = %NoProjectSelected
 
 func _ready():
@@ -19,6 +20,8 @@ func _ready():
 	
 	Project.project_opened.connect(_on_project_opened)
 	Project.project_closed.connect(_on_project_closed)
+	Project.menu_controller = self
+	Notifications.start_listening()
 
 func open_tab(tab:Tab)->void:
 	if active_tab.get_child_count() ==0:
@@ -30,3 +33,6 @@ func open_tab(tab:Tab)->void:
 	tab.reparent(active_tab)
 	
 	tab.open()
+
+func is_chat_open()->bool:
+	return active_tab.get_child(0) == chat_tab

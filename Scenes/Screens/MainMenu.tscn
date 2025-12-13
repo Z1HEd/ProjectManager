@@ -114,6 +114,7 @@ menu = NodePath("../../../../../../../../../..")
 layout_mode = 1
 
 [node name="TeamChat" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("6_0xkci")]
+unique_name_in_owner = true
 layout_mode = 1
 
 [node name="UserProfile" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("8_lvwqe")]

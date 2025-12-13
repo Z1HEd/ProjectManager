@@ -67,7 +67,6 @@ func open():
 	
 	set_create_task_button_visible()
 	
-	Project.update_member_names()
 	Project.tasks_updated.connect(on_tasks_updated)
 	Project.project_updated.connect(set_create_task_button_visible)
 	_refresh_table()

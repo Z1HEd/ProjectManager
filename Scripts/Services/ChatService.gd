@@ -107,6 +107,8 @@ static func start_listening(
 	
 	var _on_fail = func(err_msg:String):
 		_listeners.erase(pid)
+		if err_msg == "cancel":
+			return
 		AppNotifications.push("Failed to start message listener:\n%s"%err_msg)
 		on_fail.call(err_msg)
 	
