@@ -50,26 +50,12 @@ func start_listener(
 			listener.reconnect_requested = true
 	
 	Session.refreshed.connect(info.session_cb)
-
-	var _on_token_ok = func():
-		if not _listeners.has(id):
-			return
-		
-		var err = thread.start(_listener_thread.bind(id))
-		if err != OK:
-			on_error.call("Failed to start listener thread: %s" % err)
-		else:
-			_listeners[id].started = true
-
-	var _on_token_fail = func(err):
-		if not _listeners.has(id):
-			return
-		
-		Session.refreshed.disconnect( _listeners[id].session_cb)
-		_listeners.erase(id)
-		on_error.call(err)
-
-	Session.ensure_fresh_token(_on_token_ok, _on_token_fail)
+	
+	var err = thread.start(_listener_thread.bind(id))
+	if err != OK:
+		on_error.call("Failed to start listener thread: %s" % err)
+	else:
+		_listeners[id].started = true
 
 	return id
 
@@ -121,6 +107,7 @@ func _listener_thread(listener_id: int) -> void:
 			OS.delay_msec(10)
 
 		var headers = ["Accept: text/event-stream"]
+		print("Connecting a listener: %s" % path.substr(0,path.find("?")))
 		var request_err = client.request(HTTPClient.METHOD_GET, path, headers)
 		if request_err != OK:
 			_handle_error(listener_id, "request_failed")

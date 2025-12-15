@@ -100,24 +100,16 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 	var is_perm_error = (response_code == 401) or \
 			err_msg.findn("Permission denied") != -1
 	var already_retried = _current_request.get("retried", false)
-
-	if !is_perm_error or already_retried:
-		request_fail.emit(id, err_msg)
-		fail_cb.call(err_msg)
-		_conclude_current_request()
-		return
 	
-	var _on_refresh_success = func():
+	if not is_perm_error and not already_retried:
 		_current_request["retried"] = true
 		_send_current_request()
-
-	var _on_refresh_fail = func(err):
-		var fail_msg = "token_refresh_failed: %s" % str(err)
-		request_fail.emit(id, fail_msg)
-		fail_cb.call(fail_msg)
-		_conclude_current_request()
-
-	Session.ensure_fresh_token(_on_refresh_success, _on_refresh_fail)
+		return
+	
+	request_fail.emit(id, err_msg)
+	fail_cb.call(err_msg)
+	_conclude_current_request()
+	return
 
 func _get_error_message_from_result_code(result:HTTPRequest.Result) -> String:
 	match result:

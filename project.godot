@@ -34,6 +34,7 @@ enabled=PackedStringArray("res://addons/calendar_button/plugin.cfg", "res://addo
 
 folder_colors={
 "res://Assets/": "green",
+"res://Resources/": "teal",
 "res://Scenes/": "red",
 "res://Scripts/": "purple"
 }

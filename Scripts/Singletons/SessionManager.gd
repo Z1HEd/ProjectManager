@@ -9,9 +9,10 @@ var id_token: String = ""
 var refresh_token: String = ""
 var expires_at: int = 0
 
-var _refresh_in_progress: bool = false
-var _refresh_waiters: Array = []
+var refresh_timer : Timer
 
+const REFRESH_DELAY_SECS := 3000
+const RETRY_DELAY_SECS := 15
 const AUTH_CFG_PATH := "user://auth.cfg"
 
 signal authenticated
@@ -22,6 +23,14 @@ func _ready() -> void:
 		session_persist = true
 	else:
 		session_persist = false
+	
+	refresh_timer = Timer.new()
+	add_child(refresh_timer)
+	
+	var _on_refresh_fail = func(_msg:String):
+		refresh_timer.start(RETRY_DELAY_SECS)
+	
+	refresh_timer.timeout.connect(refresh_tokens.bind(_on_refresh_fail))
 
 func set_session_persist(enable: bool) -> void:
 	if session_persist == enable:
@@ -32,45 +41,21 @@ func set_session_persist(enable: bool) -> void:
 	elif FileAccess.file_exists(AUTH_CFG_PATH):
 		DirAccess.remove_absolute(AUTH_CFG_PATH)
 
-func ensure_fresh_token(on_ready:=func():pass, on_fail:=func():pass) -> void:
-	if not is_token_expired():
-		on_ready.call()
-		return
-
-	_refresh_waiters.append({
-		"on_ready": on_ready,
-		"on_fail": on_fail
-	})
-
-	if _refresh_in_progress:
-		return
-	_refresh_in_progress = true
-
-	var _on_refresh_success = func(_resp):
-		_refresh_in_progress = false
-		for w in _refresh_waiters:
-			w["on_ready"].call()
-		_refresh_waiters.clear()
-
-	var _on_refresh_fail = func(err):
-		_refresh_in_progress = false
-		for w in _refresh_waiters:
-			w["on_fail"].call(err)
-		_refresh_waiters.clear()
-
-	refresh_tokens(_on_refresh_success, _on_refresh_fail)
-
 func refresh_tokens(on_success:=func(_res):pass, on_fail:=func(_err):pass) -> int:
 	if refresh_token == "":
 		on_fail.call("no_refresh_token")
 		return -1
 
-	var _on_refresh_success = func(parsed):
+	var _on_success = func(parsed: Dictionary):
 		update_from_response(parsed)
 		on_success.call(parsed)
 		refreshed.emit()
 	
-	return UserService.refresh(refresh_token,_on_refresh_success)
+	var _on_fail = func(err:String):
+		on_fail.call(err)
+		AppNotifications.push("Failed to refresh session: \n%s" % err)
+	
+	return UserService.refresh(refresh_token,_on_success,_on_fail)
 
 func update_from_response(response: Dictionary) -> void:
 	if response == null:
@@ -101,10 +86,10 @@ func update_from_response(response: Dictionary) -> void:
 		var secs2 = int(response["expires_in"])
 		expires_at = int(Time.get_unix_time_from_system()) + secs2
 	
+	print("refreshed session")
+	refresh_timer.start(REFRESH_DELAY_SECS)
 	_save_to_config()
-	
-	if uid != "" and id_token != "":
-		authenticated.emit()
+	authenticated.emit()
 
 func is_logged_in() -> bool:
 	return uid != "" and id_token != ""
@@ -118,6 +103,8 @@ func clear() -> void:
 	id_token = ""
 	refresh_token = ""
 	expires_at = 0
+	
+	refresh_timer.stop()
 	
 	if FileAccess.file_exists(AUTH_CFG_PATH):
 		DirAccess.remove_absolute(AUTH_CFG_PATH)
