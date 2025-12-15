@@ -27,10 +27,13 @@ func _ready() -> void:
 	refresh_timer = Timer.new()
 	add_child(refresh_timer)
 	
-	var _on_refresh_fail = func(_msg:String):
+	var _on_success = func(_res:Dictionary):
+		print("refreshed session")
+	
+	var _on_fail = func(_msg:String):
 		refresh_timer.start(RETRY_DELAY_SECS)
 	
-	refresh_timer.timeout.connect(refresh_tokens.bind(_on_refresh_fail))
+	refresh_timer.timeout.connect(refresh_tokens.bind(_on_success, _on_fail))
 
 func set_session_persist(enable: bool) -> void:
 	if session_persist == enable:
@@ -86,7 +89,6 @@ func update_from_response(response: Dictionary) -> void:
 		var secs2 = int(response["expires_in"])
 		expires_at = int(Time.get_unix_time_from_system()) + secs2
 	
-	print("refreshed session")
 	refresh_timer.start(REFRESH_DELAY_SECS)
 	_save_to_config()
 	authenticated.emit()
