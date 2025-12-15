@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://biih5ep85lxbm"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_o3xiw"]
-[ext_resource type="Script" uid="uid://c2t0h1nmipalo" path="res://Scripts/Controllers/TasksListController.gd" id="2_50t4y"]
-[ext_resource type="Script" uid="uid://b82cu01sx7ibv" path="res://Scripts/UIElements/CustomDynamicTable.gd" id="3_frk4l"]
-[ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="4_cg1aj"]
-[ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="5_orfh2"]
-[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="6_6sd6k"]
-[ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="7_biied"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_o3xiw"]
+[ext_resource type="Script" uid="uid://c2t0h1nmipalo" path="res://scripts/controllers/TasksListController.gd" id="2_50t4y"]
+[ext_resource type="Script" uid="uid://b82cu01sx7ibv" path="res://scripts/UIElements/CustomDynamicTable.gd" id="3_frk4l"]
+[ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://assets/Icons/Add.png" id="4_cg1aj"]
+[ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://scenes/popups/CreateTaskPopup.tscn" id="5_orfh2"]
+[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://scenes/popups/ViewEditTaskPopup.tscn" id="6_6sd6k"]
+[ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://scenes/popups/ConfirmCriticalPopup.tscn" id="7_biied"]
 
 [node name="TaskList" type="Control"]
 layout_mode = 3

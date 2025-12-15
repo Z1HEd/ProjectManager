@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bl3p86d6o04a"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
-[ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Controllers/WelcomeScreenController.gd" id="1_nroq1"]
-[ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UIElements/QuitButton.gd" id="3_klodg"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_amt0j"]
+[ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://scripts/controllers/WelcomeScreenController.gd" id="1_nroq1"]
+[ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://scripts/UIElements/QuitButton.gd" id="3_klodg"]
 
 [node name="WelcomeScreen" type="Control"]
 layout_mode = 3

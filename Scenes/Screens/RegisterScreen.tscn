@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bfmlfeequrhr8"]
 
-[ext_resource type="Script" uid="uid://bj4iai4c05alk" path="res://Scripts/Controllers/RegisterController.gd" id="1_5ig77"]
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_xp1fj"]
+[ext_resource type="Script" uid="uid://bj4iai4c05alk" path="res://scripts/controllers/RegisterController.gd" id="1_5ig77"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_xp1fj"]
 
 [node name="RegisterScreen" type="Control"]
 layout_mode = 3

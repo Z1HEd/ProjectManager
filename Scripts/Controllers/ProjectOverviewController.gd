@@ -24,7 +24,7 @@ extends Tab
 @onready var option_popup : OptionPopup = %OptionPopup
 
 @export var member_control_prefab = \
-		preload("res://Scenes/Elements/ProjectMember.tscn")
+		preload("res://scenes/UIElements/ProjectMember.tscn")
 
 func open():
 	

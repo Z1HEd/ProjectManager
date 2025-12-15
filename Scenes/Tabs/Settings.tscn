@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cs7q0aknfj3xt"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_m3n2h"]
-[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://Scripts/Controllers/Tab.gd" id="2_et4ab"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_m3n2h"]
+[ext_resource type="Script" uid="uid://jjgyrpflaa31" path="res://scripts/controllers/Tab.gd" id="2_et4ab"]
 
 [node name="Settings" type="Control"]
 layout_mode = 3

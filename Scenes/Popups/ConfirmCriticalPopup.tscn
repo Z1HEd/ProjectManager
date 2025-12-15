@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bax4u7rsbnocj"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_a48f1"]
-[ext_resource type="Script" uid="uid://bay0s2hct3fwe" path="res://Scripts/Popups/ConfirmCriticalPopup.gd" id="2_a48f1"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_a48f1"]
+[ext_resource type="Script" uid="uid://bay0s2hct3fwe" path="res://scripts/popups/ConfirmCriticalPopup.gd" id="2_a48f1"]
 
 [node name="ConfirmCriticalPopup" type="Control"]
 layout_mode = 3

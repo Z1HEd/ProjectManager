@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://bvp4cflag0k2x"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_l3tej"]
-[ext_resource type="Script" uid="uid://caxno34rcrq24" path="res://Scripts/Controllers/TimelineController.gd" id="2_3igi8"]
-[ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="4_4tn3u"]
-[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="6_num6x"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_l3tej"]
+[ext_resource type="Script" uid="uid://caxno34rcrq24" path="res://scripts/controllers/TimelineController.gd" id="2_3igi8"]
+[ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://scenes/popups/CreateTaskPopup.tscn" id="4_4tn3u"]
+[ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://scenes/popups/ViewEditTaskPopup.tscn" id="6_num6x"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_3igi8"]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dypyktb4dbtgl"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_0jfd5"]
-[ext_resource type="Script" uid="uid://v24sj0lwjwuv" path="res://Scripts/UIElements/AppNotificationControl.gd" id="1_nv6qy"]
-[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="3_hkw3e"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_0jfd5"]
+[ext_resource type="Script" uid="uid://v24sj0lwjwuv" path="res://scripts/UIElements/AppNotificationControl.gd" id="1_nv6qy"]
+[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://assets/Icons/Cancel.png" id="3_hkw3e"]
 
 [node name="AppNotification" type="PanelContainer"]
 process_mode = 4

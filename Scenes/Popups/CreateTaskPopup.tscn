@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://drwhiyy0wwfvm"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_fseh0"]
-[ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://Scripts/Popups/CreateTaskPopup.gd" id="2_fseh0"]
-[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_x0krg"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_fseh0"]
+[ext_resource type="Script" uid="uid://dvc5bojucsexl" path="res://scripts/popups/CreateTaskPopup.gd" id="2_fseh0"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://scripts/UIElements/LimitedTextEdit.gd" id="3_x0krg"]
 [ext_resource type="Script" uid="uid://bty3rid1xj8yd" path="res://addons/calendar_button/assets/calendar_button.gd" id="4_6tcng"]
-[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="5_x0krg"]
+[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://assets/Icons/Cancel.png" id="5_x0krg"]
 
 [node name="CreateTaskPopup" type="Control"]
 layout_mode = 3

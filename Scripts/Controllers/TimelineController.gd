@@ -7,9 +7,9 @@ class_name TimelineController
 @onready var tasks_bodies : VBoxContainer = %TasksRows
 @onready var tasks_scroll : ScrollContainer = %TasksScrollContainer
 
-@export var month_label_prefab := preload("res://Scenes/Elements/MonthLabel.tscn")
-@export var task_title_label_prefab := preload("res://Scenes/Elements/TimelineTaskTitleLabel.tscn")
-@export var task_body_prefab := preload("res://Scenes/Elements/TimelineTaskBody.tscn")
+@export var month_label_prefab := preload("res://scenes/UIElements/MonthLabel.tscn")
+@export var task_title_label_prefab := preload("res://scenes/UIElements/TimelineTaskTitleLabel.tscn")
+@export var task_body_prefab := preload("res://scenes/UIElements/TimelineTaskBody.tscn")
 
 @onready var view_edit_task_popup : ViewEditTaskPopup= %ViewEditTaskPopup
 @onready var create_task_popup : CreateTaskPopup= %CreateTaskPopup

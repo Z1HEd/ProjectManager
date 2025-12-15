@@ -18,13 +18,13 @@ config/icon="uid://dp740m82bcree"
 
 [autoload]
 
-Firebase="*res://Scripts/Singletons/FirebaseManager.gd"
-Session="*res://Scripts/Singletons/SessionManager.gd"
-Project="*res://Scripts/Singletons/ProjectManager.gd"
-Notifications="*res://Scripts/Singletons/NotificationsManager.gd"
-Streaming="*res://Scripts/Singletons/StreamingManager.gd"
-DragManager="*res://Scripts/Singletons/DragManager.gd"
-AppNotifications="*res://Scripts/Singletons/AppNotificationsManager.gd"
+Firebase="*res://scripts/singletons/FirebaseManager.gd"
+Session="*res://scripts/singletons/SessionManager.gd"
+Project="*res://scripts/singletons/ProjectManager.gd"
+Notifications="*res://scripts/singletons/NotificationsManager.gd"
+Streaming="*res://scripts/singletons/StreamingManager.gd"
+DragManager="*res://scripts/singletons/DragManager.gd"
+AppNotifications="*res://scripts/singletons/AppNotificationsManager.gd"
 
 [editor_plugins]
 
@@ -33,10 +33,10 @@ enabled=PackedStringArray("res://addons/calendar_button/plugin.cfg", "res://addo
 [file_customization]
 
 folder_colors={
-"res://Assets/": "green",
-"res://Resources/": "teal",
-"res://Scenes/": "red",
-"res://Scripts/": "purple"
+"res://assets/": "green",
+"res://resources/": "teal",
+"res://scenes/": "red",
+"res://scripts/": "purple"
 }
 
 [memory]

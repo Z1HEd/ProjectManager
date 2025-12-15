@@ -1,6 +1,6 @@
 extends Node
 
-@export var notification_scene: PackedScene = preload("res://Scenes/Elements/AppNotification.tscn")
+@export var notification_scene: PackedScene = preload("res://scenes/UIElements/AppNotification.tscn")
 var _layer: CanvasLayer = null
 var _container: VBoxContainer = null
 var _spacing := 8

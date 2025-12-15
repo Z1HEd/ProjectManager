@@ -7,7 +7,7 @@ class_name ListTask
 @onready var edit_button := %EditButton
 @onready var delete_button := %DeleteButton
 
-@export var icon_details := preload("res://Assets/Icons/More.png")
+@export var icon_details := preload("res://assets/icons/More.png")
 
 var task_id := ""
 
