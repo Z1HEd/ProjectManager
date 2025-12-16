@@ -1,7 +1,7 @@
 extends Control
 
 func on_authenticated():
-	get_tree().change_scene_to_file("res://scenes/Screens/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Screens/MainMenu.tscn")
 
 func _ready() -> void:
 	Session.authenticated.connect(on_authenticated)
@@ -10,7 +10,7 @@ func _ready() -> void:
 		call_deferred("on_authenticated")
 
 func _on_register_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Screens/RegisterScreen.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Screens/RegisterScreen.tscn")
 
 func _on_login_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Screens/LoginScreen.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Screens/LoginScreen.tscn")

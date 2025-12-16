@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://y3i7vgo6fv3f"]
 
-[ext_resource type="Script" uid="uid://1s31kirg2waj" path="res://scripts/controllers/ProjectsListController.gd" id="1_dcxag"]
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="2_y3uu2"]
-[ext_resource type="Texture2D" uid="uid://djjvnfdhjc7hh" path="res://assets/Icons/Refresh.png" id="3_y3uu2"]
-[ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://assets/Icons/Add.png" id="4_8gvaf"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://scripts/UIElements/NavigationButton.gd" id="4_y3uu2"]
+[ext_resource type="Script" uid="uid://1s31kirg2waj" path="res://Scripts/Controllers/ProjectsListController.gd" id="1_dcxag"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="2_y3uu2"]
+[ext_resource type="Texture2D" uid="uid://djjvnfdhjc7hh" path="res://Assets/Icons/Refresh.png" id="3_y3uu2"]
+[ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="4_8gvaf"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="4_y3uu2"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_efite"]
 content_margin_left = 0.0

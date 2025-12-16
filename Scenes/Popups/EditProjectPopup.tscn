@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://4aok4m6i3rcy"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_5b2c0"]
-[ext_resource type="Script" uid="uid://cjr6hh825geml" path="res://scripts/popups/EditProjectPopup.gd" id="2_e8kdm"]
-[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://scripts/UIElements/LimitedTextEdit.gd" id="3_e8kdm"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://scripts/UIElements/NavigationButton.gd" id="3_v3pcd"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5b2c0"]
+[ext_resource type="Script" uid="uid://cjr6hh825geml" path="res://Scripts/Popups/EditProjectPopup.gd" id="2_e8kdm"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_e8kdm"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="3_v3pcd"]
 
 [node name="EditProjectPopup" type="Control"]
 layout_mode = 3

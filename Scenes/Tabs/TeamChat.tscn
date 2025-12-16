@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cv2yd8hwdj8jj"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_ya51r"]
-[ext_resource type="Script" uid="uid://dpc2xclrdn5y3" path="res://scripts/controllers/ChatController.gd" id="2_2vnhs"]
-[ext_resource type="Script" uid="uid://m4oghr4wgu7g" path="res://scripts/UIElements/MessageEdit.gd" id="3_twpfu"]
-[ext_resource type="Texture2D" uid="uid://mjwvuqapx7u1" path="res://assets/Icons/Send Message.png" id="3_y1xpl"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ya51r"]
+[ext_resource type="Script" uid="uid://dpc2xclrdn5y3" path="res://Scripts/Controllers/ChatController.gd" id="2_2vnhs"]
+[ext_resource type="Script" uid="uid://m4oghr4wgu7g" path="res://Scripts/UIElements/MessageEdit.gd" id="3_twpfu"]
+[ext_resource type="Texture2D" uid="uid://mjwvuqapx7u1" path="res://Assets/Icons/Send Message.png" id="3_y1xpl"]
 
 [node name="TeamChat" type="Control"]
 layout_mode = 3

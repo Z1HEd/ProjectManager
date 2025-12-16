@@ -49,7 +49,7 @@ func _on_sign_out_button_pressed() -> void:
 	var _on_confirm = func():
 		Project.clear()
 		Session.clear()
-		get_tree().change_scene_to_file("res://scenes/Screens/WelcomeScreen.tscn")
+		get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")
 	
 	confirm_action_popup.set_info("Sign out?",
 		"Password will be required to sign in again.")
@@ -76,7 +76,7 @@ func _on_delete_account_button_pressed() -> void:
 func delete_account():
 	var on_success = func(_res):
 		Session.clear()
-		get_tree().change_scene_to_file("res://scenes/Screens/WelcomeScreen.tscn")
+		get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")
 	
 	UserService.delete_user(Session.uid, projects, on_success)
 		

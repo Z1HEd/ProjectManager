@@ -6,8 +6,8 @@ class_name TeamChatController
 @onready var scroll : ScrollContainer = %ScrollContainer
 @onready var message_input_panel = %MessageInputPanel
 
-@export var message_prefab := preload("res://scenes/UIElements/ChatMessage.tscn")
-@export var date_label_prefab := preload("res://scenes/UIElements/DateLabel.tscn")
+@export var message_prefab := preload("res://Scenes/Elements/ChatMessage.tscn")
+@export var date_label_prefab := preload("res://Scenes/Elements/DateLabel.tscn")
 
 var oldest : String
 var oldest_date: String

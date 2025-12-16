@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhmuqgfgobpm"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_b0d1w"]
-[ext_resource type="Script" uid="uid://b3v1yj53ch6n0" path="res://scripts/UIElements/KanbanTask.gd" id="2_87xn7"]
-[ext_resource type="Texture2D" uid="uid://bbbk6ytrbadwr" path="res://assets/Icons/Edit.png" id="2_qbn5m"]
-[ext_resource type="Texture2D" uid="uid://c6dcjsc5x4cij" path="res://assets/Icons/Delete.png" id="3_87xn7"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_b0d1w"]
+[ext_resource type="Script" uid="uid://b3v1yj53ch6n0" path="res://Scripts/UIElements/KanbanTask.gd" id="2_87xn7"]
+[ext_resource type="Texture2D" uid="uid://bbbk6ytrbadwr" path="res://Assets/Icons/Edit.png" id="2_qbn5m"]
+[ext_resource type="Texture2D" uid="uid://c6dcjsc5x4cij" path="res://Assets/Icons/Delete.png" id="3_87xn7"]
 
 [node name="KanbanTask" type="PanelContainer"]
 offset_right = 200.0

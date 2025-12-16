@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://iuqpwkl2il1q"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_n8cam"]
-[ext_resource type="Script" uid="uid://tdacxjlrty2x" path="res://scripts/controllers/CreateProjectController.gd" id="2_q0nvk"]
-[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://scripts/UIElements/LimitedTextEdit.gd" id="3_2k8c8"]
-[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://scripts/UIElements/NavigationButton.gd" id="3_n8cam"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_n8cam"]
+[ext_resource type="Script" uid="uid://tdacxjlrty2x" path="res://Scripts/Controllers/CreateProjectController.gd" id="2_q0nvk"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="3_2k8c8"]
+[ext_resource type="Script" uid="uid://b8cyv5tgcxrhb" path="res://Scripts/UIElements/NavigationButton.gd" id="3_n8cam"]
 
 [node name="CreateProject" type="Control"]
 layout_mode = 3

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy7slw3y4u08p"]
 
-[ext_resource type="Script" uid="uid://chdre6r1j0s0o" path="res://scripts/UIElements/TimelineTask.gd" id="1_m5muf"]
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_p2qf4"]
+[ext_resource type="Script" uid="uid://chdre6r1j0s0o" path="res://Scripts/UIElements/TimelineTask.gd" id="1_m5muf"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_p2qf4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b2axk"]
 bg_color = Color(1, 1, 1, 1)

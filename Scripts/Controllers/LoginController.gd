@@ -18,7 +18,7 @@ func _on_login_button_pressed() -> void:
 	var _on_success = func(_session):
 		login_button.disabled = false
 		AppNotifications.push("Signed in as %s" % Session.email)
-		get_tree().change_scene_to_file("res://scenes/Screens/MainMenu.tscn")
+		get_tree().change_scene_to_file("res://Scenes/Screens/MainMenu.tscn")
 	
 	var _on_register_fail = func(_err_msg: String):
 		login_button.disabled = false
@@ -26,4 +26,4 @@ func _on_login_button_pressed() -> void:
 	UserService.login(email, password, _on_success, _on_register_fail)
 
 func _on_return_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Screens/WelcomeScreen.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")

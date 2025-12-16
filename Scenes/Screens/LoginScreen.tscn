@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6tji4bk2y1vv"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_kavab"]
-[ext_resource type="Script" uid="uid://ratus3j5lcam" path="res://scripts/controllers/LoginController.gd" id="1_l1tcl"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_kavab"]
+[ext_resource type="Script" uid="uid://ratus3j5lcam" path="res://Scripts/Controllers/LoginController.gd" id="1_l1tcl"]
 
 [node name="LoginScreen" type="Control"]
 layout_mode = 3

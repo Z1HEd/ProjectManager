@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dpfndmvh84h6s"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_i61au"]
-[ext_resource type="Texture2D" uid="uid://biexkgqfk3rev" path="res://assets/Icons/More.png" id="1_jvf2i"]
-[ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://scripts/UIElements/MemberControl.gd" id="2_j5aft"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_i61au"]
+[ext_resource type="Texture2D" uid="uid://biexkgqfk3rev" path="res://Assets/Icons/More.png" id="1_jvf2i"]
+[ext_resource type="Script" uid="uid://b7cudm3nf7khp" path="res://Scripts/UIElements/MemberControl.gd" id="2_j5aft"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_j5aft"]
 size = Vector2(0, 0)

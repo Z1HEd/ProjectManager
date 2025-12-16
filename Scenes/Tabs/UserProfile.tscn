@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://2ekwb5hb6y03"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_ga35b"]
-[ext_resource type="Script" uid="uid://dq1tm0d1ujc75" path="res://scripts/controllers/ProfileController.gd" id="2_ndu16"]
-[ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://scenes/popups/ConfirmActionPopup.tscn" id="3_bddqc"]
-[ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://scenes/popups/ConfirmCriticalPopup.tscn" id="4_e4eyr"]
-[ext_resource type="PackedScene" uid="uid://bq2jy1awwix0b" path="res://scenes/popups/PasswordChangePopup.tscn" id="5_hok3c"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ga35b"]
+[ext_resource type="Script" uid="uid://dq1tm0d1ujc75" path="res://Scripts/Controllers/ProfileController.gd" id="2_ndu16"]
+[ext_resource type="PackedScene" uid="uid://d0dkwp5o4ktnt" path="res://Scenes/Popups/ConfirmActionPopup.tscn" id="3_bddqc"]
+[ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="4_e4eyr"]
+[ext_resource type="PackedScene" uid="uid://bq2jy1awwix0b" path="res://Scenes/Popups/PasswordChangePopup.tscn" id="5_hok3c"]
 
 [node name="UserProfile" type="Control"]
 layout_mode = 3

@@ -9,7 +9,7 @@ extends Tab
 @onready var done_container : VBoxContainer = %DoneContainer
 @onready var cancelled_container : VBoxContainer = %CancelledContainer
 
-@export var task_control_prefab := preload("res://scenes/UIElements/KanbanTask.tscn")
+@export var task_control_prefab := preload("res://Scenes/Elements/KanbanTask.tscn")
 
 var tasks_controls := {}  # map id -> Control
 var user_role := ""

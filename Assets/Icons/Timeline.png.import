@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://de58pqolxc0bv"
-path="res://.godot/imported/Timeline.png-d07d526eb4216b4ac2a0b3f88dfc2cbd.ctex"
+path="res://.godot/imported/Timeline.png-b964feaf0c86e0b4725ccd5042a86b78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Icons/Timeline.png"
-dest_files=["res://.godot/imported/Timeline.png-d07d526eb4216b4ac2a0b3f88dfc2cbd.ctex"]
+source_file="res://Assets/Icons/Timeline.png"
+dest_files=["res://.godot/imported/Timeline.png-b964feaf0c86e0b4725ccd5042a86b78.ctex"]
 
 [params]
 

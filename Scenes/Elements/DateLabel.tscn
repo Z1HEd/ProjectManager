@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fuc7uukdqglk"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_3dq7i"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_3dq7i"]
 
 [node name="DateLabel" type="Label"]
 anchors_preset = 10

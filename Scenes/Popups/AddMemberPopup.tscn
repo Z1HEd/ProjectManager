@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cua184qg6p7w1"]
 
-[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://resources/BaseTheme.tres" id="1_5aau7"]
-[ext_resource type="Script" uid="uid://0bjvompwuy8k" path="res://scripts/popups/AddMemberPopup.gd" id="2_tomxh"]
-[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://assets/Icons/Cancel.png" id="3_ihhju"]
-[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://scripts/UIElements/LimitedTextEdit.gd" id="4_4xr2w"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5aau7"]
+[ext_resource type="Script" uid="uid://0bjvompwuy8k" path="res://Scripts/Popups/AddMemberPopup.gd" id="2_tomxh"]
+[ext_resource type="Texture2D" uid="uid://b1a8yfepo4p76" path="res://Assets/Icons/Cancel.png" id="3_ihhju"]
+[ext_resource type="Script" uid="uid://cyq332ksetrfj" path="res://Scripts/UIElements/LimitedTextEdit.gd" id="4_4xr2w"]
 
 [node name="AddMemberPopup" type="Control"]
 layout_mode = 3

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://fxqmbvhbgx1d"
-path="res://.godot/imported/UnreadNotifications.png-70a951bcb9fe9aeb90509c7f678f5466.ctex"
+path="res://.godot/imported/UnreadNotifications.png-1a7749b00c973cdff8e880f8028dfa53.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Icons/UnreadNotifications.png"
-dest_files=["res://.godot/imported/UnreadNotifications.png-70a951bcb9fe9aeb90509c7f678f5466.ctex"]
+source_file="res://Assets/Icons/UnreadNotifications.png"
+dest_files=["res://.godot/imported/UnreadNotifications.png-1a7749b00c973cdff8e880f8028dfa53.ctex"]
 
 [params]
 
