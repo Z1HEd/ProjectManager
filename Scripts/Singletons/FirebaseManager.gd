@@ -46,15 +46,6 @@ func _process_next() -> void:
 		return
 	if _queue.is_empty():
 		return
-
-	var  _on_refresh_failed = func(err) -> void:
-		_current_request["on_fail"].call("Failed to refresh session: %s" % err)
-		request_fail.emit(_current_request["id"], err)
-		_conclude_current_request()
-
-	if Session.is_token_expired() and _queue[0]["tag"] != "auth":
-		Session.ensure_fresh_token(_process_next, _on_refresh_failed)
-		return
 	
 	_current_request = _queue.pop_front()
 	is_busy = true
@@ -109,7 +100,6 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 	request_fail.emit(id, err_msg)
 	fail_cb.call(err_msg)
 	_conclude_current_request()
-	return
 
 func _get_error_message_from_result_code(result:HTTPRequest.Result) -> String:
 	match result:
@@ -145,13 +135,7 @@ static func _parse_response_body(body_text: String) :
 		return null
 	var raw = JSON.parse_string(body_text)
 
-	if raw is Dictionary:
-		var err_val = raw.get("error", null)
-		if err_val != null:
-			return raw
-		var res = raw.get("result", null)
-		if res != null:
-			return res
+	if raw != null:
 		return raw
 	
 	body_text = body_text.trim_prefix('"')
