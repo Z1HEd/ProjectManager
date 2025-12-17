@@ -11,7 +11,7 @@ var expires_at: int = 0
 
 var refresh_timer : Timer
 
-const REFRESH_DELAY_SECS := 3000
+const REFRESH_DELAY_SECS := 3300
 const RETRY_DELAY_SECS := 15
 const AUTH_CFG_PATH := "user://auth.cfg"
 
@@ -19,21 +19,15 @@ signal authenticated
 signal refreshed
 
 func _ready() -> void:
-	if _load_from_config():
-		session_persist = true
-	else:
-		session_persist = false
+	session_persist = _load_from_config()
 	
 	refresh_timer = Timer.new()
 	add_child(refresh_timer)
 	
-	var _on_success = func(_res:Dictionary):
-		print("refreshed session")
-	
 	var _on_fail = func(_msg:String):
 		refresh_timer.start(RETRY_DELAY_SECS)
 	
-	refresh_timer.timeout.connect(refresh_tokens.bind(_on_success, _on_fail))
+	refresh_timer.timeout.connect(refresh_tokens.bind(func(_res):pass, _on_fail))
 
 func set_session_persist(enable: bool) -> void:
 	if session_persist == enable:
