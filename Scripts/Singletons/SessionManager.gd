@@ -122,6 +122,8 @@ func _load_from_config() -> bool:
 		refresh_token = str(cfg.get_value("auth", "refresh_token", ""))
 		uid = str(cfg.get_value("auth", "uid", ""))
 		email = str(cfg.get_value("auth", "email", ""))
+		AppNotifications.call_deferred("push",
+				"Found saved session!\nAttempting to refresh...")
 		refresh_tokens(func(_parsed):
 			AppNotifications.push("Authomatically signed in as:\n%s" % email))
 		return true

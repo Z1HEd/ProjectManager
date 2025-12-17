@@ -35,6 +35,12 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Panel" parent="HBoxContainer/Dashboard" index="0"]
+theme_type_variation = &""
+
+[node name="VBoxContainer" parent="HBoxContainer/Dashboard" index="1"]
+theme_type_variation = &""
+
 [node name="Profile" parent="HBoxContainer/Dashboard/VBoxContainer/MarginContainer" index="0" node_paths=PackedStringArray("tab", "menu")]
 tab = NodePath("../../../../TabArea/UnactiveTabs/UserProfile")
 menu = NodePath("../../../../..")
@@ -101,15 +107,6 @@ offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProjectsList" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("4_f35bi")]
-layout_mode = 1
-offset_left = 1.0
-offset_right = 1.0
-
-[node name="CreateProjectButton" parent="HBoxContainer/TabArea/UnactiveTabs/ProjectsList/HBoxContainer/ProjectsList/MarginContainer/VBoxContainer/HBoxContainer2" index="2" node_paths=PackedStringArray("tab", "menu")]
-tab = NodePath("../../../../../../../CreateProject")
-menu = NodePath("../../../../../../../../../..")
-
 [node name="TaskBoard" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("5_441x2")]
 layout_mode = 1
 
@@ -141,7 +138,16 @@ layout_mode = 1
 [node name="Timeline" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("7_lvwqe")]
 layout_mode = 1
 
+[node name="ProjectsList" parent="HBoxContainer/TabArea/UnactiveTabs" instance=ExtResource("4_f35bi")]
+layout_mode = 1
+offset_left = 1.0
+offset_right = 1.0
+
+[node name="CreateProjectButton" parent="HBoxContainer/TabArea/UnactiveTabs/ProjectsList/HBoxContainer/ProjectsList/VBoxContainer/HBoxContainer2" index="2" node_paths=PackedStringArray("tab", "menu")]
+tab = NodePath("../../../../../../CreateProject")
+menu = NodePath("../../../../../../../../..")
+
 [editable path="HBoxContainer/Dashboard"]
 [editable path="HBoxContainer/TabArea/ActiveTab/NoProjectSelected"]
-[editable path="HBoxContainer/TabArea/UnactiveTabs/ProjectsList"]
 [editable path="HBoxContainer/TabArea/UnactiveTabs/CreateProject"]
+[editable path="HBoxContainer/TabArea/UnactiveTabs/ProjectsList"]

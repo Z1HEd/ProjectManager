@@ -3,18 +3,18 @@ extends Control
 const BUTTON_SCENE: PackedScene = preload("res://addons/calendar_button/assets/date_button.tscn")
 const WEEKDAYS: Array = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-@onready var panel_container: PanelContainer = $CenterContainer/PanelContainer
-@onready var grid_dates: GridContainer = $CenterContainer/PanelContainer/CalendarContainer/Dates
-@onready var label_month_year: Label = $CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer/MonthYear
-@onready var btn_prev_month: Button = $CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer/PrevButton
-@onready var btn_next_month: Button = $CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer/NextButton
-@onready var time: VBoxContainer = $CenterContainer/PanelContainer/CalendarContainer/Time
-@onready var hour_box: SpinBox = $CenterContainer/PanelContainer/CalendarContainer/Time/TimeContainer/HourBox
-@onready var min_box: SpinBox = $CenterContainer/PanelContainer/CalendarContainer/Time/TimeContainer/MinBox
-@onready var am_pm_container: HBoxContainer = $CenterContainer/PanelContainer/CalendarContainer/Time/AmPmContainer
-@onready var am_pm_button: CheckButton = $CenterContainer/PanelContainer/CalendarContainer/Time/AmPmContainer/CheckButton
-@onready var ok_button: Button = $CenterContainer/PanelContainer/CalendarContainer/HBoxContainer/OkButton
-@onready var cancel_button: Button = $CenterContainer/PanelContainer/CalendarContainer/HBoxContainer/CancelButton
+@onready var panel_container: PanelContainer = %PanelContainer
+@onready var grid_dates: GridContainer = %Dates
+@onready var label_month_year: Label = %MonthYear
+@onready var btn_prev_month: Button = %PrevButton
+@onready var btn_next_month: Button = %NextButton
+@onready var time: VBoxContainer = %Time
+@onready var hour_box: SpinBox = %HourBox
+@onready var min_box: SpinBox = %MinBox
+@onready var am_pm_container: HBoxContainer = %AmPmContainer
+@onready var am_pm_button: CheckButton = %AmPmButton
+@onready var ok_button: Button = %OkButton
+@onready var cancel_button: Button = %CancelButton
 
 var year: int = 2025
 var month: int = 1

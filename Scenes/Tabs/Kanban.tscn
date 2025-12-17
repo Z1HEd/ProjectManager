@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://snsi3livmyh"]
+[gd_scene load_steps=16 format=3 uid="uid://snsi3livmyh"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_5petj"]
 [ext_resource type="Script" uid="uid://dq0o1u2tq2u4x" path="res://Scripts/Controllers/KanbanController.gd" id="2_q6m4a"]
@@ -8,6 +8,72 @@
 [ext_resource type="PackedScene" uid="uid://drwhiyy0wwfvm" path="res://Scenes/Popups/CreateTaskPopup.tscn" id="4_nos48"]
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="6_yd2ep"]
 [ext_resource type="PackedScene" uid="uid://dm48oknbmvw57" path="res://Scenes/Popups/ViewEditTaskPopup.tscn" id="7_t7g2d"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_tqx3u"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -5.0
+grow_end = -5.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_xpl12"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -10.0
+grow_end = -10.0
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_cuuvg"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -5.0
+grow_end = -5.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_kgib0"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -10.0
+grow_end = -10.0
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gaalm"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -5.0
+grow_end = -5.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_frb0g"]
+content_margin_left = 0.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -10.0
+grow_end = -10.0
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_rqfd5"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -5.0
+grow_end = -5.0
 
 [node name="Kanban" type="Control"]
 layout_mode = 3
@@ -19,15 +85,6 @@ grow_vertical = 2
 theme = ExtResource("1_5petj")
 script = ExtResource("2_q6m4a")
 metadata/_custom_type_script = "uid://jjgyrpflaa31"
-
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -41,11 +98,12 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+[node name="PanelContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/PanelContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
@@ -57,39 +115,44 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 0
+theme_override_constants/separation = 10
 
-[node name="ToDo" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ToDo" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo"]
+[node name="ToDo" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo"]
 layout_mode = 2
 text = "To do"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_tqx3u")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_tqx3u")
 
-[node name="ToDoContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer/VBoxContainer"]
+[node name="ToDoContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KanbanTask" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer/VBoxContainer/ToDoContainer" instance=ExtResource("3_e22d8")]
+[node name="KanbanTask" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo/ScrollContainer/VBoxContainer/ToDoContainer" instance=ExtResource("3_e22d8")]
 layout_mode = 2
 
-[node name="CreateToDoButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer/VBoxContainer"]
+[node name="CreateToDoButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "Create"
@@ -99,36 +162,42 @@ expand_icon = true
 
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_xpl12")
 
-[node name="InProgress" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="InProgress" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress"]
+[node name="InProgress" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress"]
 layout_mode = 2
 text = "In progress"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_cuuvg")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_tqx3u")
 status = "in_progress"
 
-[node name="InProgressContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer/VBoxContainer"]
+[node name="InProgressContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreateInProgressButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer/VBoxContainer"]
+[node name="CreateInProgressButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "Create"
@@ -138,36 +207,42 @@ expand_icon = true
 
 [node name="VSeparator2" type="VSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_kgib0")
 
-[node name="Done" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Done" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done"]
+[node name="Done" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done"]
 layout_mode = 2
 text = "Done"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_gaalm")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_tqx3u")
 status = "done"
 
-[node name="DoneContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer/VBoxContainer"]
+[node name="DoneContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreateDoneButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer/VBoxContainer"]
+[node name="CreateDoneButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "Create"
@@ -177,36 +252,41 @@ expand_icon = true
 
 [node name="VSeparator3" type="VSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_frb0g")
 
-[node name="Cancelled" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Cancelled" type="PanelContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled"]
+[node name="Cancelled" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled"]
 layout_mode = 2
 text = "Cancelled"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled"]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled"]
 layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_rqfd5")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("3_tqx3u")
 status = "cancelled"
 
-[node name="CancelledContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer/VBoxContainer"]
+[node name="CancelledContainer" type="VBoxContainer" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled/ScrollContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreateCancelledButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer/VBoxContainer"]
+[node name="CreateCancelledButton" type="Button" parent="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled/ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 text = "Create"
@@ -229,8 +309,8 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 1
 
-[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ScrollContainer/VBoxContainer/CreateToDoButton" to="." method="_on_create_to_do_button_pressed"]
-[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/ScrollContainer/VBoxContainer/CreateInProgressButton" to="." method="_on_create_in_progress_button_pressed"]
-[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/ScrollContainer/VBoxContainer/CreateDoneButton" to="." method="_on_create_done_button_pressed"]
-[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/ScrollContainer/VBoxContainer/CreateCancelledButton" to="." method="_on_create_cancelled_button_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/ToDo/ToDo/ScrollContainer/VBoxContainer/CreateToDoButton" to="." method="_on_create_to_do_button_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/InProgress/InProgress/ScrollContainer/VBoxContainer/CreateInProgressButton" to="." method="_on_create_in_progress_button_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Done/Done/ScrollContainer/VBoxContainer/CreateDoneButton" to="." method="_on_create_done_button_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Cancelled/Cancelled/ScrollContainer/VBoxContainer/CreateCancelledButton" to="." method="_on_create_cancelled_button_pressed"]
 [connection signal="delete_pressed" from="ViewEditTaskPopup" to="." method="on_delete_task_pressed"]

@@ -68,7 +68,11 @@ func append_messages(arr:Array, from_top := false):
 		if message_ids.count(m["id"])>0:
 			continue
 		message_ids.append(m["id"])
-		var item := message_prefab.instantiate()
+		var item :ChatMessage= message_prefab.instantiate()
+		if m["authorId"] == Session.uid:
+			item.theme_type_variation = "ownMessage"
+		else:
+			item.theme_type_variation = "otherMessage"
 		messages_container.add_child(item)
 		
 		var current_date = Time.get_date_string_from_unix_time(m["ts_server"]/1000)

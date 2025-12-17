@@ -36,28 +36,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="CenterContainer"]
+[node name="Control" type="PanelContainer" parent="CenterContainer"]
 custom_minimum_size = Vector2(400, 500)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="CenterContainer/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
-mouse_filter = 2
-theme_type_variation = &"DarkPanel"
-
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10

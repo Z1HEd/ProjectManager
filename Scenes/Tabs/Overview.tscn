@@ -25,15 +25,6 @@ theme = ExtResource("1_ldptw")
 script = ExtResource("2_jc0vq")
 metadata/_custom_type_script = "uid://jjgyrpflaa31"
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -296,11 +287,14 @@ text = "Tasks:"
 
 [node name="TasksSummaryTable" type="Control" parent="MarginContainer/ScrollContainer/HFlowContainer/TasksSummary/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(419, 200)
+custom_minimum_size = Vector2(416, 200)
 layout_mode = 2
 focus_mode = 2
 mouse_filter = 2
 script = ExtResource("8_uxoly")
+grid_color = Color(0.8, 0.8, 0.8, 0.5137255)
+row_color = Color(0.54901963, 0.54901963, 0.54901963, 0.48235294)
+alternate_row_color = Color(0.4509804, 0.4509804, 0.4509804, 0.4862745)
 metadata/_custom_type_script = "uid://b82cu01sx7ibv"
 
 [node name="AddMemberPopup" parent="." instance=ExtResource("7_lrxk1")]

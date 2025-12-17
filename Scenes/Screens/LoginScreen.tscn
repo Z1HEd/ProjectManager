@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6tji4bk2y1vv"]
+[gd_scene load_steps=4 format=3 uid="uid://c6tji4bk2y1vv"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_kavab"]
 [ext_resource type="Script" uid="uid://ratus3j5lcam" path="res://Scripts/Controllers/LoginController.gd" id="1_l1tcl"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_kavab"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
 
 [node name="LoginScreen" type="Control"]
 layout_mode = 3
@@ -10,6 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_kavab")
 script = ExtResource("1_l1tcl")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -21,9 +32,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(300, 400)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 75
+theme_override_constants/separation = 25
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -31,55 +42,53 @@ theme = ExtResource("1_kavab")
 text = "Sign in"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_styles/separator = SubResource("StyleBoxLine_kavab")
 
-[node name="Email" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="Email" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/Email"]
 layout_mode = 2
 text = "Email"
 fit_content = true
 
-[node name="EmailInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Email"]
+[node name="EmailInput" type="LineEdit" parent="CenterContainer/VBoxContainer/Email"]
 unique_name_in_owner = true
 layout_mode = 2
 max_length = 254
 
-[node name="Password" type="VBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="Password" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/VBoxContainer/Password"]
 layout_mode = 2
 text = "Password"
 fit_content = true
 
-[node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/VBoxContainer/Password"]
+[node name="PasswordInput" type="LineEdit" parent="CenterContainer/VBoxContainer/Password"]
 unique_name_in_owner = true
 layout_mode = 2
 max_length = 64
 secret = true
 
-[node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="Buttons" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+[node name="ReturnButton" type="Button" parent="CenterContainer/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Return"
 
-[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer/Buttons"]
+[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/Buttons"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Sign in
 "
 
-[node name="ErrorLabel" type="Label" parent="CenterContainer/VBoxContainer/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/Buttons/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Buttons/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Buttons/LoginButton" to="." method="_on_login_button_pressed"]

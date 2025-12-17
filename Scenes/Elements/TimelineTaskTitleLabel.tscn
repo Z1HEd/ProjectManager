@@ -4,6 +4,8 @@
 bg_color = Color(0.33333334, 0.3529412, 0.36078432, 0.21176471)
 border_width_bottom = 1
 border_color = Color(0.8, 0.8, 0.8, 0.5803922)
+expand_margin_left = 4.0
+expand_margin_right = 4.0
 
 [node name="Label" type="Label"]
 custom_minimum_size = Vector2(0, 30)

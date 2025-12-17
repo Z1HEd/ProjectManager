@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cpx5fm80mnnd5"]
+[gd_scene load_steps=4 format=3 uid="uid://cpx5fm80mnnd5"]
 
 [ext_resource type="Script" uid="uid://bh2jpiv01l5wc" path="res://addons/calendar_button/assets/calendar.gd" id="1_j4ya2"]
+[ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_nd1t8"]
 [ext_resource type="Script" uid="uid://bp2oqw2fmjb7" path="res://addons/calendar_button/assets/min_box.gd" id="2_rylyo"]
 
 [node name="Calendar" type="Control"]
@@ -14,6 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+theme = ExtResource("1_nd1t8")
 script = ExtResource("1_j4ya2")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -25,68 +27,85 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CalendarContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer"]
+[node name="Panel" type="Panel" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CalendarContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="MonthYearContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer"]
+[node name="MonthYearContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="PrevButton" type="Button" parent="CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer"]
+[node name="PrevButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/MonthYearContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = "<"
 
-[node name="MonthYear" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer"]
+[node name="MonthYear" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/MonthYearContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "MonthYear"
 
-[node name="NextButton" type="Button" parent="CenterContainer/PanelContainer/CalendarContainer/MonthYearContainer"]
+[node name="NextButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/MonthYearContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 text = ">"
 
-[node name="Dates" type="GridContainer" parent="CenterContainer/PanelContainer/CalendarContainer"]
+[node name="Dates" type="GridContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 columns = 7
 
-[node name="Time" type="VBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer"]
+[node name="Time" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/CalendarContainer/Time"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time"]
 visible = false
 layout_mode = 2
 text = "Time"
 horizontal_alignment = 1
 
-[node name="LabelContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer/Time"]
+[node name="LabelContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time"]
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time/LabelContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/LabelContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hour"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time/LabelContainer"]
+[node name="Label2" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/LabelContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Minute"
 horizontal_alignment = 1
 
-[node name="TimeContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer/Time"]
+[node name="TimeContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time"]
 layout_mode = 2
 alignment = 1
 
-[node name="HourBox" type="SpinBox" parent="CenterContainer/PanelContainer/CalendarContainer/Time/TimeContainer"]
+[node name="HourBox" type="SpinBox" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/TimeContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 23.0
 value = 1.0
@@ -95,11 +114,12 @@ alignment = 1
 update_on_text_changed = true
 select_all_on_focus = true
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time/TimeContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/TimeContainer"]
 layout_mode = 2
 text = ":"
 
-[node name="MinBox" type="SpinBox" parent="CenterContainer/PanelContainer/CalendarContainer/Time/TimeContainer"]
+[node name="MinBox" type="SpinBox" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/TimeContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 59.0
 value = 1.0
@@ -109,33 +129,37 @@ update_on_text_changed = true
 select_all_on_focus = true
 script = ExtResource("2_rylyo")
 
-[node name="AmPmContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer/Time"]
+[node name="AmPmContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="AmLabel" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time/AmPmContainer"]
+[node name="AmLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/AmPmContainer"]
 layout_mode = 2
 text = "AM"
 
-[node name="CheckButton" type="CheckButton" parent="CenterContainer/PanelContainer/CalendarContainer/Time/AmPmContainer"]
+[node name="AmPmButton" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/AmPmContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PmLabel" type="Label" parent="CenterContainer/PanelContainer/CalendarContainer/Time/AmPmContainer"]
+[node name="PmLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/Time/AmPmContainer"]
 layout_mode = 2
 text = "PM"
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/CalendarContainer"]
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/CalendarContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer"]
 layout_mode = 2
 
-[node name="OkButton" type="Button" parent="CenterContainer/PanelContainer/CalendarContainer/HBoxContainer"]
+[node name="OkButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Ok"
 
-[node name="CancelButton" type="Button" parent="CenterContainer/PanelContainer/CalendarContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/CalendarContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"

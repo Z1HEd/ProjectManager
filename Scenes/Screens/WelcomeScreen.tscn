@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl3p86d6o04a"]
+[gd_scene load_steps=5 format=3 uid="uid://bl3p86d6o04a"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
 [ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Controllers/WelcomeScreenController.gd" id="1_nroq1"]
 [ext_resource type="Script" uid="uid://rqa7flkjjh8x" path="res://Scripts/UIElements/QuitButton.gd" id="3_klodg"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_klodg"]
+content_margin_left = 4.0
+content_margin_top = 0.0
+content_margin_right = 4.0
+content_margin_bottom = 0.0
+color = Color(0.5, 0.5, 0.5, 1)
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
 
 [node name="WelcomeScreen" type="Control"]
 layout_mode = 3
@@ -22,36 +32,39 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-custom_minimum_size = Vector2(300, 400)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 75
+theme_override_constants/separation = 25
 
 [node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("1_amt0j")
-text = "Project Manager"
+text = "Welcome to DotBoard"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_styles/separator = SubResource("StyleBoxLine_klodg")
 
-[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
 text = "Sign in"
 
-[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
 text = "Sign up
 "
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
 text = "Quit"
 script = ExtResource("3_klodg")
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/VBoxContainer/RegisterButton" to="." method="_on_register_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/RegisterButton" to="." method="_on_register_button_pressed"]

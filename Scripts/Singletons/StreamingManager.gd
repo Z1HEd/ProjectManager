@@ -107,7 +107,6 @@ func _listener_thread(listener_id: int) -> void:
 			OS.delay_msec(10)
 
 		var headers = ["Accept: text/event-stream"]
-		print("Connecting a listener: %s" % path.substr(0,path.find("?")))
 		var request_err = client.request(HTTPClient.METHOD_GET, path, headers)
 		if request_err != OK:
 			_handle_error(listener_id, "request_failed")

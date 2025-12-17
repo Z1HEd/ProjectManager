@@ -39,6 +39,10 @@ folder_colors={
 "res://Scripts/": "purple"
 }
 
+[gui]
+
+theme/custom_font="uid://c0jejp4nflmr2"
+
 [memory]
 
 limits/message_queue/max_size_mb=512
@@ -48,3 +52,4 @@ limits/message_queue/max_size_mb=512
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.05882353, 0.09803922, 0.12156863, 1)
