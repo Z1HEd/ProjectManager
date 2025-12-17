@@ -30,7 +30,7 @@ func _update_invites(update: Dictionary) -> void:
 			"title": "Invitation to a project",
 			"description": "Role: %s\n%s" % [
 				role,
-				invite_obj.get("invite_message", "")
+				invite_obj.get("inviteMessage", "")
 			]
 		}
 
