@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://be2eddut3my3o"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_ldptw"]
-[ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectOverviewController.gd" id="2_jc0vq"]
+[ext_resource type="Script" uid="uid://dokg8nckqdweu" path="res://Scripts/Controllers/ProjectSummaryController.gd" id="2_jc0vq"]
 [ext_resource type="PackedScene" uid="uid://dpfndmvh84h6s" path="res://Scenes/Elements/ProjectMember.tscn" id="4_fbbme"]
 [ext_resource type="Texture2D" uid="uid://c6dwxp5ds04we" path="res://Assets/Icons/Leave.png" id="5_kvoca"]
 [ext_resource type="Texture2D" uid="uid://cker0pjkpktwo" path="res://Assets/Icons/Add.png" id="5_lrxk1"]
@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://bax4u7rsbnocj" path="res://Scenes/Popups/ConfirmCriticalPopup.tscn" id="12_lh0xu"]
 [ext_resource type="PackedScene" uid="uid://cuym1dcv4ctl2" path="res://Scenes/Popups/OptionPopup.tscn" id="13_uxoly"]
 
-[node name="Overview" type="Control"]
+[node name="ProjectSummary" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

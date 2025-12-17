@@ -8,8 +8,9 @@ signal project_updated
 signal tasks_updated(updated: Dictionary)
 signal chat_updated(new_messages: Array)
 
-var menu_controller :MainMenuController
+var menu_controller : MainMenuController
 
+@export var is_open := false
 @export var project_name := ""
 @export var project_description := ""
 @export var pid := ""
@@ -17,22 +18,20 @@ var menu_controller :MainMenuController
 @export var project_owner := ""
 @export var members := {}
 @export var user_role := ""
-var members_names := {}
 
-var tasks_data := {}
-var chat_messages := []
+@export var members_names := {}
+@export var tasks_data := {}
+@export var chat_messages := []
 
-@export var is_open := false
-
-func set_project(uid: String):
-	if pid == uid:
+func set_project(id: String):
+	if pid == id:
 		return
 	if pid != "":
 		ProjectService.stop_listening(pid)
 		TaskService.stop_listening(pid)
 		ProjectService.stop_listening(pid)
 	
-	pid = uid
+	pid = id
 	members ={}
 	members_names = {}
 	tasks_data = {}
@@ -52,6 +51,22 @@ func set_project(uid: String):
 	ChatService.start_listening(pid,25,update_messages,on_error)
 	update_member_names()
 	project_opened.emit()
+
+func clear():
+	if pid!="":
+		ProjectService.stop_listening(pid)
+		TaskService.stop_listening(pid)
+		ChatService.stop_listening(pid)
+		pid = ""
+	
+	project_name = ""
+	project_description = ""
+	creation_date = 0.0
+	project_owner = ""
+	user_role = ""
+	
+	is_open = false
+	project_closed.emit()
 
 func update_data(dict:Dictionary):
 	project_name = dict.get("name",project_name)
@@ -101,25 +116,6 @@ func update_messages(update:Array):
 	AppNotifications.push("%s: %s"%\
 			[Project.get_member_name(update[0]["authorId"]),update[0]["text"]])
 
-func set_members_data(dict : Dictionary):
-	members = dict
-	update_member_names()
-	project_updated.emit()
-
-func clear():
-	if pid!="":
-		ProjectService.stop_listening(pid)
-		pid = ""
-	
-	project_name = ""
-	project_description = ""
-	creation_date = 0.0
-	project_owner = ""
-	user_role = ""
-	
-	is_open = false
-	project_closed.emit()
-
 func update_member_names():
 	if members.size() ==0:
 		return
@@ -138,3 +134,8 @@ func update_member_names():
 func get_member_name(uid:String)->String:
 	if uid == "": return ""
 	return members_names.get(uid,"Unknown user")
+
+func set_members_data(dict : Dictionary):
+	members = dict
+	update_member_names()
+	project_updated.emit()

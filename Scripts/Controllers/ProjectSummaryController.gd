@@ -82,39 +82,30 @@ func update_members_info():
 	call_deferred("_sort_member_list")
 
 func update_tasks_summary(_update:Dictionary):
-	tasks_summary_table.set_headers(["Status",
-			"Assigned to you",
-			"Unassigned",
-			"Overall"])
+	tasks_summary_table.set_headers(["Status","Assigned to you",
+			"Unassigned","Overall"])
 	
 	var data := []
-	
 	data.append(["To Do",
 			_count_tasks(_task_filter.bind("to_do",Session.uid)),
 			_count_tasks(_task_filter.bind("to_do","")),
-			_count_tasks(_task_filter.bind("to_do","ANY")),
-			])
+			_count_tasks(_task_filter.bind("to_do","ANY"))])
 	data.append(["In Progress",
 			_count_tasks(_task_filter.bind("in_progress",Session.uid)),
 			_count_tasks(_task_filter.bind("in_progress","")),
-			_count_tasks(_task_filter.bind("in_progress","ANY")),
-			])
+			_count_tasks(_task_filter.bind("in_progress","ANY"))])
 	data.append(["Done",
 			_count_tasks(_task_filter.bind("done",Session.uid)),
 			_count_tasks(_task_filter.bind("done","")),
-			_count_tasks(_task_filter.bind("done","ANY")),
-			])
+			_count_tasks(_task_filter.bind("done","ANY"))])
 	data.append(["Cancelled",
 			_count_tasks(_task_filter.bind("cancelled",Session.uid)),
 			_count_tasks(_task_filter.bind("cancelled","")),
-			_count_tasks(_task_filter.bind("cancelled","ANY")),
-			])
+			_count_tasks(_task_filter.bind("cancelled","ANY")),])
 	data.append(["Total",
 			_count_tasks(_task_filter.bind("",Session.uid)),
 			_count_tasks(_task_filter.bind("","")),
-			_count_tasks(_task_filter.bind("","ANY")),
-			])
-	
+			_count_tasks(_task_filter.bind("","ANY")),])
 	tasks_summary_table.set_data(data)
 
 func update_overdue_tasks(_update:Dictionary):

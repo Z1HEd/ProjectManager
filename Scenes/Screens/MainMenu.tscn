@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bvp4cflag0k2x" path="res://Scenes/Tabs/Timeline.tscn" id="7_lvwqe"]
 [ext_resource type="PackedScene" uid="uid://2ekwb5hb6y03" path="res://Scenes/Tabs/UserProfile.tscn" id="8_lvwqe"]
 [ext_resource type="PackedScene" uid="uid://biih5ep85lxbm" path="res://Scenes/Tabs/TaskList.tscn" id="9_4dij5"]
-[ext_resource type="PackedScene" uid="uid://be2eddut3my3o" path="res://Scenes/Tabs/Overview.tscn" id="10_kpgju"]
+[ext_resource type="PackedScene" uid="uid://be2eddut3my3o" path="res://Scenes/Tabs/ProjectSummary.tscn" id="10_kpgju"]
 [ext_resource type="PackedScene" uid="uid://iuqpwkl2il1q" path="res://Scenes/Tabs/CreateProject.tscn" id="12_3oy6j"]
 [ext_resource type="PackedScene" uid="uid://c7gxr345rrlex" path="res://Scenes/Tabs/Notifications.tscn" id="13_cc4ve"]
 

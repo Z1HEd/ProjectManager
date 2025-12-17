@@ -18,7 +18,7 @@ func _draw_cell_text(cell_x: float, row_y: float, col: int, r_idx: int): # `row`
 	if r_idx >=0 and r_idx < _data.size() and col >=0 and col < _data[r_idx].size(): # Aggiunto check limiti
 		cell_val = str(_data[r_idx][col]) 
 	
-	# the only thing changed i added to the original code
+	# the only thing i added to the original code
 	if column_mappers.has(col):
 		cell_val = column_mappers[col].call(cell_val)
 	
