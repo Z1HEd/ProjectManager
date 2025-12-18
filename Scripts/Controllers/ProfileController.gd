@@ -135,7 +135,7 @@ func change_email(new_email: String):
 	
 	confirm_critical_popup.set_info("Change email?",
 		'Your email will be set to "%s". ' % new_email+
-		"You will need to use this email when signing up.\n"+
+		"You will need to use this email when signing in.\n"+
 		'Enter your password to confirm:'
 		)
 	confirm_critical_popup.set_callbacks(_on_confirm)

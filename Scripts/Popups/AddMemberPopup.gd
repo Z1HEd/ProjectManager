@@ -34,7 +34,9 @@ func _on_user_found(data):
 
 func _on_button_pressed() -> void:
 	send_button.disabled = true
-	
+	if email_input.text == Session.email:
+		AppNotifications.push("Cannot invite yourself to the project!")
+		return
 	UserService.get_user_by_email(email_input.text,_on_user_found,_on_fail)
 
 func _on_return_pressed() -> void:

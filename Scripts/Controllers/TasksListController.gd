@@ -18,8 +18,9 @@ var last_sort_asc := false
 func _ready():
 	tasks_table.edit_callback = on_edit_task_pressed
 	
-	tasks_table.set_data([])
 	tasks_table.set_headers(columns_texts)
+	tasks_table.set_data([columns_texts])
+	tasks_table.set_data([])
 	
 	tasks_table.column_mappers[columns_data.find("assignedTo")] = \
 			func(id:String)->String:
