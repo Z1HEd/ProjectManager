@@ -16,8 +16,6 @@ var assignee_uid :=""
 var on_edit : Callable
 var on_delete : Callable
 
-var _press_pos: Vector2 = Vector2.ZERO
-
 func set_info(_task_id:String,_task_status:String):
 	task_id = _task_id
 	task_status = _task_status
@@ -39,13 +37,6 @@ func _can_edit() -> bool:
 	return Project.user_role in ["owner","manager"] or Session.uid == assignee_uid
 
 #region dragging
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_press_pos = event.position
-		else:
-			_press_pos = Vector2.ZERO
-
 # Godot calls this automatically when a drag starts over this Control
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if not _can_edit():

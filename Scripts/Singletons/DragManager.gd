@@ -1,4 +1,3 @@
-# DragManager.gd
 extends Node
 
 var dragging: bool = false
@@ -26,7 +25,7 @@ func set_ghost_column(col: Node) -> void:
 	_clear_ghost_internal()
 	current_ghost_column = col
 	if current_ghost_column:
-		current_ghost_column._ensure_ghost() # column provides this helper
+		current_ghost_column.ensure_ghost()
 
 func clear_ghost() -> void:
 	_clear_ghost_internal()
@@ -34,11 +33,9 @@ func clear_ghost() -> void:
 
 func _clear_ghost_internal() -> void:
 	if current_ghost_column:
-		if current_ghost_column.has_method("_remove_ghost"):
-			current_ghost_column._remove_ghost()
+		current_ghost_column.remove_ghost()
 		current_ghost_column = null
 
 func _process(_delta: float) -> void:
-	# End drag if mouse released (covers drops outside a column)
 	if dragging and not Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_LEFT):
 		end_drag()

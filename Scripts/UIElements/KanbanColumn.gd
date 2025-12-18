@@ -25,23 +25,21 @@ func _can_drop_data(_position: Vector2, data) -> bool:
 	if not DragManager.dragging:
 		return false
 	
-	if data.has("task_id") and data["status"]!=status:
-		DragManager.set_ghost_column(self)
-		return true
-	return false
+	if !data.has("task_id"):
+		return false
+	
+	DragManager.set_ghost_column(null if data["status"] == status else self )
+	return true
 
 func _drop_data(_position: Vector2, data) -> void:
 	DragManager.clear_ghost()
-	_handle_drop(data)
-
-func _handle_drop(data: Dictionary) -> void:
 	var task_id = data.get("task_id", null)
 	if task_id == null:
 		return
 	TaskService.update_status(Project.pid,task_id,status)
 
 # Ghost helpers (used by DragManager)
-func _ensure_ghost() -> void:
+func ensure_ghost() -> void:
 	if ghost:
 		return
 	ghost = _make_simple_ghost()
@@ -49,7 +47,7 @@ func _ensure_ghost() -> void:
 	move_child(ghost, 0)
 	ghost.modulate = Color(1,1,1,0.6)
 
-func _remove_ghost() -> void:
+func remove_ghost() -> void:
 	if ghost:
 		ghost.queue_free()
 		ghost = null
@@ -60,4 +58,6 @@ func _make_simple_ghost() -> Control:
 	l.text = "Change status"
 	c.add_child(l)
 	c.custom_minimum_size = Vector2(200, 60)
+	c.mouse_filter = MOUSE_FILTER_PASS
+	c.mouse_behavior_recursive = MOUSE_BEHAVIOR_DISABLED
 	return c
