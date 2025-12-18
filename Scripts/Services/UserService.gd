@@ -33,7 +33,7 @@ static func register(
 	# so i will leave it as is
 	var _signup_success = func(user_data):
 		if not user_data is Dictionary or not user_data.has("localId"):
-			on_success.call("Unexpected signup response")
+			on_fail.call("Unexpected signup response")
 			return
 		
 		Session.update_from_response(user_data)
@@ -43,7 +43,7 @@ static func register(
 			"createdAt": int(Time.get_unix_time_from_system())
 		}
 		
-		var profile_url = "%s/users/%s.json" % \
+		var profile_url = "%s/users/%s.json?auth=" % \
 				[Firebase.project_db_url, Session.uid]
 		
 		Firebase.send_request(
@@ -52,8 +52,7 @@ static func register(
 				profile,
 				["Content-Type: application/json"], 
 				on_success,
-				_profile_write_fail,
-				"auth")
+				_profile_write_fail)
 
 	var _on_fail = func(err_msg:String):
 		AppNotifications.push("Failed to register a new user:\n%s" % err_msg)
@@ -73,13 +72,14 @@ static func _attempt_delete_auth_then_report(
 		on_complete: Callable) -> void:
 	
 	# Auth rolled back
-	var _on_success = func():
-		AppNotifications.push("Profile write failed; created auth account was deleted. "+
-				"Original error: %s" % original_error)
-		on_complete.call()
+	var _on_success = func(_result):
+		var msg = "Profile write failed; created auth account was deleted.\n"+\
+				"Original error: %s" % original_error
+		AppNotifications.push(msg)
+		on_complete.call(msg)
 	
 	var _on_fail = func(err_msg:String):
-		AppNotifications.push("Profile write failed; rollback failed: %s. 
+		AppNotifications.push("Profile write failed;\nrollback failed: %s\n 
 				Original error: %s" % [err_msg, original_error])
 		on_complete.call(err_msg)
 	
@@ -189,7 +189,8 @@ static func delete_user(
 				auth_delete_body, 
 				["Content-Type: application/json"], 
 				on_success, 
-				_on_fail)
+				_on_fail,
+				"auth")
 
 	return Firebase.send_request(
 			patch_url, 

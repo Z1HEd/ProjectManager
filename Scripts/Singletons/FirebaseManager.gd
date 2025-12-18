@@ -86,8 +86,7 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 		_conclude_current_request()
 		return
 	
-	var err_msg = parsed.get("error",
-			_get_error_message_from_result_code(_result))
+	var err_msg = _get_error_message(parsed, _result)
 	var is_perm_error = (response_code == 401) or \
 			err_msg.findn("Permission denied") != -1
 	var already_retried = _current_request.get("retried", false)
@@ -101,7 +100,7 @@ func _on_request_completed(_result: int, response_code: int, _headers: Array, bo
 	fail_cb.call(err_msg)
 	_conclude_current_request()
 
-func _get_error_message_from_result_code(result:HTTPRequest.Result) -> String:
+static func _get_error_message_from_result_code(result:HTTPRequest.Result) -> String:
 	match result:
 		HTTPRequest.RESULT_CANT_CONNECT:
 			return "Cannot connect to server."
@@ -142,3 +141,14 @@ static func _parse_response_body(body_text: String) :
 	body_text = body_text.trim_suffix('"')
 	
 	return body_text
+
+static func _get_error_message(parsed, result_code:int):
+	var err_msg = ""
+	if parsed is Dictionary:
+		err_msg = parsed.get("error",
+			_get_error_message_from_result_code(result_code))
+	if err_msg is Dictionary:
+		err_msg = err_msg.get("message",
+				_get_error_message_from_result_code(result_code))
+	return err_msg
+	

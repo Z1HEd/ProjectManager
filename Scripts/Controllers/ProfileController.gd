@@ -76,6 +76,7 @@ func _on_delete_account_button_pressed() -> void:
 func delete_account():
 	var on_success = func(_res):
 		Session.clear()
+		AppNotifications.push("Your account has been deleted.")
 		get_tree().change_scene_to_file("res://Scenes/Screens/WelcomeScreen.tscn")
 	
 	UserService.delete_user(Session.uid, projects, on_success)
