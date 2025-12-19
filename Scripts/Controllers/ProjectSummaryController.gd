@@ -196,8 +196,11 @@ func _on_edit_button_pressed() -> void:
 
 func _on_delete_button_pressed() -> void:
 	
-	var _on_confirmed = func():
-		ProjectService.delete_project(Project.pid)
+	var _on_deleted = func(_res):
+		AppNotifications.push("Project has been deleted.")
+	
+	var _on_confirmed = func(_text):
+		ProjectService.delete_project(Project.pid,_on_deleted)
 		Project.clear()
 	
 	confirm_critical_popup.set_info("Delete project?",
