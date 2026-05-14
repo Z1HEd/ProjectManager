@@ -19,8 +19,8 @@ ProjectManager includes 5 different project views:
 
 - **Summary** — project description, member list, and basic project stats
 - **Kanban** — drag-and-drop task board
-- **Table** — dynamic table with sorting and filtering
-- **Timetable** — view for timed tasks
+- **Task List** — dynamic task table with sorting and filtering features
+- **Timeline** — view for timed tasks
 - **Chat** — realtime per-project chat with clickable links
 
 ## Project Roles
