@@ -1,6 +1,6 @@
-# ProjectManager
+# DotProjects
 
-ProjectManager is a Godot 4.5 app for organizing teamwork through task management and team communication.
+DotProjects is a Godot 4.6 app for organizing teamwork through task management and team communication.
 
 It uses Firebase Authentication and Realtime Database as the backend, with Firebase rules protecting project data.
 
@@ -15,7 +15,7 @@ It uses Firebase Authentication and Realtime Database as the backend, with Fireb
 
 ## Project Views
 
-ProjectManager includes 5 different project views:
+DotProjects includes 5 different project views:
 
 - **Summary** — project description, member list, and basic project stats
 - **Kanban** — drag-and-drop task board
@@ -34,7 +34,7 @@ Projects support 4 different member roles:
 
 ## Technical Details
 
-- Built with Godot 4.5
+- Built with Godot 4.6
 - Uses HTTPS/REST for data fetching
 - Uses SSE listeners for realtime updates
 - Uses Firebase RTDB and Firebase Auth backend
