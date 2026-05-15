@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bl3p86d6o04a"]
+[gd_scene format=3 uid="uid://bl3p86d6o04a"]
 
 [ext_resource type="Theme" uid="uid://b5c65h2sk3h6q" path="res://Resources/BaseTheme.tres" id="1_amt0j"]
 [ext_resource type="Script" uid="uid://cx4ida7h3h1gi" path="res://Scripts/Controllers/WelcomeScreenController.gd" id="1_nroq1"]
@@ -14,7 +14,7 @@ grow_begin = -10.0
 grow_end = -10.0
 thickness = 2
 
-[node name="WelcomeScreen" type="Control"]
+[node name="WelcomeScreen" type="Control" unique_id=1576808162]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nroq1")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=675149397]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,35 +31,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=651645034]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1748347590]
 layout_mode = 2
 theme = ExtResource("1_amt0j")
-text = "Welcome to DotBoard"
+text = "Welcome to DotProjects"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/VBoxContainer" unique_id=736878480]
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_klodg")
 
-[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="LoginButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1641863874]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
 text = "Sign in"
 
-[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="RegisterButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=2071039516]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
 text = "Sign up
 "
 
-[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=482606723]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme = ExtResource("1_amt0j")
